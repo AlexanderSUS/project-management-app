@@ -5,7 +5,7 @@ import AppRouter from './components/AppRouter/AppRouter';
 
 function App() {
   return (
-    <div className="app-wrapper">
+    <div>
       {/* Navigation menu just for example. It will move to header */}
       <ul>
         <li>
