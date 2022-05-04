@@ -7,14 +7,14 @@ function App() {
   return (
     <div className="app-wrapper">
       {/* Navigation menu just for example. It will move to header */}
-      <ul className="nav-menu__list">
-        <li className="nav-menu__item">
+      <ul>
+        <li>
           <NavLink to={AppRoutes.WELCOME}>Welcome</NavLink>
         </li>
-        <li className="nav-menu__item">
+        <li>
           <NavLink to={AppRoutes.AUTH}>Auth</NavLink>
         </li>
-        <li className="nav-menu__item">
+        <li>
           <NavLink to={AppRoutes.PROJECTS}>Projects</NavLink>
         </li>
       </ul>
