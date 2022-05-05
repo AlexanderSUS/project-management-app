@@ -1,4 +1,5 @@
 enum AppRoutes {
+  LAYOUT = '/',
   WELCOME = '/',
   AUTH = '/auth',
   PROJECTS = '/projects',
