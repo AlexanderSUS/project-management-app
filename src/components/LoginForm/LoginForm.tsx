@@ -1,33 +1,32 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { AUTH_INPUTS } from '../../app/constants/authorization';
+import { SIGNIN_INPUTS } from '../../app/constants/authorization';
 import { useAppDispatch } from '../../hooks/reduxTypedHooks';
-import { AuthFormInput, AuthInputType } from '../../types/authTypes';
-import { logIn } from '../../store/authSlice';
+import { SignInFormInput, SignInInputType } from '../../types/authTypes';
+import { login } from '../../store/authSlice';
 
-const AuuthForm: React.FC = () => {
+const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
     register, handleSubmit, reset, formState: { errors },
-  } = useForm<AuthFormInput>({ mode: 'onChange' });
+  } = useForm<SignInFormInput>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<AuthFormInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<SignInFormInput> = (data) => {
     reset();
-    dispatch(logIn());
+    dispatch(login(data));
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {
-        AUTH_INPUTS.map((input) => (
+        SIGNIN_INPUTS.map((input) => (
           <div key={input.properties.id}>
             <label htmlFor={input.properties.id}>
               {input.labelText}
             </label>
             <input
-              {...register(input.properties.id as AuthInputType, {
+              {...register(input.properties.id as SignInInputType, {
                 ...input.registerOptions,
               })}
               {...input.properties}
@@ -41,4 +40,4 @@ const AuuthForm: React.FC = () => {
     </form>
   );
 };
-export default AuuthForm;
+export default LoginForm;

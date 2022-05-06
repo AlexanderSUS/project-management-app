@@ -1,29 +1,54 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
-import { IsAuth } from '../types/authTypes';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
+import AuthService from '../services/authService';
+import { SignUpResponse, SignInResponse } from '../types/response';
+import { NewUser, User } from '../types/user';
+import { RootState } from './store';
+import { initialState } from '../app/constants/authorization';
+import { AuthState } from '../types/authTypes';
 
-export type AuthState = {
-  isAuth: IsAuth;
-};
+export const registration = createAsyncThunk<AxiosResponse<SignUpResponse>, NewUser, {
+  state: RootState,
+} >(
+  'auth/registration',
+  async (user: NewUser) => {
+    const response = AuthService.signup(user);
+    return (await response) as AxiosResponse<SignUpResponse>;
+  },
+);
 
-const initialState: AuthState = {
-  isAuth: false,
-};
+export const login = createAsyncThunk<AxiosResponse<SignInResponse>, User, {
+  state: RootState,
+} >(
+  'auth/login',
+  async (user: User) => {
+    const response = AuthService.signin(user);
+    return (await response) as AxiosResponse<SignInResponse>;
+  },
+);
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logIn: (state) => {
-      state.isAuth = true;
-    },
     logOut: (state) => {
       state.isAuth = false;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(registration.fulfilled, (state, action) => {
+      state.newUser = action.payload.data;
+    });
+    builder.addCase(login.fulfilled, (state) => {
+      state.isAuth = true;
+    });
+  },
+
 });
 
-export const { logIn, logOut } = authSlice.actions;
+export const { logOut } = authSlice.actions;
 
 export default authSlice.reducer;
 

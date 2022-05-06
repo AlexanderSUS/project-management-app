@@ -1,12 +1,28 @@
+import { NewUser } from './user';
+
 export type IsAuth = boolean;
 
+export type AuthState = {
+  isAuth: IsAuth;
+  newUser: NewUser;
+};
+
 // Auth form types
-export type AuthFormInput = {
+export type SignUpFormInput = {
   name: string;
+  login: string;
   password: string;
 };
 
-export type AuthInputType = keyof AuthFormInput;
+export type SignUpInputType = keyof SignUpFormInput;
+
+export type SignInFormInput = {
+  name: string;
+  login: string;
+  password: string;
+};
+
+export type SignInInputType = keyof SignUpFormInput;
 
 export type RegExpPatterns = {
   [key: string]: RegExp;
