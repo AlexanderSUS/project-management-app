@@ -11,6 +11,6 @@ export default class AuthService {
   static async signup<SingUpResponse>(
     newUser: NewUser,
   ): Promise<AxiosResponse<SingUpResponse>> {
-    return $api.post(Endpoint.SIGN_IN, newUser);
+    return $api.post(Endpoint.SIGN_UP, newUser);
   }
 }

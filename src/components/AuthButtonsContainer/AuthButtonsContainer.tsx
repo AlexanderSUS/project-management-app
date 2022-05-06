@@ -17,7 +17,6 @@ const AuthButtonsContainer: React.FC = () => {
   return (
     isAuth
       ? <button type="button" onClick={logOutUser}>{AuthText.LOG_OUT}</button>
-
       : (
         <>
           <Link to={AppRoutes.LOGIN}>
@@ -28,8 +27,6 @@ const AuthButtonsContainer: React.FC = () => {
           </Link>
         </>
       )
-
   );
-  return null;
 };
 export default AuthButtonsContainer;

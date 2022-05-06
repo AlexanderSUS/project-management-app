@@ -1,6 +1,7 @@
 import { RegExpPatterns, AuthInput, AuthState } from '../../types/authTypes';
 
 export const API_URL = 'http://localhost:4000';
+// export const API_URL = 'https://calm-lowlands-30781.herokuapp.com';
 
 export const TOKEN = 'token';
 
@@ -26,7 +27,7 @@ export enum AuthText {
 
 const inputRegEpxs: RegExpPatterns = {
   user: /[A-Za-z][a-zA-Z ]+$/,
-  login: /^[A-Za-z][A-Za-z0-9_]{7,20}$/,
+  login: /^[A-Za-z][A-Za-z0-9_]{2,20}$/,
   password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
 };
 
