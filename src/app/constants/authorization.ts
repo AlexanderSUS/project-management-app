@@ -1,4 +1,17 @@
-import { RegExpPatterns, AuthInput } from '../../types/authTypes';
+import { RegExpPatterns, AuthInput, AuthState } from '../../types/authTypes';
+
+export const API_URL = 'http://localhost:4000';
+
+export const TOKEN = 'token';
+
+export const initialState: AuthState = {
+  isAuth: false,
+  newUser: {
+    name: '',
+    login: '',
+    password: '',
+  },
+};
 
 export enum AuthText {
   name = 'Name',
@@ -7,7 +20,7 @@ export enum AuthText {
   LOG_IN = 'Log In',
   LOG_OUT = 'Log Out',
   SIGN_UP = 'Sign Up',
-  SIGN_IN = 'Sing In',
+  SIGN_IN = 'Sign In',
   SUBMIT = 'Submit',
 }
 
@@ -84,7 +97,12 @@ const passwordAuthInput: AuthInput = {
   labelText: AuthText.PASSWORD,
 };
 
-export const AUTH_INPUTS: AuthInput[] = [
+export const SIGNIN_INPUTS: AuthInput[] = [
+  loginAuthInput,
+  passwordAuthInput,
+];
+
+export const SIGNUP_INPUTS: AuthInput[] = [
   userAuthInput,
   loginAuthInput,
   passwordAuthInput,
