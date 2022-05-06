@@ -1,18 +1,37 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypedHooks';
+import { Link, useLocation } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/reduxTypedHooks';
 import AppRoutes from '../../app/constants/routes';
-import { authSelector, logOut } from '../../store/authSlice';
+import { logOut } from '../../store/authSlice';
 import { AuthText, TOKEN } from '../../app/constants/authorization';
 
-const AuthButtonsContainer: React.FC = () => {
-  const { isAuth } = useAppSelector(authSelector);
-  const dispatch = useAppDispatch();
+type AuthButtonsContainerProps = {
+  isAuth: boolean;
+};
 
+const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ isAuth }) => {
+  const dispatch = useAppDispatch();
+  const location = useLocation();
   const logOutUser = () => {
     localStorage.removeItem(TOKEN);
     dispatch(logOut());
   };
+
+  if (location.pathname === AppRoutes.LOGIN) {
+    return (
+      <Link to={AppRoutes.REGISTRATION}>
+        {AuthText.SIGN_UP}
+      </Link>
+    );
+  }
+
+  if (location.pathname === AppRoutes.REGISTRATION) {
+    return (
+      <Link to={AppRoutes.LOGIN}>
+        {AuthText.LOG_IN}
+      </Link>
+    );
+  }
 
   return (
     isAuth
