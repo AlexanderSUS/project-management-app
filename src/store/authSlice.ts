@@ -1,15 +1,16 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
+import jwt_decode from 'jwt-decode';
 import AuthService from '../services/authService';
 import {
   SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData,
 } from '../types/response';
 import { NewUser, User } from '../types/user';
 import { RootState } from './store';
-import { initialState } from '../app/constants/authorization';
-import { AuthState } from '../types/authTypes';
+import { initialState, TOKEN } from '../app/constants/authorization';
+import { AuthState, JwtData } from '../types/authTypes';
 
 export const registration = createAsyncThunk<AxiosResponse<SignUpResponse>, NewUser, {
   state: RootState, rejectWithValue: ValidationErrors
@@ -54,8 +55,13 @@ const authSlice = createSlice({
   reducers: {
     logOut: (state) => {
       state.isAuth = false;
+      state.currentUser.login = null;
+      state.currentUser.userdId = null;
     },
-    authorize: (state) => {
+    authorize: (state, { payload }: PayloadAction<string>) => {
+      const credentials = jwt_decode<JwtData>(payload);
+      state.currentUser.login = credentials.login;
+      state.currentUser.userdId = credentials.userId;
       state.isAuth = true;
     },
     clearAuthError: (state) => {
@@ -72,8 +78,12 @@ const authSlice = createSlice({
         state.error.message = data.message;
       }
     });
-    builder.addCase(login.fulfilled, (state) => {
+    builder.addCase(login.fulfilled, (state, { payload }) => {
+      localStorage.setItem(TOKEN, payload.data.token);
+      const credentials = jwt_decode<JwtData>(payload.data.token);
       state.isAuth = true;
+      state.currentUser.login = credentials.login;
+      state.currentUser.userdId = credentials.userId;
     });
     builder.addCase(login.rejected, (state, { payload }) => {
       if (payload) {

@@ -9,6 +9,10 @@ export const initialState: AuthState = {
   error: {
     message: '',
   },
+  currentUser: {
+    userdId: null,
+    login: null,
+  },
   newUser: {
     name: '',
     login: '',

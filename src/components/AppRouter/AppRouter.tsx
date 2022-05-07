@@ -21,10 +21,11 @@ function AppRouter(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem(TOKEN)) {
-      dispatch(authorize());
+    const jwt = localStorage.getItem(TOKEN);
+    if (jwt) {
+      dispatch(authorize(jwt));
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (isAuth) {

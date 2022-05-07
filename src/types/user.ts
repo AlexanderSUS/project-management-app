@@ -8,3 +8,8 @@ export interface NewUser {
   login: string;
   password: string;
 }
+
+export interface CurrentUser {
+  login: string | null;
+  userdId: string | null;
+}

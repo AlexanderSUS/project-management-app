@@ -1,12 +1,19 @@
 import { AuthErrorResponse } from './response';
-import { NewUser } from './user';
+import { CurrentUser, NewUser } from './user';
 
 export type IsAuth = boolean;
 
 export type AuthState = {
   isAuth: IsAuth;
   newUser: NewUser;
+  currentUser: CurrentUser;
   error: AuthErrorResponse;
+};
+
+export type JwtData = {
+  userId: string;
+  login: string;
+  iat: number;
 };
 
 // Auth form types
