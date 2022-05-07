@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AppRoutes from '../../app/constants/routes';
-import navText from '../../app/constants/text';
+import { navText } from '../../app/constants/text';
 import { useAppSelector } from '../../hooks/reduxTypedHooks';
 import { authSelector } from '../../store/authSlice';
 import AuthButtonsContainer from '../AuthButtonsContainer/AuthButtonsContainer';

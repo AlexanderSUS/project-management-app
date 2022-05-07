@@ -1,6 +1,11 @@
-const navText = {
+export const navText = {
   home: 'Home',
   projects: 'Projects',
 };
 
-export default navText;
+export const registrationText = {
+  success: 'Success!',
+  newUserWasCreated: 'New user was registered',
+  name: 'Name: ',
+  login: 'Login: ',
+};
