@@ -1,12 +1,14 @@
 import { RegExpPatterns, AuthInput, AuthState } from '../../types/authTypes';
 
-export const API_URL = 'http://localhost:4000';
-// export const API_URL = 'https://calm-lowlands-30781.herokuapp.com';
+export const API_URL = 'https://mighty-headland-55040.herokuapp.com';
 
 export const TOKEN = 'token';
 
 export const initialState: AuthState = {
   isAuth: false,
+  error: {
+    message: '',
+  },
   newUser: {
     name: '',
     login: '',

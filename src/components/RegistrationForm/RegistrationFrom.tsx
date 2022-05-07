@@ -1,21 +1,26 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SIGNUP_INPUTS } from '../../app/constants/authorization';
 import { useAppDispatch } from '../../hooks/reduxTypedHooks';
 import { SignUpFormInput, SignUpInputType } from '../../types/authTypes';
-import { registration } from '../../store/authSlice';
+import { clearAuthError, registration } from '../../store/authSlice';
 
 const RegistrationForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
-    register, handleSubmit, reset, formState: { errors },
+    register, handleSubmit, reset, formState: { errors, isDirty },
   } = useForm<SignUpFormInput>({ mode: 'onChange' });
 
   const onSubmit: SubmitHandler<SignUpFormInput> = (data) => {
     reset();
     dispatch(registration(data));
   };
+
+  useEffect(() => {
+    dispatch(clearAuthError());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDirty]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

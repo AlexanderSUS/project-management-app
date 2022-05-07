@@ -1,3 +1,4 @@
+import { AuthErrorResponse } from './response';
 import { NewUser } from './user';
 
 export type IsAuth = boolean;
@@ -5,6 +6,7 @@ export type IsAuth = boolean;
 export type AuthState = {
   isAuth: IsAuth;
   newUser: NewUser;
+  error: AuthErrorResponse;
 };
 
 // Auth form types
