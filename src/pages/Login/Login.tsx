@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { loginPage } from '../../app/constants/text';
@@ -9,7 +10,9 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <h1>{loginPage.title}</h1>
+      <Typography component="h1" variant="h3">
+        {loginPage.title}
+      </Typography>
       <LoginForm />
       {error.message && <p>{error.message}</p>}
     </>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography, Button, Grid } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/reduxTypedHooks';
 import AppRoutes from '../../app/constants/routes';
@@ -20,7 +21,7 @@ const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ userId }) =
   if (location.pathname === AppRoutes.LOGIN) {
     return (
       <Link to={AppRoutes.REGISTRATION}>
-        {AuthText.SIGN_UP}
+        <Typography component="span">{AuthText.SIGN_UP}</Typography>
       </Link>
     );
   }
@@ -28,24 +29,28 @@ const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ userId }) =
   if (location.pathname === AppRoutes.REGISTRATION) {
     return (
       <Link to={AppRoutes.LOGIN}>
-        {AuthText.LOG_IN}
+        <Typography component="span">{AuthText.LOG_IN}</Typography>
       </Link>
     );
   }
 
-  return (
-    userId
-      ? <button type="button" onClick={logOutUser}>{AuthText.LOG_OUT}</button>
-      : (
-        <>
-          <Link to={AppRoutes.LOGIN}>
-            {AuthText.LOG_IN}
-          </Link>
-          <Link to={AppRoutes.REGISTRATION}>
-            {AuthText.SIGN_UP}
-          </Link>
-        </>
-      )
+  return userId ? (
+    <Button type="button" onClick={logOutUser}>
+      {AuthText.LOG_OUT}
+    </Button>
+  ) : (
+    <Grid container spacing={2}>
+      <Grid item>
+        <Link to={AppRoutes.LOGIN}>
+          <Typography component="span">{AuthText.LOG_IN}</Typography>
+        </Link>
+      </Grid>
+      <Grid item>
+        <Link to={AppRoutes.REGISTRATION}>
+          <Typography component="span">{AuthText.SIGN_UP}</Typography>
+        </Link>
+      </Grid>
+    </Grid>
   );
 };
 export default AuthButtonsContainer;

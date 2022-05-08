@@ -1,3 +1,4 @@
+import { AppBar, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AppRoutes from '../../app/constants/routes';
@@ -10,12 +11,35 @@ const Header: React.FC = () => {
   const { userId } = useAppSelector(authSelector);
 
   return (
-    <header>
-      <Link to={AppRoutes.WELCOME}>{navText.home}</Link>
-      {userId && <Link to={AppRoutes.PROJECTS}>{navText.projects}</Link>}
-      <AuthButtonsContainer userId={userId} />
-    </header>
-
+    <AppBar position="static" sx={{ padding: '15px' }}>
+      <Grid container spacing={2}>
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+          }}
+        >
+          <Link to={AppRoutes.WELCOME}>
+            <Typography component="span">{navText.home}</Typography>
+          </Link>
+        </Grid>
+        {userId && (
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+            }}
+          >
+            <Link to={AppRoutes.PROJECTS}>
+              <Typography component="span">{navText.projects}</Typography>
+            </Link>
+          </Grid>
+        )}
+        <Grid item>
+          <AuthButtonsContainer userId={userId} />
+        </Grid>
+      </Grid>
+    </AppBar>
   );
 };
 

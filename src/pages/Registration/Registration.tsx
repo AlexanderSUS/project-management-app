@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { registrationPageText, registrationText } from '../../app/constants/text';
@@ -9,32 +10,38 @@ const Registration: React.FC = () => {
   const dispatch = useAppDispatch();
   const { newUser, error } = useSelector(authSelector);
 
-  useEffect(() => () => {
-    dispatch(removeNewUserData());
-  }, []);
+  useEffect(
+    () => () => {
+      dispatch(removeNewUserData());
+    },
+    [],
+  );
 
   return (
     <>
-      <h1>{registrationPageText.title}</h1>
+      <Typography component="h1" variant="h3">
+        {registrationPageText.title}
+      </Typography>
       {newUser ? (
         <>
-          <h4>{registrationText.success}</h4>
-          <p>
+          <Typography component="h4" variant="h4">
+            {registrationText.success}
+          </Typography>
+          <Typography component="p">
             {registrationText.name}
             {newUser.name}
-          </p>
-          <p>
+          </Typography>
+          <Typography component="p">
             {registrationText.login}
             {newUser.login}
-          </p>
+          </Typography>
         </>
-      )
-        : (
-          <>
-            <RegistrationForm />
-            {error.message && <p>{error.message}</p>}
-          </>
-        )}
+      ) : (
+        <>
+          <RegistrationForm />
+          {error.message && <p>{error.message}</p>}
+        </>
+      )}
     </>
   );
 };
