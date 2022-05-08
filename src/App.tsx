@@ -1,25 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import AppRoutes from './app/constants/routes';
+import { Provider } from 'react-redux';
 import AppRouter from './components/AppRouter/AppRouter';
+import { store } from './store/store';
 
 function App() {
   return (
-    <div>
-      {/* Navigation menu just for example. It will move to header */}
-      <ul>
-        <li>
-          <NavLink to={AppRoutes.WELCOME}>Welcome</NavLink>
-        </li>
-        <li>
-          <NavLink to={AppRoutes.AUTH}>Auth</NavLink>
-        </li>
-        <li>
-          <NavLink to={AppRoutes.PROJECTS}>Projects</NavLink>
-        </li>
-      </ul>
+    <Provider store={store}>
       <AppRouter />
-    </div>
+    </Provider>
   );
 }
 
