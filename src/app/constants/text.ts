@@ -9,3 +9,11 @@ export const registrationText = {
   name: 'Name: ',
   login: 'Login: ',
 };
+
+export const registrationPageText = {
+  title: 'Registration',
+};
+
+export const loginPage = {
+  title: 'Log in',
+};
