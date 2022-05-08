@@ -16,7 +16,7 @@ import Layout from '../Layout/Layout';
 import { TOKEN } from '../../app/constants/authorization';
 
 function AppRouter(): JSX.Element {
-  const { isAuth } = useAppSelector(authSelector);
+  const { userId } = useAppSelector(authSelector);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,12 +28,12 @@ function AppRouter(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (isAuth) {
+    if (userId) {
       navigate(AppRoutes.PROJECTS);
     } else {
       navigate(AppRoutes.WELCOME);
     }
-  }, [isAuth]);
+  }, [userId]);
 
   return (
     <Routes>

@@ -6,10 +6,10 @@ import { logOut } from '../../store/authSlice';
 import { AuthText, TOKEN } from '../../app/constants/authorization';
 
 type AuthButtonsContainerProps = {
-  isAuth: boolean;
+  userId: string | null;
 };
 
-const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ isAuth }) => {
+const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ userId }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const logOutUser = () => {
@@ -34,7 +34,7 @@ const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ isAuth }) =
   }
 
   return (
-    isAuth
+    userId
       ? <button type="button" onClick={logOutUser}>{AuthText.LOG_OUT}</button>
       : (
         <>

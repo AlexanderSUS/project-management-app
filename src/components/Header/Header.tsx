@@ -7,13 +7,13 @@ import { authSelector } from '../../store/authSlice';
 import AuthButtonsContainer from '../AuthButtonsContainer/AuthButtonsContainer';
 
 const Header: React.FC = () => {
-  const { isAuth } = useAppSelector(authSelector);
+  const { userId } = useAppSelector(authSelector);
 
   return (
     <header>
       <Link to={AppRoutes.WELCOME}>{navText.home}</Link>
-      {isAuth && <Link to={AppRoutes.PROJECTS}>{navText.projects}</Link>}
-      <AuthButtonsContainer isAuth={isAuth} />
+      {userId && <Link to={AppRoutes.PROJECTS}>{navText.projects}</Link>}
+      <AuthButtonsContainer userId={userId} />
     </header>
 
   );

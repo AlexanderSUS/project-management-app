@@ -5,14 +5,11 @@ export const API_URL = 'https://mighty-headland-55040.herokuapp.com';
 export const TOKEN = 'token';
 
 export const initialState: AuthState = {
-  isAuth: false,
   error: {
     message: '',
   },
-  currentUser: {
-    userdId: null,
-    login: null,
-  },
+  userId: null,
+  login: null,
   newUser: {
     name: '',
     login: '',

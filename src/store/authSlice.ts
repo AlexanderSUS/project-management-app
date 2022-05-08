@@ -54,15 +54,13 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logOut: (state) => {
-      state.isAuth = false;
-      state.currentUser.login = null;
-      state.currentUser.userdId = null;
+      state.login = null;
+      state.userId = null;
     },
     authorize: (state, { payload }: PayloadAction<string>) => {
       const credentials = jwt_decode<JwtData>(payload);
-      state.currentUser.login = credentials.login;
-      state.currentUser.userdId = credentials.userId;
-      state.isAuth = true;
+      state.login = credentials.login;
+      state.userId = credentials.userId;
     },
     clearAuthError: (state) => {
       state.error.message = '';
@@ -81,9 +79,8 @@ const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, { payload }) => {
       localStorage.setItem(TOKEN, payload.data.token);
       const credentials = jwt_decode<JwtData>(payload.data.token);
-      state.isAuth = true;
-      state.currentUser.login = credentials.login;
-      state.currentUser.userdId = credentials.userId;
+      state.login = credentials.login;
+      state.userId = credentials.userId;
     });
     builder.addCase(login.rejected, (state, { payload }) => {
       if (payload) {

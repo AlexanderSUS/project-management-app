@@ -1,12 +1,10 @@
 import { AuthErrorResponse } from './response';
-import { CurrentUser, NewUser } from './user';
-
-export type IsAuth = boolean;
+import { NewUser } from './user';
 
 export type AuthState = {
-  isAuth: IsAuth;
+  login: string | null;
+  userId: string | null;
   newUser: NewUser;
-  currentUser: CurrentUser;
   error: AuthErrorResponse;
 };
 
