@@ -9,7 +9,7 @@ import {
 } from '../types/response';
 import { NewUser, User } from '../types/user';
 import { RootState } from './store';
-import { initialState } from '../app/constants/authorization';
+import { initialState, TOKEN } from '../app/constants/authorization';
 import { AuthState, JwtData } from '../types/authTypes';
 
 export const registration = createAsyncThunk<SignUpResponse, NewUser, {
@@ -80,6 +80,7 @@ const authSlice = createSlice({
       }
     });
     builder.addCase(login.fulfilled, (state, action) => {
+      localStorage.setItem(TOKEN, action.payload.token);
       const credentials = jwt_decode<JwtData>(action.payload.token);
       state.login = credentials.login;
       state.userId = credentials.userId;
