@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SIGNIN_INPUTS } from '../../app/constants/authorization';
@@ -31,9 +30,15 @@ const LoginForm: React.FC = () => {
             </label>
             <input
               {...register(input.properties.id as keyof SignInFormInput, {
-                ...input.registerOptions,
+                required: input.registerOptions?.required,
+                minLength: input.registerOptions?.minLength,
+                maxLength: input.registerOptions?.maxLength,
+                pattern: input.registerOptions?.pattern,
               })}
-              {...input.properties}
+              type={input.properties.type}
+              id={input.properties.id}
+              placeholder={input.properties.placeholder}
+              autoComplete={input.properties.autoComplete}
             />
             {errors[input.properties.id as keyof typeof errors]
             && <span>{errors[input.properties.id as keyof typeof errors]?.message}</span>}

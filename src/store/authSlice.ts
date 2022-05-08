@@ -1,5 +1,3 @@
-/* eslint-disable import/no-cycle */
-/* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -8,7 +6,7 @@ import {
   SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData,
 } from '../types/response';
 import { NewUser, User } from '../types/user';
-import { RootState } from './store';
+import type { RootState } from './store';
 import { initialState, TOKEN } from '../app/constants/authorization';
 import { AuthState, JwtData } from '../types/authTypes';
 

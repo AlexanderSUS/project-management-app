@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import axios from 'axios';
 import { API_URL, TOKEN } from '../app/constants/authorization';
 
