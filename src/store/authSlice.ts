@@ -65,6 +65,9 @@ const authSlice = createSlice({
     clearAuthError: (state) => {
       state.error.message = '';
     },
+    removeNewUserData: (state) => {
+      state.newUser = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(registration.fulfilled, (state, action) => {
@@ -91,7 +94,9 @@ const authSlice = createSlice({
 
 });
 
-export const { logOut, authorize, clearAuthError } = authSlice.actions;
+export const {
+  logOut, authorize, clearAuthError, removeNewUserData,
+} = authSlice.actions;
 
 export default authSlice.reducer;
 

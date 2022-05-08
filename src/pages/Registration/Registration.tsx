@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { registrationPageText, registrationText } from '../../app/constants/text';
 import RegistrationForm from '../../components/RegistrationForm/RegistrationFrom';
-import { authSelector } from '../../store/authSlice';
+import { useAppDispatch } from '../../hooks/reduxTypedHooks';
+import { authSelector, removeNewUserData } from '../../store/authSlice';
 
 const Registration: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { newUser, error } = useSelector(authSelector);
+
+  useEffect(() => () => {
+    dispatch(removeNewUserData());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
       <h1>{registrationPageText.title}</h1>
-      {newUser.login ? (
+      {newUser ? (
         <>
           <h4>{registrationText.success}</h4>
           <p>

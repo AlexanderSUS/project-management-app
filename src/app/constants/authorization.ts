@@ -10,11 +10,7 @@ export const initialState: AuthState = {
   },
   userId: null,
   login: null,
-  newUser: {
-    name: '',
-    login: '',
-    password: '',
-  },
+  newUser: null,
 };
 
 export enum AuthText {

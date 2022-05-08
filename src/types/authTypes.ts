@@ -4,7 +4,7 @@ import { NewUser } from './user';
 export type AuthState = {
   login: string | null;
   userId: string | null;
-  newUser: NewUser;
+  newUser: NewUser | null;
   error: AuthErrorResponse;
 };
 
