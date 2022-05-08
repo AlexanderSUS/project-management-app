@@ -11,7 +11,6 @@ const Registration: React.FC = () => {
 
   useEffect(() => () => {
     dispatch(removeNewUserData());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

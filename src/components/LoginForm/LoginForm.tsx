@@ -19,7 +19,6 @@ const LoginForm: React.FC = () => {
 
   useEffect(() => {
     dispatch(clearAuthError());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirty]);
 
   return (
