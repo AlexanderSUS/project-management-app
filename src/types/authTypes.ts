@@ -1,3 +1,5 @@
+import { HTMLProps } from 'react';
+import { RegisterOptions } from 'react-hook-form';
 import { AuthErrorResponse } from './response';
 import { NewUser } from './user';
 
@@ -21,46 +23,17 @@ export type SignUpFormInput = {
   password: string;
 };
 
-export type SignUpInputType = keyof SignUpFormInput;
-
 export type SignInFormInput = {
-  name: string;
   login: string;
   password: string;
 };
-
-export type SignInInputType = keyof SignUpFormInput;
 
 export type RegExpPatterns = {
   [key: string]: RegExp;
 };
 
-type AuthIputProperties = {
-  id: string;
-  type: 'text' | 'password' | 'email',
-  placeholder: string,
-  autoComplete?: string;
-};
-
-type RegisterOpion = {
-  value: number;
-  message: string;
-};
-
-type RegisterPattern = {
-  value: RegExp;
-  message: string;
-};
-
-type RegisterOptions = {
-  required: string;
-  minLength?: RegisterOpion;
-  maxLength?: RegisterOpion;
-  pattern?: RegisterPattern;
-};
-
 export type AuthInput = {
-  properties: AuthIputProperties;
+  properties: HTMLProps<HTMLInputElement>;
   registerOptions: RegisterOptions;
   labelText: string;
 };

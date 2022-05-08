@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SIGNUP_INPUTS } from '../../app/constants/authorization';
 import { useAppDispatch } from '../../hooks/reduxTypedHooks';
-import { SignUpFormInput, SignUpInputType } from '../../types/authTypes';
+import { SignUpFormInput } from '../../types/authTypes';
 import { clearAuthError, registration } from '../../store/authSlice';
 
 const RegistrationForm: React.FC = () => {
@@ -31,7 +31,7 @@ const RegistrationForm: React.FC = () => {
               {input.labelText}
             </label>
             <input
-              {...register(input.properties.id as SignUpInputType, {
+              {...register(input.properties.id as keyof SignUpFormInput, {
                 ...input.registerOptions,
               })}
               {...input.properties}
