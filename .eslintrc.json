@@ -27,6 +27,9 @@
               ]
           }
       ],
-  "react-hooks/exhaustive-deps": "warn"
+  "react-hooks/exhaustive-deps": "warn",
+  "no-param-reassign": "warn",
+  "import/no-cycle": [1, { "maxDepth": 1 }],
+  "react/jsx-props-no-spreading": "off"
   }
 }

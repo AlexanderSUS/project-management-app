@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
