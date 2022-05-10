@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react';
+import { Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SIGNIN_INPUTS } from '../../app/constants/authorization';
 import { useAppDispatch } from '../../hooks/reduxTypedHooks';
 import { SignInFormInput } from '../../types/authTypes';
 import { clearAuthError, login } from '../../store/authSlice';
+import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
+import FormField from '../FormField/FormField';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
-    register, handleSubmit, reset, formState: { errors, isDirty },
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isDirty },
   } = useForm<SignInFormInput>({ mode: 'onChange' });
 
   const onSubmit: SubmitHandler<SignInFormInput> = (data) => {
@@ -22,30 +28,27 @@ const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {
-        SIGNIN_INPUTS.map((input) => (
-          <div key={input.properties.id}>
-            <label htmlFor={input.properties.id}>
-              {input.labelText}
-            </label>
-            <input
-              {...register(input.properties.id as keyof SignInFormInput, {
-                required: input.registerOptions?.required,
-                minLength: input.registerOptions?.minLength,
-                maxLength: input.registerOptions?.maxLength,
-                pattern: input.registerOptions?.pattern,
-              })}
-              type={input.properties.type}
-              id={input.properties.id}
-              placeholder={input.properties.placeholder}
-              autoComplete={input.properties.autoComplete}
-            />
-            {errors[input.properties.id as keyof typeof errors]
-            && <span>{errors[input.properties.id as keyof typeof errors]?.message}</span>}
-          </div>
-        ))
-      }
-      <input type="submit" />
+      {SIGNIN_INPUTS.map((input) => (
+        <div key={input.properties.id}>
+          <FormField
+            id={input.properties.id}
+            label={input.labelText}
+            variant="outlined"
+            inputProps={{
+              ...register(input.properties.id as keyof SignInFormInput, {
+                ...input.registerOptions,
+              }),
+              ...input.properties,
+            }}
+          />
+          {errors[input.properties.id as keyof typeof errors] && (
+            <Typography component="p">
+              {errors[input.properties.id as keyof typeof errors]?.message}
+            </Typography>
+          )}
+        </div>
+      ))}
+      <ButtonSubmit />
     </form>
   );
 };

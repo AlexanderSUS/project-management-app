@@ -1,21 +1,32 @@
+import { AppBar, Grid } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import AppRoutes from '../../app/constants/routes';
 import { navText } from '../../app/constants/text';
 import { useAppSelector } from '../../hooks/reduxTypedHooks';
 import { authSelector } from '../../store/authSlice';
 import AuthButtonsContainer from '../AuthButtonsContainer/AuthButtonsContainer';
+import GridFlexGrow from '../GridFlexGrow/GridFlexGrow';
+import LinkStyled from '../LinkStyled/LinkStyled';
 
 const Header: React.FC = () => {
   const { userId } = useAppSelector(authSelector);
 
   return (
-    <header>
-      <Link to={AppRoutes.WELCOME}>{navText.home}</Link>
-      {userId && <Link to={AppRoutes.PROJECTS}>{navText.projects}</Link>}
-      <AuthButtonsContainer userId={userId} />
-    </header>
-
+    <AppBar position="static" sx={{ padding: '15px' }}>
+      <Grid container spacing={2}>
+        <GridFlexGrow>
+          <LinkStyled to={AppRoutes.WELCOME}>{navText.home}</LinkStyled>
+        </GridFlexGrow>
+        {userId && (
+          <GridFlexGrow>
+            <LinkStyled to={AppRoutes.PROJECTS}>{navText.projects}</LinkStyled>
+          </GridFlexGrow>
+        )}
+        <Grid item>
+          <AuthButtonsContainer userId={userId} />
+        </Grid>
+      </Grid>
+    </AppBar>
   );
 };
 
