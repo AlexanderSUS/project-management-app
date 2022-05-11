@@ -8,7 +8,7 @@ import GridFlexGrow from './GridFlexGrow';
 
 function Footer(): JSX.Element {
   return (
-    <AppBar position="static" sx={{ padding: '15px' }} component="footer">
+    <AppBar position="static" sx={{ padding: '15px', mt: 'auto' }} component="footer">
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item>
           <RSSchoolLogo />
