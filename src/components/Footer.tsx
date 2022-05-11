@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { AppBar, Grid } from '@mui/material';
 import team from '../constants/teammate';
-import RSSchcoolLogo from '../assets/rs-school-js.svg';
+import RSSchoolLogo from './RSSchoolLogo';
 import TeammateLink from './TeammateLink';
 import COPYRIGHT from '../constants/copyright';
 import GridFlexGrow from './GridFlexGrow';
@@ -11,7 +12,7 @@ function Footer(): JSX.Element {
     <AppBar position="static" sx={{ padding: '15px' }} component="footer">
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item>
-          <RSSchcoolLogo />
+          <RSSchoolLogo />
         </Grid>
         <GridFlexGrow item>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
