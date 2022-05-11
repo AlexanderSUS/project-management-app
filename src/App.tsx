@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
-import muiTheme from './app/constants/muiTheme';
-import AppRouter from './components/AppRouter/AppRouter';
+import muiTheme from './constants/muiTheme';
+import AppRouter from './components/AppRouter';
 import { store } from './store/store';
 
 function App() {

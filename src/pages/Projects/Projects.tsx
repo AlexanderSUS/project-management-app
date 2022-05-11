@@ -5,9 +5,8 @@ function Projects(): JSX.Element {
   return (
     <main>
       <Typography component="h1" variant="h3">
-        Projects list pag
+        Projects list page
       </Typography>
-      e
     </main>
   );
 }

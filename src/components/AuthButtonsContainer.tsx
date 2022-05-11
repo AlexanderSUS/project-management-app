@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/reduxTypedHooks';
-import AppRoutes from '../../app/constants/routes';
-import { logOut } from '../../store/authSlice';
-import { AuthText, TOKEN } from '../../app/constants/authorization';
-import LinkStyled from '../LinkStyled/LinkStyled';
+import { useAppDispatch } from '../hooks/reduxTypedHooks';
+import AppRoutes from '../constants/routes';
+import { logOut } from '../store/authSlice';
+import { AuthText, TOKEN } from '../constants/authorization';
+import LinkStyled from './LinkStyled';
 
 type AuthButtonsContainerProps = {
   userId: string | null;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Typography } from '@mui/material';
-import { AuthText } from '../../app/constants/authorization';
+import { AuthText } from '../constants/authorization';
 
 function ButtonSubmit(): JSX.Element {
   return (

@@ -1,4 +1,4 @@
-import { RegExpPatterns, AuthInput, AuthState } from '../../types/authTypes';
+import { RegExpPatterns, AuthInput, AuthState } from '../types/authTypes';
 
 export const API_URL = 'https://mighty-headland-55040.herokuapp.com';
 

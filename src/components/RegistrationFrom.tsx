@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
-import { SIGNUP_INPUTS } from '../../app/constants/authorization';
-import { useAppDispatch } from '../../hooks/reduxTypedHooks';
-import { SignUpFormInput } from '../../types/authTypes';
-import { clearAuthError, registration } from '../../store/authSlice';
-import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
-import FormField from '../FormField/FormField';
+import { SIGNUP_INPUTS } from '../constants/authorization';
+import { useAppDispatch } from '../hooks/reduxTypedHooks';
+import { SignUpFormInput } from '../types/authTypes';
+import { clearAuthError, registration } from '../store/authSlice';
+import ButtonSubmit from './ButtonSubmit';
+import FormField from './FormField';
 
 const RegistrationForm: React.FC = () => {
   const dispatch = useAppDispatch();

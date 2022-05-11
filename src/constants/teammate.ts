@@ -1,4 +1,4 @@
-import { TeamMate } from '../../types/teammate';
+import { TeamMate } from '../types/teammate';
 
 const team: Array<TeamMate> = [
   {

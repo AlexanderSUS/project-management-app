@@ -3,16 +3,16 @@ import {
   Routes, Route, Navigate, useNavigate,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../hooks/reduxTypedHooks';
-import { authorize, authSelector } from '../../store/authSlice';
-import AppRoutes from '../../app/constants/routes';
-import Error404 from '../../pages/Error404/Error404';
-import Login from '../../pages/Login/Login';
-import Projects from '../../pages/Projects/Projects';
-import Registration from '../../pages/Registration/Registration';
-import Welcome from '../../pages/Welcome/Welcome';
-import Layout from '../Layout/Layout';
-import { TOKEN } from '../../app/constants/authorization';
+import { useAppSelector } from '../hooks/reduxTypedHooks';
+import { authorize, authSelector } from '../store/authSlice';
+import AppRoutes from '../constants/routes';
+import Error404 from '../pages/Error404/Error404';
+import Login from '../pages/Login/Login';
+import Projects from '../pages/Projects/Projects';
+import Registration from '../pages/Registration/Registration';
+import Welcome from '../pages/Welcome/Welcome';
+import Layout from './Layout';
+import { TOKEN } from '../constants/authorization';
 
 function AppRouter(): JSX.Element {
   const { userId } = useAppSelector(authSelector);

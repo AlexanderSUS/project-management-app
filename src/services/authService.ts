@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { API_URL } from '../app/constants/authorization';
-import Endpoint from '../app/constants/endpoints';
+import { API_URL } from '../constants/authorization';
+import Endpoint from '../constants/endpoints';
 import { NewUser, User } from '../types/user';
 
 export default class AuthService {

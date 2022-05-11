@@ -1,9 +1,9 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Link, Typography } from '@mui/material';
-import { ReactComponent as GithubSVG } from './github.svg';
-import { TeamMate } from '../../types/teammate';
-import muiTheme from '../../app/constants/muiTheme';
+import { ReactComponent as GithubSVG } from '../assets/github.svg';
+import { TeamMate } from '../types/teammate';
+import muiTheme from '../constants/muiTheme';
 
 const CustomizedGithubSVG = styled(GithubSVG)`
   display: inline-block;

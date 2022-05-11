@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { registrationPageText, registrationText } from '../../app/constants/text';
-import RegistrationForm from '../../components/RegistrationForm/RegistrationFrom';
+import { registrationPageText, registrationText } from '../../constants/text';
+import RegistrationForm from '../../components/RegistrationFrom';
 import { useAppDispatch } from '../../hooks/reduxTypedHooks';
 import { authSelector, removeNewUserData } from '../../store/authSlice';
 

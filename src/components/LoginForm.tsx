@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { SIGNIN_INPUTS } from '../../app/constants/authorization';
-import { useAppDispatch } from '../../hooks/reduxTypedHooks';
-import { SignInFormInput } from '../../types/authTypes';
-import { clearAuthError, login } from '../../store/authSlice';
-import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
-import FormField from '../FormField/FormField';
+import { SIGNIN_INPUTS } from '../constants/authorization';
+import { useAppDispatch } from '../hooks/reduxTypedHooks';
+import { SignInFormInput } from '../types/authTypes';
+import { clearAuthError, login } from '../store/authSlice';
+import ButtonSubmit from './ButtonSubmit';
+import FormField from './FormField';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();

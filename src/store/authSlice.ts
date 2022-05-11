@@ -7,7 +7,7 @@ import {
 } from '../types/response';
 import { NewUser, User } from '../types/user';
 import type { RootState } from './store';
-import { initialState, TOKEN } from '../app/constants/authorization';
+import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData } from '../types/authTypes';
 
 export const registration = createAsyncThunk<SignUpResponse, NewUser, {

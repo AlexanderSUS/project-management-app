@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { loginPage } from '../../app/constants/text';
-import LoginForm from '../../components/LoginForm/LoginForm';
+import { loginPage } from '../../constants/text';
+import LoginForm from '../../components/LoginForm';
 import { authSelector } from '../../store/authSlice';
 
 const Login: React.FC = () => {
