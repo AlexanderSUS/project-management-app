@@ -14,6 +14,7 @@ export const registrationText = {
 
 export const registrationPageText = {
   title: 'Sing Up',
+  successSignUp: 'was successfuly registered',
 };
 
 export const loginPage = {

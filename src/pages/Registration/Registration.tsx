@@ -1,5 +1,6 @@
 import {
-  Box, Container, Typography,
+  Alert,
+  Box, Container, Typography, AlertTitle,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -29,13 +30,9 @@ const Registration: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+      <Box sx={{
+        marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center',
+      }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <AccountCircleOutlined />
@@ -44,25 +41,25 @@ const Registration: React.FC = () => {
           {registrationPageText.title}
         </Typography>
         {isLoading && <Loader /> }
-        {!isLoading && newUser ? (
-          <>
-            <Typography component="h4" variant="h4">
-              {registrationText.success}
-            </Typography>
-            <Typography component="p">
+        {!isLoading && newUser && (
+          <Alert severity="success" sx={{ m: '1rem' }}>
+            <AlertTitle>{registrationText.success}</AlertTitle>
+            <strong>
               {registrationText.name}
               {newUser.name}
-            </Typography>
-            <Typography component="p">
+              <br />
               {registrationText.login}
               {newUser.login}
-            </Typography>
-          </>
-        ) : (
-          <>
-            <RegistrationForm />
-            {error.message && <p>{error.message}</p>}
-          </>
+            </strong>
+            <br />
+            {registrationPageText.successSignUp}
+          </Alert>
+        )}
+        {!isLoading && !newUser && (
+        <>
+          <RegistrationForm />
+          {error.message && <Alert sx={{ mb: '1rem' }} severity="error">{error.message}</Alert>}
+        </>
         )}
       </Box>
     </Container>

@@ -1,5 +1,5 @@
 import {
-  Typography, Container, Box, Avatar,
+  Typography, Container, Box, Avatar, Alert,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -22,13 +22,9 @@ const Login: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+      <Box sx={{
+        marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center',
+      }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
@@ -40,7 +36,7 @@ const Login: React.FC = () => {
           : (
             <>
               <LoginForm />
-              {error.message && <p>{error.message}</p>}
+              {error.message && <Alert sx={{ mb: '1rem' }} severity="error">{error.message}</Alert>}
             </>
           )}
       </Box>
