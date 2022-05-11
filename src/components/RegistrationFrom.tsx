@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { SIGNUP_INPUTS } from '../constants/authorization';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { SignUpFormInput } from '../types/authTypes';
 import { clearAuthError, registration } from '../store/authSlice';
-import ButtonSubmit from './ButtonSubmit';
-import FormField from './FormField';
+import { registrationPageText } from '../constants/text';
 
 const RegistrationForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,10 +29,10 @@ const RegistrationForm: React.FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       {SIGNUP_INPUTS.map((input) => (
         <div key={input.properties.id}>
-          <FormField
+          <TextField
+            margin="normal"
             id={input.properties.id}
             label={input.labelText}
-            variant="outlined"
             inputProps={{
               ...register(input.properties.id as keyof SignUpFormInput, {
                 ...input.registerOptions,
@@ -48,7 +47,14 @@ const RegistrationForm: React.FC = () => {
           )}
         </div>
       ))}
-      <ButtonSubmit />
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+      >
+        {registrationPageText.title}
+      </Button>
     </form>
   );
 };

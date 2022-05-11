@@ -69,34 +69,34 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(registration.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
     });
     builder.addCase(registration.fulfilled, (state, action) => {
       state.newUser = action.payload;
-      state.loading = false;
+      state.isLoading = false;
     });
     builder.addCase(registration.rejected, (state, { payload }) => {
       if (payload) {
         const data = payload as ErrorResponseData;
         state.error.message = data.message;
-        state.loading = false;
+        state.isLoading = false;
       }
     });
     builder.addCase(login.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
     });
     builder.addCase(login.fulfilled, (state, action) => {
       localStorage.setItem(TOKEN, action.payload.token);
       const credentials = jwt_decode<JwtData>(action.payload.token);
       state.login = credentials.login;
       state.userId = credentials.userId;
-      state.loading = false;
+      state.isLoading = false;
     });
     builder.addCase(login.rejected, (state, { payload }) => {
       if (payload) {
         const data = payload as ErrorResponseData;
         state.error.message = data.message;
-        state.loading = false;
+        state.isLoading = false;
       }
     });
   },

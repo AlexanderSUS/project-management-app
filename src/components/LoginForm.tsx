@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SIGNIN_INPUTS } from '../constants/authorization';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { SignInFormInput } from '../types/authTypes';
 import { clearAuthError, login } from '../store/authSlice';
-import ButtonSubmit from './ButtonSubmit';
-import FormField from './FormField';
+import { loginPage } from '../constants/text';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,10 +29,10 @@ const LoginForm: React.FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       {SIGNIN_INPUTS.map((input) => (
         <div key={input.properties.id}>
-          <FormField
+          <TextField
+            margin="normal"
             id={input.properties.id}
             label={input.labelText}
-            variant="outlined"
             inputProps={{
               ...register(input.properties.id as keyof SignInFormInput, {
                 ...input.registerOptions,
@@ -48,7 +47,14 @@ const LoginForm: React.FC = () => {
           )}
         </div>
       ))}
-      <ButtonSubmit />
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+      >
+        {loginPage.title}
+      </Button>
     </form>
   );
 };

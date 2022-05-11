@@ -13,7 +13,7 @@ export const registrationText = {
 };
 
 export const registrationPageText = {
-  title: 'Registration',
+  title: 'Sing Up',
 };
 
 export const loginPage = {
