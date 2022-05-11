@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { AppBar, Grid } from '@mui/material';
 import team from '../constants/teammate';
