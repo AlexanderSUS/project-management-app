@@ -22,7 +22,9 @@ const RegistrationForm: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(clearAuthError());
+    if (errors.login || errors.name || errors.password) {
+      dispatch(clearAuthError());
+    }
   }, [isDirty]);
 
   return (
@@ -31,6 +33,7 @@ const RegistrationForm: React.FC = () => {
         <div key={input.properties.id}>
           <TextField
             margin="normal"
+            fullWidth
             id={input.properties.id}
             label={input.labelText}
             inputProps={{

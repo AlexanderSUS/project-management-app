@@ -22,7 +22,9 @@ const LoginForm: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(clearAuthError());
+    if (errors.login || errors.password) {
+      dispatch(clearAuthError());
+    }
   }, [isDirty]);
 
   return (
@@ -31,6 +33,7 @@ const LoginForm: React.FC = () => {
         <div key={input.properties.id}>
           <TextField
             margin="normal"
+            fullWidth
             id={input.properties.id}
             label={input.labelText}
             inputProps={{

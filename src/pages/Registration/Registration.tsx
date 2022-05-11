@@ -1,4 +1,6 @@
-import { Box, Container, Typography } from '@mui/material';
+import {
+  Box, Container, Typography,
+} from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
@@ -13,7 +15,11 @@ const Registration: React.FC = () => {
   const dispatch = useAppDispatch();
   const { newUser, error, isLoading } = useSelector(authSelector);
 
-  useEffect(() => () => { dispatch(removeNewUserData()); }, []);
+  useEffect(() => {
+    if (newUser) {
+      dispatch(removeNewUserData());
+    }
+  }, []);
 
   return (
     <Container component="main" maxWidth="xs">
