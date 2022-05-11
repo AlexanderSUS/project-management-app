@@ -8,7 +8,7 @@ import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
 import { registrationPageText, registrationText } from '../../constants/text';
 import RegistrationForm from '../../components/RegistrationFrom';
 import { useAppDispatch } from '../../hooks/reduxTypedHooks';
-import { authSelector, removeNewUserData } from '../../store/authSlice';
+import { authSelector, removeNewUserData, clearAuthError } from '../../store/authSlice';
 import Loader from '../../components/Loader';
 
 const Registration: React.FC = () => {
@@ -20,6 +20,12 @@ const Registration: React.FC = () => {
       dispatch(removeNewUserData());
     }
   }, []);
+
+  useEffect(() => () => {
+    if (error.message) {
+      dispatch(clearAuthError());
+    }
+  }, [error.message]);
 
   return (
     <Container component="main" maxWidth="xs">
