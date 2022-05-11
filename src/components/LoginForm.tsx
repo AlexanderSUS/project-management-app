@@ -22,7 +22,6 @@ const LoginForm: React.FC = () => {
           key={input.properties.id}
           name={input.properties.id as keyof SignInFormInput}
           control={control}
-          defaultValue=""
           rules={input.registerOptions}
           render={({ field: { onChange, value } }) => (
             <TextField

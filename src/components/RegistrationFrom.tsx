@@ -22,7 +22,6 @@ const RegistrationForm: React.FC = () => {
           key={input.properties.id}
           name={input.properties.id as keyof SignUpFormInput}
           control={control}
-          defaultValue=""
           rules={input.registerOptions}
           render={({ field: { onChange, value } }) => (
             <TextField
