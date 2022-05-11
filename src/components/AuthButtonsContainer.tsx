@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Grid } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { Grid } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import AppRoutes from '../constants/routes';
 import { logOut } from '../store/authSlice';
 import { AuthText, TOKEN } from '../constants/authorization';
-import LinkStyled from './LinkStyled';
+import HeaderButton from './HeaderButton';
 
 type AuthButtonsContainerProps = {
   userId: string | null;
@@ -14,30 +14,34 @@ type AuthButtonsContainerProps = {
 const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ userId }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const logOutUser = () => {
     localStorage.removeItem(TOKEN);
     dispatch(logOut());
   };
 
   if (location.pathname === AppRoutes.LOGIN) {
-    return <LinkStyled to={AppRoutes.REGISTRATION}>{AuthText.SIGN_UP}</LinkStyled>;
+    return (
+      <HeaderButton
+        onClick={() => navigate(AppRoutes.REGISTRATION)}
+        text={AuthText.SIGN_UP}
+      />
+    );
   }
 
   if (location.pathname === AppRoutes.REGISTRATION) {
-    return <LinkStyled to={AppRoutes.LOGIN}>{AuthText.LOG_IN}</LinkStyled>;
+    return <HeaderButton onClick={() => navigate(AppRoutes.LOGIN)} text={AuthText.LOG_IN} />;
   }
 
   return userId ? (
-    <Button type="button" onClick={logOutUser}>
-      {AuthText.LOG_OUT}
-    </Button>
+    <HeaderButton onClick={logOutUser} text={AuthText.LOG_OUT} />
   ) : (
     <Grid container spacing={2}>
       <Grid item>
-        <LinkStyled to={AppRoutes.LOGIN}>{AuthText.LOG_IN}</LinkStyled>
+        <HeaderButton onClick={() => navigate(AppRoutes.LOGIN)} text={AuthText.LOG_IN} />
       </Grid>
       <Grid item>
-        <LinkStyled to={AppRoutes.REGISTRATION}>{AuthText.SIGN_UP}</LinkStyled>
+        <HeaderButton onClick={() => navigate(AppRoutes.REGISTRATION)} text={AuthText.SIGN_UP} />
       </Grid>
     </Grid>
   );

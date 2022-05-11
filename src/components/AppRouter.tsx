@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Routes, Route, Navigate, useNavigate,
+  Routes, Route, useNavigate,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../hooks/reduxTypedHooks';
@@ -12,6 +12,7 @@ import Projects from '../pages/Projects/Projects';
 import Registration from '../pages/Registration/Registration';
 import Welcome from '../pages/Welcome/Welcome';
 import Layout from './Layout';
+import EditProfile from '../pages/EditProfile/EditProfile';
 import { TOKEN } from '../constants/authorization';
 
 function AppRouter(): JSX.Element {
@@ -41,8 +42,8 @@ function AppRouter(): JSX.Element {
         <Route path={AppRoutes.LOGIN} element={<Login />} />
         <Route path={AppRoutes.REGISTRATION} element={<Registration />} />
         <Route path={AppRoutes.PROJECTS} element={<Projects />} />
-        <Route path={AppRoutes.ERROR_404} element={<Error404 />} />
-        <Route path="*" element={<Navigate to={AppRoutes.ERROR_404} replace />} />
+        <Route path={AppRoutes.EDIT_PROFILE} element={<EditProfile />} />
+        <Route path="*" element={<Error404 />} />
       </Route>
     </Routes>
   );

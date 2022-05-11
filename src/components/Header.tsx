@@ -1,27 +1,38 @@
 import { AppBar, Grid } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppRoutes from '../constants/routes';
 import { navText } from '../constants/text';
 import { useAppSelector } from '../hooks/reduxTypedHooks';
 import { authSelector } from '../store/authSlice';
 import AuthButtonsContainer from './AuthButtonsContainer';
 import GridFlexGrow from './GridFlexGrow';
-import LinkStyled from './LinkStyled';
+import HeaderButton from './HeaderButton';
+import LangSwitcher from './LangSwitcher';
 
 const Header: React.FC = () => {
   const { userId } = useAppSelector(authSelector);
+  const navigate = useNavigate();
 
   return (
     <AppBar position="static" sx={{ padding: '15px' }}>
       <Grid container spacing={2}>
         <GridFlexGrow item>
-          <LinkStyled to={AppRoutes.WELCOME}>{navText.home}</LinkStyled>
+          <HeaderButton onClick={() => navigate(AppRoutes.WELCOME)} text={navText.home} />
         </GridFlexGrow>
         {userId && (
-          <GridFlexGrow item>
-            <LinkStyled to={AppRoutes.PROJECTS}>{navText.projects}</LinkStyled>
-          </GridFlexGrow>
+          <Grid item>
+            <HeaderButton onClick={() => navigate(AppRoutes.PROJECTS)} text={navText.projects} />
+            <HeaderButton
+              onClick={() => navigate(AppRoutes.EDIT_PROFILE)}
+              text={navText.editProfile}
+            />
+            <HeaderButton text={navText.newBoard} />
+          </Grid>
         )}
+        <Grid item>
+          <LangSwitcher />
+        </Grid>
         <Grid item>
           <AuthButtonsContainer userId={userId} />
         </Grid>
