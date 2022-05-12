@@ -4,6 +4,7 @@ import { AuthErrorResponse } from './response';
 import { NewUser } from './user';
 
 export type AuthState = {
+  isLoading: boolean;
   login: string | null;
   userId: string | null;
   newUser: NewUser | null;

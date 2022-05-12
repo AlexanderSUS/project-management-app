@@ -28,8 +28,8 @@
           }
       ],
   "react-hooks/exhaustive-deps": "warn",
-  "no-param-reassign": "warn",
   "import/no-cycle": [1, { "maxDepth": 1 }],
-  "react/jsx-props-no-spreading": "off"
+  "react/jsx-props-no-spreading": "off",
+  "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }]
   }
 }
