@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import jwt_decode from 'jwt-decode';
-import AuthService from '../services/authService';
+import AuthService from '../api/authService';
 import {
   SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData,
 } from '../types/response';
