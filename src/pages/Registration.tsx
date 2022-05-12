@@ -6,11 +6,11 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
-import { registrationPageText, registrationText } from '../../constants/text';
-import RegistrationForm from '../../components/RegistrationFrom';
-import { useAppDispatch } from '../../hooks/reduxTypedHooks';
-import { authSelector, removeNewUserData, clearAuthError } from '../../store/authSlice';
-import Loader from '../../components/Loader';
+import { registrationPageText, registrationText } from '../constants/text';
+import RegistrationForm from '../components/RegistrationFrom';
+import { useAppDispatch } from '../hooks/reduxTypedHooks';
+import { authSelector, removeNewUserData, clearAuthError } from '../store/authSlice';
+import Loader from '../components/Loader';
 
 const Registration: React.FC = () => {
   const dispatch = useAppDispatch();

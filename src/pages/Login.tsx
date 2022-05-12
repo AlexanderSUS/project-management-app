@@ -4,11 +4,11 @@ import {
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { loginPage } from '../../constants/text';
-import LoginForm from '../../components/LoginForm';
-import { authSelector, clearAuthError } from '../../store/authSlice';
-import Loader from '../../components/Loader';
-import { useAppDispatch } from '../../hooks/reduxTypedHooks';
+import { loginPage } from '../constants/text';
+import LoginForm from '../components/LoginForm';
+import { authSelector, clearAuthError } from '../store/authSlice';
+import Loader from '../components/Loader';
+import { useAppDispatch } from '../hooks/reduxTypedHooks';
 
 const Login: React.FC = () => {
   const { error, isLoading } = useSelector(authSelector);

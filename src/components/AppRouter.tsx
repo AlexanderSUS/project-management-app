@@ -6,13 +6,13 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../hooks/reduxTypedHooks';
 import { authorize, authSelector } from '../store/authSlice';
 import AppRoutes from '../constants/routes';
-import Error404 from '../pages/Error404/Error404';
-import Login from '../pages/Login/Login';
-import Projects from '../pages/Projects/Projects';
-import Registration from '../pages/Registration/Registration';
-import Welcome from '../pages/Welcome/Welcome';
+import Error404 from '../pages/Error404';
+import Login from '../pages/Login';
+import Projects from '../pages/Projects';
+import Registration from '../pages/Registration';
+import Welcome from '../pages/Welcome';
 import Layout from './Layout';
-import EditProfile from '../pages/EditProfile/EditProfile';
+import EditProfile from '../pages/EditProfile';
 import { TOKEN } from '../constants/authorization';
 
 function AppRouter(): JSX.Element {
