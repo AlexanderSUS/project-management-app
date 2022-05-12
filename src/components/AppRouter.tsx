@@ -31,13 +31,13 @@ function AppRouter(): JSX.Element {
     if (userId) {
       navigate(AppRoutes.PROJECTS);
     } else {
-      navigate(AppRoutes.LAYOUT);
+      navigate(AppRoutes.WELCOME);
     }
   }, [userId]);
 
   return (
     <Routes>
-      <Route path={AppRoutes.LAYOUT} element={<Layout />}>
+      <Route path={AppRoutes.WELCOME} element={<Layout />}>
         <Route index element={<Welcome />} />
         <Route path={AppRoutes.LOGIN} element={<Login />} />
         <Route path={AppRoutes.REGISTRATION} element={<Registration />} />

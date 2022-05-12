@@ -31,6 +31,7 @@ const RegistrationForm: React.FC = () => {
               type={input.properties.type}
               value={value}
               onChange={onChange}
+              autoComplete={input.properties.autoComplete}
               error={!!errors[input.properties.id as keyof typeof errors]}
               helperText={errors[input.properties.id as keyof typeof errors]
               && errors[input.properties.id as keyof typeof errors]?.message}
