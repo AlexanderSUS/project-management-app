@@ -23,6 +23,7 @@ const RegistrationForm: React.FC = () => {
           name={input.properties.id as keyof SignUpFormInput}
           control={control}
           rules={input.registerOptions}
+          defaultValue=""
           render={({ field: { onChange, value } }) => (
             <TextField
               margin="normal"
