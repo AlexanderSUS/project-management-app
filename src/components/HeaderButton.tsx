@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import React from 'react';
 import { Button } from '@mui/material';
 
@@ -12,5 +11,7 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({ text, onClick }) => (
     {text}
   </Button>
 );
+
+HeaderButton.defaultProps = { onClick: () => {} };
 
 export default HeaderButton;

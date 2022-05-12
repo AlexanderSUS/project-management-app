@@ -18,7 +18,7 @@ const Login: React.FC = () => {
     if (error.message) {
       dispatch(clearAuthError());
     }
-  }, [error.message]);
+  }, [error.message, dispatch]);
 
   return (
     <Container component="main" maxWidth="xs">

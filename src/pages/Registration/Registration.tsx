@@ -16,17 +16,15 @@ const Registration: React.FC = () => {
   const dispatch = useAppDispatch();
   const { newUser, error, isLoading } = useSelector(authSelector);
 
-  useEffect(() => {
+  useEffect(() => () => {
     if (newUser) {
       dispatch(removeNewUserData());
     }
-  }, []);
+  }, [dispatch, newUser]);
 
   useEffect(() => () => {
-    if (error.message) {
-      dispatch(clearAuthError());
-    }
-  }, [error.message]);
+    dispatch(clearAuthError());
+  }, [error.message, dispatch]);
 
   return (
     <Container component="main" maxWidth="xs">

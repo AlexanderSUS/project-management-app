@@ -25,13 +25,13 @@ function AppRouter(): JSX.Element {
     if (jwt) {
       dispatch(authorize(jwt));
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (userId) {
       navigate(AppRoutes.PROJECTS);
     } else {
-      navigate(AppRoutes.WELCOME);
+      navigate(AppRoutes.LAYOUT);
     }
   }, [userId]);
 
