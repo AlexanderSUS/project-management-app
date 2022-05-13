@@ -17,6 +17,11 @@ export const registrationPageText = {
   successSignUp: 'was successfuly registered',
 };
 
+export const editProfilePageText = {
+  title: 'Edit Profile',
+  successSignUp: 'was successfuly udated',
+};
+
 export const loginPage = {
   title: 'Log in',
 };

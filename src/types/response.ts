@@ -20,3 +20,9 @@ export interface ErrorResponseData {
 export type ValidationErrors = {
   [key: string]: any;
 };
+
+export type GetUserResponse = {
+  id: string;
+  name: string;
+  login: string;
+};
