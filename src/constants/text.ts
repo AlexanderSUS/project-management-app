@@ -1,6 +1,6 @@
 export const navText = {
   home: 'Home',
-  projects: 'Projects',
+  projects: 'Boards',
   editProfile: 'Profile',
   newBoard: 'Add board',
 };
@@ -24,4 +24,9 @@ export const loginPage = {
 export const langButton = {
   ru: 'ru',
   en: 'en',
+};
+
+export const boardPage = {
+  title: 'You boarads',
+  noBoards: 'You have no any boards',
 };
