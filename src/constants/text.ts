@@ -27,6 +27,6 @@ export const langButton = {
 };
 
 export const boardPage = {
-  title: 'You boarads',
+  title: 'Your boarads',
   noBoards: 'You have no any boards',
 };
