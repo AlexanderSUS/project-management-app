@@ -8,6 +8,7 @@ type FormField = {
   id: string;
   label: string;
   defaultValue: string;
+  placeholder: string;
 };
 
 // Add here your AsynkThunkReturnType
