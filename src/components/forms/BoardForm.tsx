@@ -25,8 +25,8 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       {fields && fields.map((input) => (
         <Controller
-          key={input.id}
-          name={input.id as keyof ModalInputData}
+          key={input.name}
+          name={input.name as keyof ModalInputData}
           control={control}
           defaultValue=""
           render={({ field: { onChange, value } }) => (

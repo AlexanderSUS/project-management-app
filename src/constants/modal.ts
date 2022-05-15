@@ -20,7 +20,7 @@ export const NEW_BOARD: Content = {
   modalTitle: 'Add new board',
   fields: [{
     required: true,
-    id: 'title',
+    name: 'title',
     label: 'Board title',
     defaultValue: '',
     placeholder: 'Input board title',
@@ -38,7 +38,7 @@ export const EDIT_BOARD: Content = {
   modalTitle: 'Edit board',
   fields: [{
     required: true,
-    id: 'title',
+    name: 'title',
     label: 'Board title',
     defaultValue: '',
     placeholder: 'Input new board title',
