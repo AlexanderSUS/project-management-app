@@ -1,8 +1,15 @@
-export const navText = {
+export const navTextEn = {
   home: 'Home',
   projects: 'Projects',
   editProfile: 'Profile',
   newBoard: 'Add board',
+};
+
+export const navTextRu = {
+  home: 'Главная',
+  projects: 'Проекты',
+  editProfile: 'Профиль',
+  newBoard: 'Добавить доску',
 };
 
 export const registrationText = {
