@@ -12,6 +12,11 @@ export const initialState: AuthState = {
   userId: null,
   login: null,
   newUser: null,
+  userData: {
+    id: '',
+    login: '',
+    name: '',
+  },
 };
 
 export enum AuthText {
@@ -31,7 +36,7 @@ const inputRegEpxs: RegExpPatterns = {
   password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
 };
 
-const userAuthInput: AuthInput = {
+export const userAuthInput: AuthInput = {
   properties: {
     id: 'name',
     type: 'text',
@@ -56,7 +61,7 @@ const userAuthInput: AuthInput = {
   labelText: AuthText.name,
 };
 
-const loginAuthInput: AuthInput = {
+export const loginAuthInput: AuthInput = {
   properties: {
     id: 'login',
     type: 'text',

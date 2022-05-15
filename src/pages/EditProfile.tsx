@@ -1,24 +1,55 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Controller, useForm } from 'react-hook-form';
 import {
   Alert, Box, Container, Avatar, Typography, TextField, Button,
 } from '@mui/material';
 import { AccountCircleOutlined } from '@mui/icons-material';
-import { Controller, useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import { editProfilePageText } from '../constants/text';
-import { authSelector } from '../store/authSlice';
-import { SIGNUP_INPUTS } from '../constants/authorization';
+import { authSelector, editProfile } from '../store/authSlice';
+import { loginAuthInput, SIGNUP_INPUTS, userAuthInput } from '../constants/authorization';
 import { SignUpFormInput } from '../types/authTypes';
+import { useAppDispatch } from '../hooks/reduxTypedHooks';
+import UserService from '../api/userServise';
 
 const EditProfile: React.FC = () => {
+  const dispatch = useAppDispatch();
   const {
-    error, isLoading,
+    error, isLoading, userId,
   } = useSelector(authSelector);
   const {
+    handleSubmit,
+    setValue,
     control,
     formState: { errors },
   } = useForm<SignUpFormInput>({ mode: 'onChange' });
+  const onSubmit = (data: SignUpFormInput) => {
+    dispatch(editProfile({
+      id: userId!,
+      userData: data,
+    }));
+  };
+
+  useEffect(() => {
+    // dispatch(getUserData(userId!));
+    // const { name, login } = userData;
+    // setValue(userAuthInput.properties.id as keyof SignUpFormInput, name);
+    // setValue(loginAuthInput.properties.id as keyof SignUpFormInput, login);
+    /* 
+    * TODO: I need to change this logic
+    */
+    UserService.getUserData(userId!).then(
+      (response) => {
+        setTimeout(() => {
+          const { name, login } = response.data;
+
+          setValue(userAuthInput.properties.id as keyof SignUpFormInput, name);
+          setValue(loginAuthInput.properties.id as keyof SignUpFormInput, login);
+        });
+      },
+    );
+  }, []);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -38,7 +69,7 @@ const EditProfile: React.FC = () => {
         </Typography>
         {isLoading && <Loader />}
         <>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {SIGNUP_INPUTS.map((input) => (
               <Controller
                 key={input.properties.id}

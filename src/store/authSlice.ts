@@ -5,10 +5,11 @@ import AuthService from '../api/authService';
 import {
   SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData,
 } from '../types/response';
-import { NewUser, User } from '../types/user';
+import { NewUser, User, UserDataParams } from '../types/user';
 import type { RootState } from './store';
 import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData } from '../types/authTypes';
+import UserService from '../api/userServise';
 
 export const registration = createAsyncThunk<SignUpResponse, NewUser, {
   state: RootState, rejectWithValue: ValidationErrors
@@ -26,7 +27,6 @@ export const registration = createAsyncThunk<SignUpResponse, NewUser, {
       return rejectWithValue(error.response?.data);
     }
   },
-
 );
 
 export const login = createAsyncThunk<SignInResponse, User, {
@@ -36,6 +36,39 @@ export const login = createAsyncThunk<SignInResponse, User, {
   async (user: User, { rejectWithValue }) => {
     try {
       const response = await AuthService.signin<SignInResponse>(user);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const getUserData = createAsyncThunk(
+  'auth/getUserData',
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const response = await UserService.getUserData(userId);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const editProfile = createAsyncThunk(
+  'auth/editProfile',
+  async (userDataParams: UserDataParams, { rejectWithValue }) => {
+    try {
+      const { id, userData } = userDataParams;
+      const response = await UserService.updateUserData(id, userData);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -99,8 +132,34 @@ const authSlice = createSlice({
         state.isLoading = false;
       }
     });
+    builder.addCase(getUserData.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getUserData.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.userData = action.payload;
+    });
+    builder.addCase(getUserData.rejected, (state, { payload }) => {
+      if (payload) {
+        const data = payload as ErrorResponseData;
+        state.error.message = data.message;
+        state.isLoading = false;
+      }
+    });
+    builder.addCase(editProfile.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(editProfile.fulfilled, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(editProfile.rejected, (state, { payload }) => {
+      if (payload) {
+        const data = payload as ErrorResponseData;
+        state.error.message = data.message;
+        state.isLoading = false;
+      }
+    });
   },
-
 });
 
 export const {

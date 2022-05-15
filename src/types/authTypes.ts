@@ -1,7 +1,7 @@
 import { HTMLProps } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import { AuthErrorResponse } from './response';
-import { NewUser } from './user';
+import { NewUser, UserData } from './user';
 
 export type AuthState = {
   isLoading: boolean;
@@ -9,6 +9,7 @@ export type AuthState = {
   userId: string | null;
   newUser: NewUser | null;
   error: AuthErrorResponse;
+  userData: UserData;
 };
 
 export type JwtData = {
