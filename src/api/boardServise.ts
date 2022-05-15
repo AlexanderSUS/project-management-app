@@ -17,6 +17,6 @@ export default class BoardService {
   }
 
   static editBoard(data: BoardType): Promise<AxiosResponse<BoardType>> {
-    return api.put(`${Endpoint.BOARDS}/${data.id}`, data.title);
+    return api.put(`${Endpoint.BOARDS}/${data.id}`, { title: data.title });
   }
 }

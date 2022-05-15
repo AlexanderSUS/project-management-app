@@ -1,15 +1,25 @@
 import { AsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store/store';
-import { Boards, BoardType, NewBoard } from './boards';
+import { Boards } from './boards';
 import { ValidationErrors } from './response';
 
 type FormField = {
+  // id here means react hook form input name
   id: string;
   required: boolean;
   label: string;
   defaultValue: string;
   placeholder: string;
 };
+
+// Add here your AsynkThunk parameter for form Action
+export interface ModalInputData {
+  title: string;
+}
+
+export interface FormActionData extends ModalInputData {
+  id: string;
+}
 
 // Add here your AsynkThunk type for confirm action
 export type ModalConfirmAction = {
@@ -20,16 +30,13 @@ export type ModalConfirmAction = {
 
 // Add here your AsynkThunkAction type for form action
 export type ModalFormAction = {
-  addBoard: AsyncThunk<BoardType, NewBoard, {
+  addBoard: AsyncThunk<Boards, FormActionData, {
     state: RootState, rejectWithValue: ValidationErrors
   }>;
-  editBoard: AsyncThunk<BoardType, BoardType, {
+  editBoard: AsyncThunk<Boards, FormActionData, {
     state: RootState, rejectWithValue: ValidationErrors
   }>;
 };
-
-// Add here your AsynkThunk parameter for form Action
-export type ModalInputData = NewBoard | BoardType;
 
 export type ModalType = 'confirmation' | 'form';
 

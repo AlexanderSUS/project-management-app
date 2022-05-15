@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
-import {
-  Boards, VoidArgument, BoardState, BoardType, NewBoard,
-} from '../types/boards';
+import { Boards, VoidArgument, BoardState } from '../types/boards';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/boards';
+import { FormActionData } from '../types/modal';
 
 export const getBoards = createAsyncThunk<Boards, VoidArgument, {
   state: RootState,
@@ -26,12 +25,13 @@ export const getBoards = createAsyncThunk<Boards, VoidArgument, {
   },
 );
 
-export const addBoard = createAsyncThunk<BoardType, NewBoard, {
+export const addBoard = createAsyncThunk<Boards, FormActionData, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/addBoard',
-  async (data: NewBoard, { rejectWithValue }) => {
+  async (data: FormActionData, { rejectWithValue }) => {
     try {
-      const response = await BoardService.createBoard(data);
+      await BoardService.createBoard({ title: data.title });
+      const response = await BoardService.fetchBoards();
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -61,12 +61,13 @@ export const removeBoard = createAsyncThunk<Boards, string, {
   },
 );
 
-export const editBoard = createAsyncThunk<BoardType, BoardType, {
+export const editBoard = createAsyncThunk<Boards, FormActionData, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/editBoard',
-  async (data: BoardType, { rejectWithValue }) => {
+  async (data: FormActionData, { rejectWithValue }) => {
     try {
-      const response = await BoardService.editBoard(data);
+      await BoardService.editBoard({ id: data.id, title: data.title });
+      const response = await BoardService.fetchBoards();
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -107,7 +108,7 @@ const boardSlice = createSlice({
     });
     builder.addCase(addBoard.fulfilled, (state, { payload }) => {
       state.pending = false;
-      state.boards.push(payload);
+      state.boards = payload;
     });
     builder.addCase(addBoard.rejected, (state, { payload }) => {
       state.pending = false;
@@ -140,7 +141,7 @@ const boardSlice = createSlice({
     });
     builder.addCase(editBoard.fulfilled, (state, { payload }) => {
       state.pending = false;
-      state.boards.push(payload);
+      state.boards = payload;
     });
     builder.addCase(editBoard.rejected, (state, { payload }) => {
       state.pending = false;

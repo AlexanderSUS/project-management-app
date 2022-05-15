@@ -39,7 +39,8 @@ const BasicModal: React.FC = () => {
 
   const createOrUpdate = (data: ModalInputData) => {
     const formAction = modalFormAction[action as keyof typeof modalFormAction];
-    dispatch(formAction({ id: dataId, ...data }));
+    const formActonData = { id: dataId, ...data };
+    dispatch(formAction(formActonData));
     dispatch(closeModal());
   };
 
