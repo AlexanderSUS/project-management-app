@@ -3,15 +3,20 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppRoutes from '../constants/routes';
 import { navText } from '../constants/text';
-import { useAppSelector } from '../hooks/reduxTypedHooks';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { authSelector } from '../store/authSlice';
+import { modalSelector, openModal } from '../store/modalSlice';
 import AuthButtonsContainer from './AuthButtonsContainer';
 import GridFlexGrow from './GridFlexGrow';
 import HeaderButton from './HeaderButton';
 import LangSwitcher from './LangSwitcher';
+import BasicModal from './BasicModal';
+import { NEW_BOARD } from '../constants/modal';
 
 const Header: React.FC = () => {
   const { userId } = useAppSelector(authSelector);
+  const { isOpen } = useAppSelector(modalSelector);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   return (
@@ -27,7 +32,10 @@ const Header: React.FC = () => {
               onClick={() => navigate(AppRoutes.EDIT_PROFILE)}
               text={navText.editProfile}
             />
-            <HeaderButton text={navText.newBoard} />
+            <HeaderButton
+              text={navText.newBoard}
+              onClick={() => { dispatch(openModal(NEW_BOARD)); }}
+            />
           </Grid>
         )}
         <Grid item>
@@ -37,6 +45,7 @@ const Header: React.FC = () => {
           <AuthButtonsContainer userId={userId} />
         </Grid>
       </Grid>
+      {isOpen && <BasicModal />}
     </AppBar>
   );
 };

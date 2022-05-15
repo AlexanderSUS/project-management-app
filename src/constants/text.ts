@@ -30,3 +30,7 @@ export const boardPage = {
   title: 'Your boarads',
   noBoards: 'You have no any boards',
 };
+
+export const modalText = {
+  submit: 'Submit',
+};
