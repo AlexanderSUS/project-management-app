@@ -3,8 +3,8 @@ import { Button, Box } from '@mui/material';
 import { modalText } from '../constants/text';
 
 type Props = {
-  confirm: () => void;
-  close: () => void;
+  confirm: VoidFunction;
+  close: VoidFunction;
 };
 
 const ModalConfirmButtons: React.FC<Props> = ({ confirm, close }) => (
