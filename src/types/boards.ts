@@ -1,12 +1,11 @@
-export type BoardId = {
-  id: string;
-};
-
 export type NewBoard = {
   title: string
 };
 
-export type BoardType = NewBoard & BoardId;
+export type BoardType = {
+  id: string;
+  title: string;
+};
 
 export type Boards = BoardType[];
 

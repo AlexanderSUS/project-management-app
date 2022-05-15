@@ -1,8 +1,6 @@
 import { AsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store/store';
-import {
-  BoardId, Boards, BoardType, NewBoard,
-} from './boards';
+import { Boards, BoardType, NewBoard } from './boards';
 import { ValidationErrors } from './response';
 
 type FormField = {
@@ -13,35 +11,47 @@ type FormField = {
   placeholder: string;
 };
 
-// Add here your AsynkThunkAction type
-export type ModalAction = {
+// Add here your AsynkThunk type for confirm action
+export type ModalConfirmAction = {
+  removeBoard: AsyncThunk<Boards, string, {
+    state: RootState, rejectWithValue: ValidationErrors
+  }>;
+};
+
+// Add here your AsynkThunkAction type for form action
+export type ModalFormAction = {
   addBoard: AsyncThunk<BoardType, NewBoard, {
     state: RootState, rejectWithValue: ValidationErrors
   }>;
   editBoard: AsyncThunk<BoardType, BoardType, {
     state: RootState, rejectWithValue: ValidationErrors
   }>;
-  removeBoard: AsyncThunk<Boards, BoardId, {
-    state: RootState, rejectWithValue: ValidationErrors
-  }>;
 };
 
-// Add here your AsynkThunk parameter
-export type ModalInputData = NewBoard | BoardType | BoardId;
+// Add here your AsynkThunk parameter for form Action
+export type ModalInputData = NewBoard | BoardType;
 
-export type ModalForm = {
-  action: keyof ModalAction;
-  fields: FormField[];
+export type ModalType = 'confirmation' | 'form';
+
+export type ModalAction = keyof ModalConfirmAction | keyof ModalFormAction;
+
+export type Content = {
+  modalType: ModalType;
   modalTitle: string;
+  fields?: FormField[];
 };
 
 export type ModalPayload = {
-  form: ModalForm;
-  dataId?: string;
+  content: Content;
+  dataId: string;
+  action: ModalAction;
 };
 
 export type ModalState = {
+  title: string;
+  modalType: ModalType;
+  action: ModalAction;
   isOpen: boolean;
-  form: ModalForm;
-  dataId?: string;
+  fields?: FormField[];
+  dataId: string;
 };

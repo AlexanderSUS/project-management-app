@@ -1,13 +1,12 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { Button, TextField, Typography } from '@mui/material';
-import { useForm, Controller } from 'react-hook-form';
+import { Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../store/modalSlice';
-import { modalText } from '../constants/text';
-// import { modalAction } from '../constants/modal';
-import modalActionReducer from '../helpers/modalActionReducer';
+import BoardForm from './forms/BoardForm';
+import { modalFormAction, modalConfirmAction } from '../constants/modal';
+import ModalConfirmButtons from './ModalConfirmButtons';
 import { ModalInputData } from '../types/modal';
 
 const style = {
@@ -23,52 +22,41 @@ const style = {
 };
 
 const BasicModal: React.FC = () => {
-  const { isOpen, form, dataId } = useAppSelector(modalSelector);
+  const {
+    isOpen, modalType, title, dataId, action,
+  } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
-  // const action = modalAction[form.action];
-  const { handleSubmit, control } = useForm<ModalInputData>();
-  // const { handleSubmit, control } = useForm<Parameters<typeof action>[0]>();
 
-  const onSubmit = (data: ModalInputData) => {
-  // const onSubmit = (data: Parameters<typeof action>[0]) => {
-    modalActionReducer(form, data, dispatch, dataId);
+  const closeWindow = () => {
     dispatch(closeModal());
   };
+
+  const confirm = () => {
+    const confirmAction = modalConfirmAction[action as keyof typeof modalConfirmAction];
+    dispatch(confirmAction(dataId));
+    dispatch(closeModal());
+  };
+
+  const createOrUpdate = (data: ModalInputData) => {
+    const formAction = modalFormAction[action as keyof typeof modalFormAction];
+    dispatch(formAction({ id: dataId, ...data }));
+    dispatch(closeModal());
+  };
+
+  const content = modalType === 'confirmation' ? (
+    <ModalConfirmButtons close={closeWindow} confirm={confirm} />
+  ) : <BoardForm createOrUpdate={createOrUpdate} />;
 
   return (
     <Modal
       open={isOpen}
-      onClose={() => { dispatch(closeModal()); }}
+      onClose={closeWindow}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography variant="h4" align="center">{ form.modalTitle}</Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {form && form.fields.map((input) => (
-            <Controller
-              key={input.id}
-              name={input.id as keyof ModalInputData}
-              // name={input.id as keyof Parameters<typeof action>[0]}
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  margin="normal"
-                  required={input.required}
-                  placeholder={input.placeholder}
-                  fullWidth
-                  label={input.label}
-                  onChange={onChange}
-                  value={value}
-                />
-              )}
-            />
-          ))}
-          <Box sx={{ display: 'flex' }}>
-            <Button sx={{ ml: 'auto' }} color="primary" type="submit">{modalText.submit}</Button>
-            <Button color="primary" onClick={() => { dispatch(closeModal()); }}>{modalText.close}</Button>
-          </Box>
-        </form>
+        <Typography variant={modalType === 'form' ? 'h4' : 'h6'} align="center">{title}</Typography>
+        {content}
       </Box>
     </Modal>
   );

@@ -27,10 +27,10 @@ const Board: React.FC<BoardProps> = ({ board: { id, title } }) => {
       <Typography variant="h6">
         {title}
       </Typography>
-      <Button onClick={() => { dispatch(openModal({ form: REMOVE_BOARD, dataId: id })); }}>
+      <Button onClick={() => { dispatch(openModal({ content: REMOVE_BOARD, dataId: id, action: 'removeBoard' })); }}>
         Delete
       </Button>
-      <Button onClick={() => { dispatch(openModal({ form: EDIT_BOARD, dataId: id })); }}>
+      <Button onClick={() => { dispatch(openModal({ content: EDIT_BOARD, dataId: id, action: 'editBoard' })); }}>
         Edit
       </Button>
     </Item>

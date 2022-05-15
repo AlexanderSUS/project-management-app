@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
 import {
-  Boards, VoidArgument, BoardState, BoardType, BoardId, NewBoard,
+  Boards, VoidArgument, BoardState, BoardType, NewBoard,
 } from '../types/boards';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
@@ -43,10 +43,10 @@ export const addBoard = createAsyncThunk<BoardType, NewBoard, {
   },
 );
 
-export const removeBoard = createAsyncThunk<Boards, BoardId, {
+export const removeBoard = createAsyncThunk<Boards, string, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/removeBoard',
-  async (id: BoardId, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       await BoardService.deleteBoard(id);
       const response = await BoardService.fetchBoards();

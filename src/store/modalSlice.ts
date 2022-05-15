@@ -6,16 +6,20 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal: (state, { payload: { form, dataId } }: PayloadAction<ModalPayload>) => {
+    openModal: (state, { payload: { content, dataId, action } }: PayloadAction<ModalPayload>) => {
       state.isOpen = true;
-      state.form = form;
-      if (dataId) {
-        state.dataId = dataId;
-      }
+      state.fields = content.fields;
+      state.modalType = content.modalType;
+      state.dataId = dataId;
+      state.title = content.modalTitle;
+      state.action = action;
     },
     closeModal: (state) => {
       state.isOpen = false;
-      state.form = NEW_BOARD;
+      state.fields = NEW_BOARD.fields;
+      state.modalType = NEW_BOARD.modalType;
+      state.dataId = '';
+      state.title = NEW_BOARD.modalTitle;
     },
   },
 });
