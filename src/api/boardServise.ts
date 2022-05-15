@@ -1,20 +1,23 @@
 import { AxiosResponse } from 'axios';
 import api from '.';
 import {
-  BoardId, Boards, BoardType, DeleteSucces,
+  BoardId, Boards, BoardType, NewBoard,
 } from '../types/boards';
-import { ModalFormData } from '../types/modal';
 
 export default class BoardService {
   static fetchBoards(): Promise<AxiosResponse<Boards>> {
     return api.get('/boards');
   }
 
-  static createBoard(data: ModalFormData): Promise<AxiosResponse<BoardType>> {
+  static createBoard(data: NewBoard): Promise<AxiosResponse<BoardType>> {
     return api.post('/boards', data);
   }
 
-  static deleteBoard(id: BoardId): Promise<AxiosResponse<DeleteSucces>> {
+  static deleteBoard(id: BoardId): Promise<AxiosResponse<Boards>> {
     return api.delete(`/boards/${id}`);
+  }
+
+  static editBoard(data: BoardType): Promise<AxiosResponse<BoardType>> {
+    return api.put(`/boards/${data.id}`, data.title);
   }
 }

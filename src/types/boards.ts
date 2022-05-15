@@ -1,15 +1,13 @@
-export type BoardId = string;
-export interface NewBoard {
-  title: string
-}
-
-export interface BoardType extends NewBoard {
+export type BoardId = {
   id: string;
-}
+};
+export type NewBoard = {
+  title: string
+};
+
+export type BoardType = NewBoard & BoardId;
 
 export type Boards = BoardType[];
-
-export type DeleteSucces = boolean;
 
 export interface NewColumn {
   title: string;

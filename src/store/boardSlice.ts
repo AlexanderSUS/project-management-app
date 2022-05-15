@@ -2,12 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
 import {
-  Boards, VoidArgument, BoardState, BoardType, BoardId,
+  Boards, VoidArgument, BoardState, BoardType, BoardId, NewBoard,
 } from '../types/boards';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/boards';
-import { ModalFormData } from '../types/modal';
 
 export const getBoards = createAsyncThunk<Boards, VoidArgument, {
   state: RootState,
@@ -27,10 +26,10 @@ export const getBoards = createAsyncThunk<Boards, VoidArgument, {
   },
 );
 
-export const addBoard = createAsyncThunk<BoardType, ModalFormData, {
+export const addBoard = createAsyncThunk<BoardType, NewBoard, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/addBoard',
-  async (data: ModalFormData, { rejectWithValue }) => {
+  async (data: NewBoard, { rejectWithValue }) => {
     try {
       const response = await BoardService.createBoard(data);
       return response.data;
@@ -51,6 +50,23 @@ export const removeBoard = createAsyncThunk<Boards, BoardId, {
     try {
       await BoardService.deleteBoard(id);
       const response = await BoardService.fetchBoards();
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const editBoard = createAsyncThunk<BoardType, BoardType, {
+  state: RootState, rejectWithValue: ValidationErrors }>(
+  'board/editBoard',
+  async (data: BoardType, { rejectWithValue }) => {
+    try {
+      const response = await BoardService.editBoard(data);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -113,6 +129,22 @@ const boardSlice = createSlice({
     builder.addCase(removeBoard.rejected, (state, { payload }) => {
       state.pending = false;
       state.error = 'OOops! Some error occoured!! remove board';
+      if (payload) {
+        const data = payload as ErrorResponseData;
+        state.error = data.message;
+      }
+    });
+    builder.addCase(editBoard.pending, (state) => {
+      state.pending = true;
+      state.error = null;
+    });
+    builder.addCase(editBoard.fulfilled, (state, { payload }) => {
+      state.pending = false;
+      state.boards.push(payload);
+    });
+    builder.addCase(editBoard.rejected, (state, { payload }) => {
+      state.pending = false;
+      state.error = 'OOops! Some error occoured!! addBoard';
       if (payload) {
         const data = payload as ErrorResponseData;
         state.error = data.message;
