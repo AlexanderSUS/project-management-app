@@ -4,8 +4,8 @@ import { BoardType } from './boards';
 import { ValidationErrors } from './response';
 
 type FormField = {
-  required: boolean;
   id: string;
+  required: boolean;
   label: string;
   defaultValue: string;
   placeholder: string;
@@ -27,7 +27,8 @@ export type ModalForm = {
 };
 
 export type ModalFormData = {
-  [key: string]: string;
+  title: string;
+  // [key: string]: string;
 };
 
 export type ModalState = {

@@ -44,7 +44,7 @@ const BasicModal: React.FC = () => {
           {form && form.fields.map((input) => (
             <Controller
               key={input.id}
-              name={input.id}
+              name={input.id as keyof ModalFormData}
               control={control}
               defaultValue={input.defaultValue}
               render={({ field: { onChange, value } }) => (

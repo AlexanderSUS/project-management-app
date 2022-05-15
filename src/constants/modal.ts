@@ -4,11 +4,12 @@ import { addBoard } from '../store/boardSlice';
 // Add here your action
 export const modalAction: ModalAction = { addBoard };
 
+// THis way must look your input for modal window
 export const NEW_BOARD: ModalForm = {
   action: 'addBoard',
   fields: [{
     required: true,
-    id: 'new-board',
+    id: 'title',
     label: 'Board title',
     defaultValue: '',
     placeholder: 'Input task title',

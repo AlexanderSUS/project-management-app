@@ -26,7 +26,7 @@ function Projects(): JSX.Element {
       {!pending && !error && !!boards.length && (
         <Box>
           {boards.map((board) => (
-            <Board board={board} />
+            <Board board={board} key={board.id} />
           ))}
         </Box>
       )}
