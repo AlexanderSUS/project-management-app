@@ -33,4 +33,5 @@ export const boardPage = {
 
 export const modalText = {
   submit: 'Submit',
+  close: 'Close',
 };

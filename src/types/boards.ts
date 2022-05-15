@@ -1,6 +1,7 @@
 export type BoardId = {
   id: string;
 };
+
 export type NewBoard = {
   title: string
 };

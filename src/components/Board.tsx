@@ -1,7 +1,8 @@
 import { Box, Button } from '@mui/material';
 import React from 'react';
+import { EDIT_BOARD, REMOVE_BOARD } from '../constants/modal';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import { removeBoard } from '../store/boardSlice';
+import { openModal } from '../store/modalSlice';
 import { BoardType } from '../types/boards';
 
 interface BoardProps {
@@ -16,8 +17,11 @@ const Board: React.FC<BoardProps> = ({ board: { id, title } }) => {
       <Box>
         {title}
       </Box>
-      <Button onClick={() => { dispatch(removeBoard(id)); }}>
+      <Button onClick={() => { dispatch(openModal({ form: REMOVE_BOARD, dataId: id })); }}>
         Delete
+      </Button>
+      <Button onClick={() => { dispatch(openModal({ form: EDIT_BOARD, dataId: id })); }}>
+        Edit
       </Button>
     </Box>
 

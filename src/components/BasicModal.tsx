@@ -5,9 +5,10 @@ import { Button, TextField } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../store/modalSlice';
-import { ModalFormData } from '../types/modal';
-import { modalAction } from '../constants/modal';
 import { modalText } from '../constants/text';
+// import { modalAction } from '../constants/modal';
+import modalActionReducer from '../helpers/modalActionReducer';
+import { ModalInputData } from '../types/modal';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -22,14 +23,16 @@ const style = {
 };
 
 const BasicModal: React.FC = () => {
-  const { isOpen, form } = useAppSelector(modalSelector);
+  const { isOpen, form, dataId } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
-  const { handleSubmit, control } = useForm<ModalFormData>();
+  // const action = modalAction[form.action];
+  const { handleSubmit, control } = useForm<ModalInputData>();
+  // const { handleSubmit, control } = useForm<Parameters<typeof action>[0]>();
 
-  const onSubmit = (data: ModalFormData) => {
-    if (form) {
-      dispatch(modalAction[form.action](data));
-    }
+  const onSubmit = (data: ModalInputData) => {
+  // const onSubmit = (data: Parameters<typeof action>[0]) => {
+    modalActionReducer(form, data, dispatch, dataId);
+    dispatch(closeModal());
   };
 
   return (
@@ -44,16 +47,25 @@ const BasicModal: React.FC = () => {
           {form && form.fields.map((input) => (
             <Controller
               key={input.id}
-              name={input.id as keyof ModalFormData}
+              name={input.id as keyof ModalInputData}
+              // name={input.id as keyof Parameters<typeof action>[0]}
               control={control}
-              defaultValue={input.defaultValue}
               render={({ field: { onChange, value } }) => (
-                <TextField margin="normal" required={input.required} placeholder={input.placeholder} fullWidth label={input.label} onChange={onChange} value={value} />
+                <TextField
+                  margin="normal"
+                  required={input.required}
+                  placeholder={input.placeholder}
+                  fullWidth
+                  label={input.label}
+                  onChange={onChange}
+                  value={value}
+                />
               )}
             />
           ))}
           <Button color="primary" type="submit">{modalText.submit}</Button>
         </form>
+        <Button color="primary" onClick={() => { dispatch(closeModal()); }}>{modalText.close}</Button>
       </Box>
     </Modal>
   );
