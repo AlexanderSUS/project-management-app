@@ -14,7 +14,7 @@ export const modalConfirmAction: ModalConfirmAction = {
   removeBoard,
 };
 
-// This way must look your input for modal window
+// Such way must look your 'content' with form fields for modal window
 export const NEW_BOARD: Content = {
   modalType: 'form',
   modalTitle: 'Add new board',
@@ -27,6 +27,7 @@ export const NEW_BOARD: Content = {
   }],
 };
 
+// Such way must look your 'content' for modal window with yes/no buttons
 export const REMOVE_BOARD: Content = {
   modalType: 'confirmation',
   modalTitle: 'Do you really want to delete board?',
