@@ -1,5 +1,7 @@
-import { Box, Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import React from 'react';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/modal';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal } from '../store/modalSlice';
@@ -9,21 +11,29 @@ interface BoardProps {
   board: BoardType;
 }
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 const Board: React.FC<BoardProps> = ({ board: { id, title } }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Box key={id}>
-      <Box>
+    <Item key={id} sx={{ display: 'flex' }}>
+      <Typography variant="h6">
         {title}
-      </Box>
+      </Typography>
       <Button onClick={() => { dispatch(openModal({ form: REMOVE_BOARD, dataId: id })); }}>
         Delete
       </Button>
       <Button onClick={() => { dispatch(openModal({ form: EDIT_BOARD, dataId: id })); }}>
         Edit
       </Button>
-    </Box>
+    </Item>
 
   );
 };

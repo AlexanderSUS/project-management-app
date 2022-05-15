@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../store/modalSlice';
@@ -43,6 +43,7 @@ const BasicModal: React.FC = () => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <Typography variant="h4" align="center">{ form.modalTitle}</Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           {form && form.fields.map((input) => (
             <Controller
@@ -63,9 +64,11 @@ const BasicModal: React.FC = () => {
               )}
             />
           ))}
-          <Button color="primary" type="submit">{modalText.submit}</Button>
+          <Box sx={{ display: 'flex' }}>
+            <Button sx={{ ml: 'auto' }} color="primary" type="submit">{modalText.submit}</Button>
+            <Button color="primary" onClick={() => { dispatch(closeModal()); }}>{modalText.close}</Button>
+          </Box>
         </form>
-        <Button color="primary" onClick={() => { dispatch(closeModal()); }}>{modalText.close}</Button>
       </Box>
     </Modal>
   );

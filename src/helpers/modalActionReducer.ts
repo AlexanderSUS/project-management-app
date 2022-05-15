@@ -7,7 +7,7 @@ function modalActionReducer(
   input: ModalForm,
   data: ModalInputData,
   dispatch: AppDispatch,
-  dataId: string,
+  dataId?: string,
 ) {
   if (input.action === 'addBoard') {
     dispatch(modalAction[input.action](data as NewBoard));

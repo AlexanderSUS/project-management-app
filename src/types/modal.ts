@@ -32,6 +32,7 @@ export type ModalInputData = NewBoard | BoardType | BoardId;
 export type ModalForm = {
   action: keyof ModalAction;
   fields: FormField[];
+  modalTitle: string;
 };
 
 export type ModalPayload = {
@@ -42,5 +43,5 @@ export type ModalPayload = {
 export type ModalState = {
   isOpen: boolean;
   form: ModalForm;
-  dataId: string;
+  dataId?: string;
 };

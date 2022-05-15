@@ -11,6 +11,7 @@ export const modalAction: ModalAction = {
 // This way must look your input for modal window
 export const NEW_BOARD: ModalForm = {
   action: 'addBoard',
+  modalTitle: 'Add board',
   fields: [{
     required: true,
     id: 'title',
@@ -22,6 +23,7 @@ export const NEW_BOARD: ModalForm = {
 
 export const REMOVE_BOARD: ModalForm = {
   action: 'removeBoard',
+  modalTitle: 'Remove board',
   fields: [{
     required: true,
     id: 'title',
@@ -33,6 +35,7 @@ export const REMOVE_BOARD: ModalForm = {
 
 export const EDIT_BOARD: ModalForm = {
   action: 'editBoard',
+  modalTitle: 'Edit board',
   fields: [{
     required: true,
     id: 'title',
@@ -42,6 +45,6 @@ export const EDIT_BOARD: ModalForm = {
   }],
 };
 
-const initialState: ModalState = { isOpen: false, form: NEW_BOARD, dataId: '' };
+const initialState: ModalState = { isOpen: false, form: NEW_BOARD };
 
 export default initialState;
