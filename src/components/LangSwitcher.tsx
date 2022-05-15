@@ -9,7 +9,7 @@ const LangSwitcher = () => {
     i18n.resolvedLanguage === langButton.ru ? langButton.ru : langButton.en,
   );
   const switchLang = () => {
-    if (i18n.resolvedLanguage === langButton.ru) {
+    if (lang === langButton.ru) {
       setLang(langButton.en);
       i18n.changeLanguage(langButton.en);
     } else {
