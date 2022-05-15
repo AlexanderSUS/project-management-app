@@ -1,6 +1,8 @@
 import { AxiosResponse } from 'axios';
 import api from '.';
-import { Boards, BoardType } from '../types/boards';
+import {
+  BoardId, Boards, BoardType, DeleteSucces,
+} from '../types/boards';
 import { ModalFormData } from '../types/modal';
 
 export default class BoardService {
@@ -10,5 +12,9 @@ export default class BoardService {
 
   static createBoard(data: ModalFormData): Promise<AxiosResponse<BoardType>> {
     return api.post('/boards', data);
+  }
+
+  static deleteBoard(id: BoardId): Promise<AxiosResponse<DeleteSucces>> {
+    return api.delete(`/boards/${id}`);
   }
 }

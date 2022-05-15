@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
 import {
-  Boards, VoidArgument, BoardState, BoardType,
+  Boards, VoidArgument, BoardState, BoardType, BoardId,
 } from '../types/boards';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
@@ -33,6 +33,24 @@ export const addBoard = createAsyncThunk<BoardType, ModalFormData, {
   async (data: ModalFormData, { rejectWithValue }) => {
     try {
       const response = await BoardService.createBoard(data);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const removeBoard = createAsyncThunk<Boards, BoardId, {
+  state: RootState, rejectWithValue: ValidationErrors }>(
+  'board/removeBoard',
+  async (id: BoardId, { rejectWithValue }) => {
+    try {
+      await BoardService.deleteBoard(id);
+      const response = await BoardService.fetchBoards();
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -77,7 +95,24 @@ const boardSlice = createSlice({
     });
     builder.addCase(addBoard.rejected, (state, { payload }) => {
       state.pending = false;
-      state.error = 'OOops! Some error occoured!!';
+      state.error = 'OOops! Some error occoured!! addBoard';
+      if (payload) {
+        const data = payload as ErrorResponseData;
+        state.error = data.message;
+      }
+    });
+    builder.addCase(removeBoard.pending, (state) => {
+      state.pending = true;
+    });
+    builder.addCase(removeBoard.fulfilled, (state, { payload }) => {
+      if (payload instanceof Array) {
+        state.boards = payload;
+        state.pending = false;
+      }
+    });
+    builder.addCase(removeBoard.rejected, (state, { payload }) => {
+      state.pending = false;
+      state.error = 'OOops! Some error occoured!! remove board';
       if (payload) {
         const data = payload as ErrorResponseData;
         state.error = data.message;
