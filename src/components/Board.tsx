@@ -9,6 +9,7 @@ import { openModal } from '../store/modalSlice';
 import { BoardType } from '../types/boards';
 import AppRoutes from '../constants/routes';
 import { setCurrentBoardId } from '../store/boardSlice';
+import { boardPage } from '../constants/text';
 
 interface BoardProps {
   board: BoardType;
@@ -42,13 +43,12 @@ const Board: React.FC<BoardProps> = ({ board: { id, title } }) => {
         {title}
       </Typography>
       <Button onClick={deleteItem}>
-        Delete
+        {boardPage.deleteBtn}
       </Button>
       <Button onClick={editItem}>
-        Edit
+        {boardPage.editBtn}
       </Button>
     </Item>
-
   );
 };
 

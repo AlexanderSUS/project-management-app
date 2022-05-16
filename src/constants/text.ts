@@ -30,6 +30,8 @@ export const boardPage = {
   title: 'Your boarads',
   noBoards: 'You have no any boards',
   addColunm: 'Add column',
+  editBtn: 'Edit',
+  deleteBtn: 'Delete',
 };
 
 export const modalText = {
