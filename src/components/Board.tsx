@@ -28,12 +28,12 @@ const Board: React.FC<BoardProps> = ({ board: { id, title } }) => {
 
   const deleteItem = () => {
     dispatch(setCurrentBoardId(id));
-    dispatch(openModal({ content: REMOVE_BOARD, action: 'removeBoard' }));
+    dispatch(openModal(REMOVE_BOARD));
   };
 
   const editItem = () => {
     dispatch(setCurrentBoardId(id));
-    dispatch(openModal({ content: EDIT_BOARD, action: 'editBoard' }));
+    dispatch(openModal(EDIT_BOARD));
   };
 
   return (

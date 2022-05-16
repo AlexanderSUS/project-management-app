@@ -31,12 +31,8 @@ export type ModalAction = keyof ModalConfirmAction | keyof ModalFormAction;
 export type Content = {
   modalType: ModalType;
   modalTitle: string;
-  fields?: FormField[];
-};
-
-export type ModalPayload = {
-  content: Content;
   action: ModalAction;
+  fields?: FormField[];
 };
 
 export type ModalState = {

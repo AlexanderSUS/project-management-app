@@ -34,7 +34,7 @@ const Header: React.FC = () => {
             />
             <HeaderButton
               text={navText.newBoard}
-              onClick={() => { dispatch(openModal({ content: NEW_BOARD, action: 'addBoard' })); }}
+              onClick={() => { dispatch(openModal(NEW_BOARD)); }}
             />
           </Grid>
         )}
