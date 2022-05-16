@@ -129,6 +129,7 @@ const boardSlice = createSlice({
       if (payload instanceof Array) {
         state.boards = payload;
         state.pending = false;
+        state.currentBoardId = '';
       }
     });
     builder.addCase(removeBoard.rejected, (state, { payload }) => {

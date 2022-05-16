@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
@@ -37,11 +37,16 @@ const Board: React.FC<BoardProps> = ({ board: { id, title } }) => {
     dispatch(openModal(EDIT_BOARD));
   };
 
+  const goToBoard = () => {
+    dispatch(setCurrentBoardId(id));
+    navigate(`${AppRoutes.PROJECTS}/${id}`);
+  };
+
   return (
     <Item key={id} sx={{ display: 'flex' }}>
-      <Typography variant="h6" onClick={() => { navigate(`${AppRoutes.PROJECTS}/${id}`); }}>
+      <Button variant="contained" onClick={goToBoard}>
         {title}
-      </Typography>
+      </Button>
       <Button onClick={deleteItem}>
         {boardPage.deleteBtn}
       </Button>

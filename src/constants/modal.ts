@@ -17,7 +17,7 @@ export const modalConfirmAction: ModalConfirmAction = {
 // Such way must look your 'content' with form fields for modal window
 export const NEW_BOARD: Content = {
   modalType: 'form',
-  modalTitle: 'Add new board',
+  modalTitle: 'New board',
   action: 'addBoard',
   fields: [{
     required: true,
