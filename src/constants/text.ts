@@ -19,7 +19,7 @@ export const registrationPageText = {
 
 export const editProfilePageText = {
   title: 'Edit Profile',
-  successSignUp: 'was successfuly udated',
+  successSignUp: 'was successfuly updated',
 };
 
 export const loginPage = {

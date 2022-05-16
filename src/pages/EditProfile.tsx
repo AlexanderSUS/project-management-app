@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import {
-  Alert, Box, Container, Avatar, Typography, TextField, Button,
+  Alert,
+  Box,
+  Container,
+  Avatar,
+  Typography,
+  TextField,
+  Button,
 } from '@mui/material';
 import { AccountCircleOutlined } from '@mui/icons-material';
 import Loader from '../components/Loader';
@@ -15,9 +21,7 @@ import UserService from '../api/userServise';
 
 const EditProfile: React.FC = () => {
   const dispatch = useAppDispatch();
-  const {
-    error, isLoading, userId,
-  } = useSelector(authSelector);
+  const { error, isLoading, userId } = useSelector(authSelector);
   const {
     handleSubmit,
     setValue,
@@ -25,31 +29,25 @@ const EditProfile: React.FC = () => {
     formState: { errors },
   } = useForm<SignUpFormInput>({ mode: 'onChange' });
   const onSubmit = (data: SignUpFormInput) => {
-    dispatch(editProfile({
-      id: userId!,
-      userData: data,
-    }));
+    dispatch(
+      editProfile({
+        id: userId!,
+        userData: data,
+      }),
+    );
   };
 
-  useEffect(() => {
-    // dispatch(getUserData(userId!));
-    // const { name, login } = userData;
-    // setValue(userAuthInput.properties.id as keyof SignUpFormInput, name);
-    // setValue(loginAuthInput.properties.id as keyof SignUpFormInput, login);
-    /* 
-    * TODO: I need to change this logic
-    */
-    UserService.getUserData(userId!).then(
-      (response) => {
-        setTimeout(() => {
-          const { name, login } = response.data;
+  const fetchUserData = useCallback(async (userDataId: string) => {
+    const response = await UserService.getUserData(userDataId!);
+    const { name, login } = response.data;
 
-          setValue(userAuthInput.properties.id as keyof SignUpFormInput, name);
-          setValue(loginAuthInput.properties.id as keyof SignUpFormInput, login);
-        });
-      },
-    );
+    setValue(userAuthInput.properties.id as keyof SignUpFormInput, name);
+    setValue(loginAuthInput.properties.id as keyof SignUpFormInput, login);
   }, []);
+
+  useEffect(() => {
+    fetchUserData(userId!);
+  }, [fetchUserData]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -105,30 +103,6 @@ const EditProfile: React.FC = () => {
             </Alert>
           )}
         </>
-        {/* {!isLoading && newUser && (
-            <Alert severity="success" sx={{ m: '1rem' }}>
-              <AlertTitle>{registrationText.success}</AlertTitle>
-              <strong>
-                {registrationText.name}
-                {newUser.name}
-                <br />
-                {registrationText.login}
-                {newUser.login}
-              </strong>
-              <br />
-              {registrationPageText.successSignUp}
-            </Alert>
-          )}
-          {!isLoading && !newUser && (
-            <>
-              <RegistrationForm />
-              {error.message && (
-                <Alert sx={{ mb: '1rem' }} severity="error">
-                  {error.message}
-                </Alert>
-              )}
-            </>
-          )} */}
       </Box>
     </Container>
   );

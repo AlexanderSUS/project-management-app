@@ -1,4 +1,4 @@
-import { SignUpFormInput } from "./authTypes";
+import { SignUpFormInput } from './authTypes';
 
 export interface User {
   login: string;
@@ -20,4 +20,4 @@ export type UserData = {
 export type UserDataParams = {
   id: string;
   userData: SignUpFormInput;
-}
+};
