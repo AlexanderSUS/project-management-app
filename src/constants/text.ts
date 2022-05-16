@@ -12,20 +12,36 @@ export const navTextRu = {
   newBoard: 'Добавить доску',
 };
 
-export const registrationText = {
+export const registrationTextEn = {
   success: 'Success!',
   newUserWasCreated: 'New user was registered',
   name: 'Name: ',
   login: 'Login: ',
 };
 
-export const registrationPageText = {
+export const registrationTextRu = {
+  success: 'Успешно!',
+  newUserWasCreated: 'Новый пользователь зареистрирован',
+  name: 'Имя: ',
+  login: 'Логин: ',
+};
+
+export const registrationPageTextEn = {
   title: 'Sing Up',
   successSignUp: 'was successfuly registered',
 };
 
-export const loginPage = {
+export const registrationPageTextRu = {
+  title: 'Регистрация',
+  successSignUp: 'был успешно зарегистрирован',
+};
+
+export const loginPageEn = {
   title: 'Log in',
+};
+
+export const loginPageRu = {
+  title: 'Вход',
 };
 
 export const langButton = {

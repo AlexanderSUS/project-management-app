@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
-import { registrationPageText, registrationText } from '../constants/text';
+import { useTranslation } from 'react-i18next';
 import RegistrationForm from '../components/RegistrationFrom';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { authSelector, removeNewUserData, clearAuthError } from '../store/authSlice';
@@ -14,6 +14,7 @@ import Loader from '../components/Loader';
 
 const Registration: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { newUser, error, isLoading } = useSelector(authSelector);
 
   useEffect(() => () => {
@@ -36,21 +37,21 @@ const Registration: React.FC = () => {
           <AccountCircleOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
-          {registrationPageText.title}
+          {t('registrationPageText.title')}
         </Typography>
         {isLoading && <Loader /> }
         {!isLoading && newUser && (
           <Alert severity="success" sx={{ m: '1rem' }}>
-            <AlertTitle>{registrationText.success}</AlertTitle>
+            <AlertTitle>{t('registrationText.success')}</AlertTitle>
             <strong>
-              {registrationText.name}
+              {t('registrationText.name')}
               {newUser.name}
               <br />
-              {registrationText.login}
+              {t('registrationText.login')}
               {newUser.login}
             </strong>
             <br />
-            {registrationPageText.successSignUp}
+            {t('registrationPageText.successSignUp')}
           </Alert>
         )}
         {!isLoading && !newUser && (
