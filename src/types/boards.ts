@@ -38,4 +38,9 @@ export type BoardState = {
   currentBoardId: string;
 };
 
+export type ColumnState = {
+  columns: Column[];
+  currentColumnId: string;
+};
+
 export type VoidArgument = null;

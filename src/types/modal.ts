@@ -11,6 +11,7 @@ type FormField = {
 // Add here your AsynkThunk parameter (name from form FormField type) for form Action
 export interface ModalInputData {
   title: string;
+  order: number;
 }
 
 // Add here your AsynkThunk type for confirm action

@@ -25,6 +25,11 @@ const BoardWrapper = () => {
     dispatch(openModal(EDIT_BOARD));
   };
 
+  // const addColunm = () => {
+  //   dispatch(setCurrentBoardId(currentBoardId));
+  //   dispatch(openModal(EDIT_BOARD));
+  // };
+
   useEffect(() => {
     if (!currentBoardId) {
       navigate(AppRoutes.PROJECTS);
