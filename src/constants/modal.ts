@@ -2,11 +2,13 @@ import {
   ModalState, Content, ModalConfirmAction, ModalFormAction,
 } from '../types/modal';
 import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
+import { addColumn } from '../store/columnSlice';
 
 // Add here your action for modal with form
 export const modalFormAction: ModalFormAction = {
   addBoard,
   editBoard,
+  addColumn,
 };
 
 // Add here your action from modal with confrim buttons
@@ -45,6 +47,19 @@ export const EDIT_BOARD: Content = {
     label: 'Board title',
     defaultValue: '',
     placeholder: 'Input new board title',
+  }],
+};
+
+export const ADD_COLUMN: Content = {
+  modalType: 'form',
+  modalTitle: 'New column',
+  action: 'addColumn',
+  fields: [{
+    required: true,
+    name: 'title',
+    label: 'Column title',
+    defaultValue: '',
+    placeholder: 'Input column title',
   }],
 };
 

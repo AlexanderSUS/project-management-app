@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { boardPage } from '../constants/text';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { boardSelector, setCurrentBoardId } from '../store/boardSlice';
-import { EDIT_BOARD, REMOVE_BOARD } from '../constants/modal';
+import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/modal';
 import { openModal } from '../store/modalSlice';
 import Loader from './Loader';
 import AppRoutes from '../constants/routes';
@@ -25,10 +25,10 @@ const BoardWrapper = () => {
     dispatch(openModal(EDIT_BOARD));
   };
 
-  // const addColunm = () => {
-  //   dispatch(setCurrentBoardId(currentBoardId));
-  //   dispatch(openModal(EDIT_BOARD));
-  // };
+  const addColumn = () => {
+    dispatch(setCurrentBoardId(currentBoardId));
+    dispatch(openModal(ADD_COLUMN));
+  };
 
   useEffect(() => {
     if (!currentBoardId) {
@@ -45,7 +45,7 @@ const BoardWrapper = () => {
       <Button onClick={editItem}>
         {boardPage.editBtn}
       </Button>
-      <Button>
+      <Button onClick={addColumn}>
         {boardPage.addColunm}
       </Button>
     </ButtonGroup>

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authSliceReducer from './authSlice';
 import boardSliceReducer from './boardSlice';
 import modalSliceReducer from './modalSlice';
-import columnSliceReducer from './conumnSlice';
+import columnSliceReducer from './columnSlice';
 
 export const store = configureStore({
   reducer: {

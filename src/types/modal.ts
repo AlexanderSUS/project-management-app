@@ -1,4 +1,5 @@
 import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
+import { addColumn } from '../store/columnSlice';
 
 type FormField = {
   name: string;
@@ -23,6 +24,7 @@ export type ModalConfirmAction = {
 export type ModalFormAction = {
   addBoard: typeof addBoard;
   editBoard: typeof editBoard;
+  addColumn: typeof addColumn;
 };
 
 export type ModalType = 'confirmation' | 'form';
