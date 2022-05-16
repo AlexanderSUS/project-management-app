@@ -29,7 +29,7 @@ const BoardWrapper = () => {
     if (!currentBoardId) {
       navigate(AppRoutes.PROJECTS);
     }
-  }, [boards]);
+  }, [currentBoardId]);
 
   return pending ? <Loader /> : (
     <ButtonGroup>
