@@ -46,7 +46,7 @@ export const EDIT_BOARD: Content = {
 };
 
 const initialState: ModalState = {
-  isOpen: false, title: '', action: 'addBoard', modalType: 'confirmation', dataId: '',
+  isOpen: false, title: '', action: 'addBoard', modalType: 'confirmation',
 };
 
 export default initialState;

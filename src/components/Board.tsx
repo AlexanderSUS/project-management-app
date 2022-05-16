@@ -8,6 +8,7 @@ import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal } from '../store/modalSlice';
 import { BoardType } from '../types/boards';
 import AppRoutes from '../constants/routes';
+import { setCurrentBoardId } from '../store/boardSlice';
 
 interface BoardProps {
   board: BoardType;
@@ -25,15 +26,25 @@ const Board: React.FC<BoardProps> = ({ board: { id, title } }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const deleteItem = () => {
+    dispatch(setCurrentBoardId(id));
+    dispatch(openModal({ content: REMOVE_BOARD, action: 'removeBoard' }));
+  };
+
+  const editItem = () => {
+    dispatch(setCurrentBoardId(id));
+    dispatch(openModal({ content: EDIT_BOARD, action: 'editBoard' }));
+  };
+
   return (
     <Item key={id} sx={{ display: 'flex' }}>
       <Typography variant="h6" onClick={() => { navigate(`${AppRoutes.PROJECTS}/${id}`); }}>
         {title}
       </Typography>
-      <Button onClick={() => { dispatch(openModal({ content: REMOVE_BOARD, dataId: id, action: 'removeBoard' })); }}>
+      <Button onClick={deleteItem}>
         Delete
       </Button>
-      <Button onClick={() => { dispatch(openModal({ content: EDIT_BOARD, dataId: id, action: 'editBoard' })); }}>
+      <Button onClick={editItem}>
         Edit
       </Button>
     </Item>

@@ -1,11 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
 import { Boards, VoidArgument, BoardState } from '../types/boards';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/boards';
-import { FormActionData } from '../types/modal';
+import { ModalInputData } from '../types/modal';
 
 export const getBoards = createAsyncThunk<Boards, VoidArgument, {
   state: RootState,
@@ -25,10 +25,10 @@ export const getBoards = createAsyncThunk<Boards, VoidArgument, {
   },
 );
 
-export const addBoard = createAsyncThunk<Boards, FormActionData, {
+export const addBoard = createAsyncThunk<Boards, ModalInputData, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/addBoard',
-  async (data: FormActionData, { rejectWithValue }) => {
+  async (data: ModalInputData, { rejectWithValue }) => {
     try {
       await BoardService.createBoard({ title: data.title });
       const response = await BoardService.fetchBoards();
@@ -43,12 +43,12 @@ export const addBoard = createAsyncThunk<Boards, FormActionData, {
   },
 );
 
-export const removeBoard = createAsyncThunk<Boards, string, {
+export const removeBoard = createAsyncThunk<Boards, VoidArgument, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/removeBoard',
-  async (id: string, { rejectWithValue }) => {
+  async (_: VoidArgument, { getState, rejectWithValue }) => {
     try {
-      await BoardService.deleteBoard(id);
+      await BoardService.deleteBoard(getState().boardStore.currentBoardId);
       const response = await BoardService.fetchBoards();
       return response.data;
     } catch (err) {
@@ -61,12 +61,12 @@ export const removeBoard = createAsyncThunk<Boards, string, {
   },
 );
 
-export const editBoard = createAsyncThunk<Boards, FormActionData, {
+export const editBoard = createAsyncThunk<Boards, ModalInputData, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/editBoard',
-  async (data: FormActionData, { rejectWithValue }) => {
+  async (data: ModalInputData, { getState, rejectWithValue }) => {
     try {
-      await BoardService.editBoard({ id: data.id, title: data.title });
+      await BoardService.editBoard({ id: getState().boardStore.currentBoardId, title: data.title });
       const response = await BoardService.fetchBoards();
       return response.data;
     } catch (err) {
@@ -82,7 +82,11 @@ export const editBoard = createAsyncThunk<Boards, FormActionData, {
 const boardSlice = createSlice({
   name: 'board',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentBoardId: (state, { payload }: PayloadAction<string>) => {
+      state.currentBoardId = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getBoards.pending, (state) => {
       state.pending = true;
@@ -153,6 +157,8 @@ const boardSlice = createSlice({
     });
   },
 });
+
+export const { setCurrentBoardId } = boardSlice.actions;
 
 export default boardSlice.reducer;
 

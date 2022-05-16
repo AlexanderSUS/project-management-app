@@ -6,11 +6,10 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal: (state, { payload: { content, dataId, action } }: PayloadAction<ModalPayload>) => {
+    openModal: (state, { payload: { content, action } }: PayloadAction<ModalPayload>) => {
       state.isOpen = true;
       state.fields = content.fields;
       state.modalType = content.modalType;
-      state.dataId = dataId;
       state.title = content.modalTitle;
       state.action = action;
     },
@@ -18,7 +17,6 @@ const modalSlice = createSlice({
       state.isOpen = false;
       state.fields = NEW_BOARD.fields;
       state.modalType = NEW_BOARD.modalType;
-      state.dataId = '';
       state.title = NEW_BOARD.modalTitle;
     },
   },

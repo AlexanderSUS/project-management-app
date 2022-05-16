@@ -13,10 +13,6 @@ export interface ModalInputData {
   title: string;
 }
 
-export interface FormActionData extends ModalInputData {
-  id: string;
-}
-
 // Add here your AsynkThunk type for confirm action
 export type ModalConfirmAction = {
   removeBoard: typeof removeBoard;
@@ -40,7 +36,6 @@ export type Content = {
 
 export type ModalPayload = {
   content: Content;
-  dataId: string;
   action: ModalAction;
 };
 
@@ -50,5 +45,4 @@ export type ModalState = {
   action: ModalAction;
   isOpen: boolean;
   fields?: FormField[];
-  dataId: string;
 };

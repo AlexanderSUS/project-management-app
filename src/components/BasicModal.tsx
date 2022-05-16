@@ -23,7 +23,7 @@ const style = {
 
 const BasicModal: React.FC = () => {
   const {
-    isOpen, modalType, title, dataId, action,
+    isOpen, modalType, title, action,
   } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
 
@@ -33,14 +33,13 @@ const BasicModal: React.FC = () => {
 
   const confirm = () => {
     const confirmAction = modalConfirmAction[action as keyof typeof modalConfirmAction];
-    dispatch(confirmAction(dataId));
+    dispatch(confirmAction(null));
     dispatch(closeModal());
   };
 
   const createOrUpdate = (data: ModalInputData) => {
     const formAction = modalFormAction[action as keyof typeof modalFormAction];
-    const formActonData = { id: dataId, ...data };
-    dispatch(formAction(formActonData));
+    dispatch(formAction(data));
     dispatch(closeModal());
   };
 
