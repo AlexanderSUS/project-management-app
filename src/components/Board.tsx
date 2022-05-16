@@ -2,10 +2,12 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/modal';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal } from '../store/modalSlice';
 import { BoardType } from '../types/boards';
+import AppRoutes from '../constants/routes';
 
 interface BoardProps {
   board: BoardType;
@@ -21,10 +23,11 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Board: React.FC<BoardProps> = ({ board: { id, title } }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <Item key={id} sx={{ display: 'flex' }}>
-      <Typography variant="h6">
+      <Typography variant="h6" onClick={() => { navigate(`${AppRoutes.PROJECTS}/${id}`); }}>
         {title}
       </Typography>
       <Button onClick={() => { dispatch(openModal({ content: REMOVE_BOARD, dataId: id, action: 'removeBoard' })); }}>

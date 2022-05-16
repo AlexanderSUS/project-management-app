@@ -29,6 +29,7 @@ export const langButton = {
 export const boardPage = {
   title: 'Your boarads',
   noBoards: 'You have no any boards',
+  addColunm: 'Add column',
 };
 
 export const modalText = {
