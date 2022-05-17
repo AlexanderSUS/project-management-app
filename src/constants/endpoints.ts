@@ -3,6 +3,7 @@ enum Endpoint {
   SIGN_UP = '/signup',
   USERS = '/users',
   BOARDS = '/boards',
+  COLUMNS = '/columns',
 }
 
 export default Endpoint;
