@@ -1,11 +1,15 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import {
+  Box, Typography, Button, Tooltip,
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { Column } from '../types/columns';
-import { boardPage } from '../constants/text';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { setCurrentColumnId, setCurrentColumnOrder } from '../store/columnSlice';
 import { EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/modal';
 import { openModal } from '../store/modalSlice';
+import { boardPage } from '../constants/text';
 
 type ListProps = {
   column: Column;
@@ -27,17 +31,21 @@ const List: React.FC<ListProps> = ({ column }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', flexFlow: 'row no-wrap' }}>
       <Typography variant="h5">
         {column.order}
         {'. '}
         {column.title}
       </Typography>
       <Button variant="text" onClick={editColumn}>
-        {boardPage.editBtn}
+        <Tooltip title={boardPage.editBtn}>
+          <EditIcon />
+        </Tooltip>
       </Button>
       <Button variant="text" onClick={deleteColumn}>
-        {boardPage.deleteBtn}
+        <Tooltip title={boardPage.deleteBtn}>
+          <DeleteIcon />
+        </Tooltip>
       </Button>
     </Box>
   );
