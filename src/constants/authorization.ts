@@ -14,15 +14,24 @@ export const initialState: AuthState = {
   newUser: null,
 };
 
-export enum AuthText {
+export enum AuthTextEn {
   name = 'Name',
   login = 'Login',
   PASSWORD = 'Password',
   LOG_IN = 'Log In',
   LOG_OUT = 'Log Out',
   SIGN_UP = 'Sign Up',
-  SIGN_IN = 'Sign In',
   SUBMIT = 'Submit',
+}
+
+export enum AuthTextRu {
+  name = 'Имя',
+  login = 'Логин',
+  PASSWORD = 'Пароль',
+  LOG_IN = 'Вход',
+  LOG_OUT = 'Выход',
+  SIGN_UP = 'Регистрация',
+  SUBMIT = 'Подтвердить',
 }
 
 const inputRegEpxs: RegExpPatterns = {
@@ -42,18 +51,18 @@ const userAuthInput: AuthInput = {
     required: 'This field is required',
     minLength: {
       value: 2,
-      message: 'Value must be no less than 2 symbols',
+      message: 'nameErrors.minLength',
     },
     maxLength: {
       value: 20,
-      message: 'Value must be no more than 20 symbols',
+      message: 'nameErrors.maxLength',
     },
     pattern: {
       value: inputRegEpxs.user,
-      message: 'name must starts with capital letter',
+      message: 'nameErrors.pattern',
     },
   },
-  labelText: AuthText.name,
+  labelText: 'AuthText.name',
 };
 
 const loginAuthInput: AuthInput = {
@@ -67,10 +76,10 @@ const loginAuthInput: AuthInput = {
     required: 'This field is required',
     pattern: {
       value: inputRegEpxs.login,
-      message: 'Invalid username',
+      message: 'loginErrors.pattern',
     },
   },
-  labelText: AuthText.login,
+  labelText: 'AuthText.login',
 };
 
 const passwordAuthInput: AuthInput = {
@@ -84,27 +93,20 @@ const passwordAuthInput: AuthInput = {
     required: 'This field is required',
     minLength: {
       value: 8,
-      message: 'Password must be no less than 8 symbols',
+      message: 'passwordError.minLength',
     },
     maxLength: {
       value: 20,
-      message: 'Password must be no more than 20 symbols',
+      message: 'passwordError.maxLength',
     },
     pattern: {
       value: inputRegEpxs.password,
-      message: 'Minimum eight characters, at least one letter and one number',
+      message: 'passwordError.pattern',
     },
   },
-  labelText: AuthText.PASSWORD,
+  labelText: 'AuthText.PASSWORD',
 };
 
-export const SIGNIN_INPUTS: AuthInput[] = [
-  loginAuthInput,
-  passwordAuthInput,
-];
+export const SIGNIN_INPUTS: AuthInput[] = [loginAuthInput, passwordAuthInput];
 
-export const SIGNUP_INPUTS: AuthInput[] = [
-  userAuthInput,
-  loginAuthInput,
-  passwordAuthInput,
-];
+export const SIGNUP_INPUTS: AuthInput[] = [userAuthInput, loginAuthInput, passwordAuthInput];
