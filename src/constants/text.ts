@@ -52,8 +52,7 @@ export const langButton = {
 export const boardPage = {
   title: 'Your boarads',
   noBoards: 'You have no any boards',
-  noLists: 'You have no any lists',
-  addColunm: 'Add list',
+  addColunm: 'Add column',
   editBtn: 'Edit',
   deleteBtn: 'Delete',
 };

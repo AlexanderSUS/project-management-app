@@ -37,6 +37,7 @@ function Projects(): JSX.Element {
         </Stack>
       </Box>
       )}
+
     </>
   ) : <Outlet />;
 
