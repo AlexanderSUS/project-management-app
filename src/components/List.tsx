@@ -33,8 +33,10 @@ const List: React.FC<ListProps> = ({ column }) => {
   return (
     <Box sx={{ display: 'flex', flexFlow: 'row no-wrap' }}>
       <Typography variant="h5">
+        {/* ***!FOR TEST PURPOSE*** */}
         {column.order}
         {'. '}
+        {/* ******** */}
         {column.title}
       </Typography>
       <Button variant="text" onClick={editColumn}>
