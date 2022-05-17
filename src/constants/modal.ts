@@ -17,7 +17,8 @@ export const modalConfirmAction: ModalConfirmAction = {
 // Such way must look your 'content' with form fields for modal window
 export const NEW_BOARD: Content = {
   modalType: 'form',
-  modalTitle: 'Add new board',
+  modalTitle: 'New board',
+  action: 'addBoard',
   fields: [{
     required: true,
     name: 'title',
@@ -31,11 +32,13 @@ export const NEW_BOARD: Content = {
 export const REMOVE_BOARD: Content = {
   modalType: 'confirmation',
   modalTitle: 'Do you really want to delete board?',
+  action: 'removeBoard',
 };
 
 export const EDIT_BOARD: Content = {
   modalType: 'form',
   modalTitle: 'Edit board',
+  action: 'editBoard',
   fields: [{
     required: true,
     name: 'title',
@@ -46,7 +49,7 @@ export const EDIT_BOARD: Content = {
 };
 
 const initialState: ModalState = {
-  isOpen: false, title: '', action: 'addBoard', modalType: 'confirmation', dataId: '',
+  isOpen: false, title: '', action: 'addBoard', modalType: 'confirmation',
 };
 
 export default initialState;

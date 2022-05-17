@@ -35,6 +35,7 @@ export type BoardState = {
   boards: Boards;
   pending: boolean;
   error: string | null;
+  currentBoardId: string;
 };
 
 export type VoidArgument = null;
