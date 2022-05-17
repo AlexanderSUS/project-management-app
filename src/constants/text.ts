@@ -61,3 +61,8 @@ export const modalText = {
   submit: 'Submit',
   close: 'Close',
 };
+
+export const editProfilePageText = {
+  title: 'Edit Profile',
+  successSignUp: 'was successfuly updated',
+};
