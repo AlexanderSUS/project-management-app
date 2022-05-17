@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import api from '.';
 import Endpoint from '../constants/endpoints';
-import { Column, NewColumn } from '../types/boards';
+import { Column, NewColumn } from '../types/columns';
 
 export default class ColumnService {
   static fetchColumns(boardId: string): Promise<AxiosResponse<Column[]>> {
@@ -10,7 +10,7 @@ export default class ColumnService {
 
   // TODO check response type
   static createColumn(boardId: string, data: NewColumn): Promise<AxiosResponse<Column>> {
-    return api.post(`${Endpoint.BOARDS}/${boardId}`, { title: data.title, order: data.order });
+    return api.post(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}`, { order: +data.order, title: data.title });
   }
 
   static editColumn(
@@ -18,7 +18,7 @@ export default class ColumnService {
     columnId: string,
     data: NewColumn,
   ): Promise<AxiosResponse<Column[]>> {
-    return api.put(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}`, { order: data.order, title: data.title });
+    return api.put(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}`, { order: +data.order, title: data.title });
   }
 
   // TODO check argument type

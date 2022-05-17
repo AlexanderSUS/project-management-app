@@ -1,5 +1,7 @@
-import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
-import { addColumn } from '../store/columnSlice';
+import {
+  addBoard, editBoard, removeBoard,
+} from '../store/boardSlice';
+import { addColumn, editColumn, removeColumn } from '../store/columnSlice';
 
 type FormField = {
   name: string;
@@ -18,6 +20,7 @@ export interface ModalInputData {
 // Add here your AsynkThunk type for confirm action
 export type ModalConfirmAction = {
   removeBoard: typeof removeBoard;
+  removeColumn: typeof removeColumn;
 };
 
 // Add here your AsynkThunkAction type for form action
@@ -25,6 +28,7 @@ export type ModalFormAction = {
   addBoard: typeof addBoard;
   editBoard: typeof editBoard;
   addColumn: typeof addColumn;
+  editColumn: typeof editColumn;
 };
 
 export type ModalType = 'confirmation' | 'form';
