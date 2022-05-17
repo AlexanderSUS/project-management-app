@@ -4,7 +4,7 @@ import {
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { loginPage } from '../constants/text';
+import { useTranslation } from 'react-i18next';
 import LoginForm from '../components/LoginForm';
 import { authSelector, clearAuthError } from '../store/authSlice';
 import Loader from '../components/Loader';
@@ -13,6 +13,7 @@ import { useAppDispatch } from '../hooks/reduxTypedHooks';
 const Login: React.FC = () => {
   const { error, isLoading } = useSelector(authSelector);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => () => {
     if (error.message) {
@@ -30,7 +31,7 @@ const Login: React.FC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          {loginPage.title}
+          {t('loginPage.title')}
         </Typography>
         {isLoading ? <Loader />
           : (

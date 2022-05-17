@@ -1,32 +1,65 @@
-export const navText = {
+export const navTextEn = {
   home: 'Home',
-  projects: 'Projects',
+  projects: 'Boards',
   editProfile: 'Profile',
   newBoard: 'Add board',
 };
 
-export const registrationText = {
+export const navTextRu = {
+  home: 'Главная',
+  projects: 'Проекты',
+  editProfile: 'Профиль',
+  newBoard: 'Добавить доску',
+};
+
+export const registrationTextEn = {
   success: 'Success!',
   newUserWasCreated: 'New user was registered',
   name: 'Name: ',
   login: 'Login: ',
 };
 
-export const registrationPageText = {
+export const registrationTextRu = {
+  success: 'Успешно!',
+  newUserWasCreated: 'Новый пользователь зареистрирован',
+  name: 'Имя: ',
+  login: 'Логин: ',
+};
+
+export const registrationPageTextEn = {
   title: 'Sing Up',
   successSignUp: 'was successfuly registered',
 };
 
-export const editProfilePageText = {
-  title: 'Edit Profile',
-  successSignUp: 'was successfuly updated',
+export const registrationPageTextRu = {
+  title: 'Регистрация',
+  successSignUp: 'был успешно зарегистрирован',
 };
 
-export const loginPage = {
+export const loginPageEn = {
   title: 'Log in',
+};
+
+export const loginPageRu = {
+  title: 'Вход',
 };
 
 export const langButton = {
   ru: 'ru',
   en: 'en',
+};
+
+export const boardPage = {
+  title: 'Your boarads',
+  noBoards: 'You have no any boards',
+};
+
+export const modalText = {
+  submit: 'Submit',
+  close: 'Close',
+};
+
+export const editProfilePageText = {
+  title: 'Edit Profile',
+  successSignUp: 'was successfuly updated',
 };
