@@ -33,8 +33,13 @@ export const addColumn = createAsyncThunk<Column[], ModalInputData, {
   async (data: ModalInputData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
 
+    // TODO move out this in helpers
+    const orders = getState().columnStore.columns.map((column) => column.order);
+    const columnOrder = orders.length ? Math.max(...orders) + 1 : 1;
+    // END TODO
+
     try {
-      await ColumnService.createColumn(boardId, data);
+      await ColumnService.createColumn(boardId, { title: data.title, order: columnOrder });
       const response = await ColumnService.fetchColumns(boardId);
       return response.data;
     } catch (err) {

@@ -63,13 +63,7 @@ export const ADD_COLUMN: Content = {
     defaultValue: '',
     placeholder: 'Input column title',
   },
-  {
-    required: true,
-    name: 'order',
-    label: 'Column order',
-    defaultValue: '',
-    placeholder: 'Input column order',
-  }],
+  ],
 };
 
 export const REMOVE_COLUMN: Content = {
@@ -89,13 +83,6 @@ export const EDIT_COLUMN_TITLE: Content = {
     defaultValue: '',
     placeholder: 'Input new list title',
   },
-  // {
-  //   required: true,
-  //   name: 'order',
-  //   label: 'Column order',
-  //   defaultValue: '',
-  //   placeholder: 'Input column order',
-  // }
   ],
 };
 

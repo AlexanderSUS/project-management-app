@@ -5,7 +5,7 @@ import { Boards, VoidArgument, BoardState } from '../types/boards';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/boards';
-import { ModalInputData } from '../types/modal';
+import type { ModalInputData } from '../types/modal';
 
 export const getBoards = createAsyncThunk<Boards, VoidArgument, {
   state: RootState,
