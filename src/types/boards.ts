@@ -1,3 +1,5 @@
+import { Column } from './columns';
+
 export type NewBoard = {
   title: string
 };
@@ -8,15 +10,6 @@ export type BoardType = {
 };
 
 export type Boards = BoardType[];
-
-export interface NewColumn {
-  title: string;
-  order: number;
-}
-
-export interface Column extends NewColumn {
-  id: string;
-}
 
 export interface NewTask {
   title: string;
