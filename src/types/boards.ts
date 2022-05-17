@@ -1,10 +1,11 @@
-export interface NewBoard {
+export type NewBoard = {
   title: string
-}
+};
 
-export interface BoardType extends NewBoard {
+export type BoardType = {
   id: string;
-}
+  title: string;
+};
 
 export type Boards = BoardType[];
 

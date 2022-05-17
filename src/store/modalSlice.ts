@@ -1,18 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ModalState, ModalForm } from '../types/modal';
-import initialState from '../constants/modal';
+import { ModalState, ModalPayload } from '../types/modal';
+import initialState, { NEW_BOARD } from '../constants/modal';
 
 const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal: (state, { payload }: PayloadAction<ModalForm>) => {
+    openModal: (state, { payload: { content, dataId, action } }: PayloadAction<ModalPayload>) => {
       state.isOpen = true;
-      state.form = payload;
+      state.fields = content.fields;
+      state.modalType = content.modalType;
+      state.dataId = dataId;
+      state.title = content.modalTitle;
+      state.action = action;
     },
     closeModal: (state) => {
       state.isOpen = false;
-      state.form = null;
+      state.fields = NEW_BOARD.fields;
+      state.modalType = NEW_BOARD.modalType;
+      state.dataId = '';
+      state.title = NEW_BOARD.modalTitle;
     },
   },
 });

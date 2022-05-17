@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { Box, Typography } from '@mui/material';
+import {
+  Box, Stack, Typography,
+} from '@mui/material';
 import { boardPage } from '../constants/text';
 import Board from '../components/Board';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -16,7 +18,12 @@ function Projects(): JSX.Element {
   }, [dispatch]);
 
   return (
-    <main>
+    <Box
+      component="main"
+      sx={{
+        display: 'flex', flexDirection: 'column', gap: '1rem', p: '2rem',
+      }}
+    >
       <Typography component="h1" variant="h3">
         {boardPage.title}
       </Typography>
@@ -24,13 +31,15 @@ function Projects(): JSX.Element {
       {!pending && error && <span>{error}</span>}
       {!pending && !error && !boards.length && <Box>{boardPage.noBoards}</Box>}
       {!pending && !error && !!boards.length && (
-        <Box>
-          {boards.map((board) => (
-            <Board board={board} />
-          ))}
+        <Box sx={{ width: '100%' }}>
+          <Stack spacing={2}>
+            {boards.map((board) => (
+              <Board board={board} key={board.id} />
+            ))}
+          </Stack>
         </Box>
       )}
-    </main>
+    </Box>
   );
 }
 
