@@ -1,4 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk, createSlice, PayloadAction,
+} from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
 import { Boards, BoardState } from '../types/boards';
@@ -6,6 +8,13 @@ import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/boards';
 import type { ModalInputData } from '../types/modal';
+
+// type GenericAsyncThunk = AsyncThunk<Boards, null | ModalInputData,
+// { state: RootState, rejectWithvalue: ValidationErrors }>;
+
+// type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
+// type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
+// type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 export const getBoards = createAsyncThunk<Boards, null, {
   state: RootState,
@@ -18,7 +27,7 @@ export const getBoards = createAsyncThunk<Boards, null, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        throw error;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -36,7 +45,7 @@ export const addBoard = createAsyncThunk<Boards, ModalInputData, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        throw error;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -54,7 +63,7 @@ export const removeBoard = createAsyncThunk<Boards, null, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        throw error;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -156,6 +165,32 @@ const boardSlice = createSlice({
         state.error = data.message;
       }
     });
+    // builder.addMatcher(
+    //   (action): action is PendingAction => action.type.endsWith('/pending'),
+    //   (state) => {
+    //     state.pending = true;
+    //     state.error = '';
+    //   },
+    // );
+    // builder.addMatcher(
+    //   (action): action is RejectedAction => action.type.endsWith('/rejected'),
+    //   (state, { payload }) => {
+    //     state.pending = false;
+    //     if (payload) {
+    //       const error = payload as ErrorResponseData;
+    //       state.error = error.message;
+    //       return;
+    //     }
+    //     state.error = 'Server error';
+    //   },
+    // );
+    // builder.addMatcher(
+    //   (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
+    //   (state, { payload }) => {
+    //     state.pending = false;
+    //     state.boards = payload;
+    //   },
+    // );
   },
 });
 

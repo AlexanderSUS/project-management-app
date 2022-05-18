@@ -1,5 +1,5 @@
 import {
-  AsyncThunk, createAsyncThunk, createSlice, PayloadAction,
+  AsyncThunk, createAsyncThunk, createSlice, isAsyncThunkAction, PayloadAction,
 } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import ColumnService from '../api/columnServise';
@@ -17,7 +17,7 @@ type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 export const getColumns = createAsyncThunk<Column[], null, {
-  state: RootState, rejectWithValue: ValidationErrors } >(
+  state: RootState, rejectWithValue: AxiosError<ValidationErrors> } >(
   'column/getColumns',
   async (_: null, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -86,7 +86,7 @@ export const removeColumn = createAsyncThunk<Column[], null, { state: RootState 
   'column/removeColumn',
   async (_: null, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
-    const columnId = getState().columnStore.currentColumnId + 1;
+    const columnId = getState().columnStore.currentColumnId;
 
     try {
       await ColumnService.deleteColumn(boardId, columnId);
@@ -102,6 +102,8 @@ export const removeColumn = createAsyncThunk<Column[], null, { state: RootState 
   },
 );
 
+const isARequestedAction = isAsyncThunkAction(getColumns, addColumn, editColumn, removeColumn);
+
 const columnSlice = createSlice({
   name: 'column',
   initialState,
@@ -116,26 +118,34 @@ const columnSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(
       (action): action is PendingAction => action.type.endsWith('/pending'),
-      (state) => {
-        state.pending = true;
-        state.error = '';
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = false;
+          state.error = '';
+        }
       },
     );
     builder.addMatcher(
       (action): action is RejectedAction => action.type.endsWith('/rejected'),
-      (state, { payload }) => {
-        state.pending = false;
-        if (payload) {
-          const error = payload as ErrorResponseData;
-          state.error = error.message;
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = false;
+          if ((action.payload)) {
+            const error = action.payload as ErrorResponseData;
+            state.error = error.message;
+            return;
+          }
+          state.error = 'Server error';
         }
       },
     );
     builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
-      (state, { payload }) => {
-        state.pending = false;
-        state.columns = payload;
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = false;
+          state.columns = action.payload;
+        }
       },
     );
   },

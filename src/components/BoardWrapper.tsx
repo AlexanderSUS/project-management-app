@@ -36,7 +36,7 @@ const BoardWrapper = () => {
   useEffect(() => {
     dispatch(setCurrentBoardId(currentBoardId));
     dispatch(getColumns(null));
-  }, []);
+  }, [dispatch, currentBoardId]);
 
   useEffect(() => {
     if (!currentBoardId) {
