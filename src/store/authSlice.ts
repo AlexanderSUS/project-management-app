@@ -1,4 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk, createSlice, PayloadAction, AsyncThunk, isAsyncThunkAction,
+} from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import jwt_decode from 'jwt-decode';
 import AuthService from '../api/authService';
@@ -10,6 +12,12 @@ import type { RootState } from './store';
 import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData } from '../types/authTypes';
 import UserService from '../api/userServise';
+
+type GenericAsyncThunk = AsyncThunk<SignInResponse | SignUpResponse, UserDataParams | string | User,
+{ state: RootState, rejectWithvalue: ValidationErrors }>;
+
+type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
+type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 
 export const registration = createAsyncThunk<SignUpResponse, NewUser, {
   state: RootState, rejectWithValue: ValidationErrors
@@ -80,6 +88,8 @@ export const editProfile = createAsyncThunk(
   },
 );
 
+const isARequestedAction = isAsyncThunkAction(registration, login, getUserData, editProfile);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -101,22 +111,9 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(registration.pending, (state) => {
-      state.isLoading = true;
-    });
     builder.addCase(registration.fulfilled, (state, action) => {
       state.newUser = action.payload;
       state.isLoading = false;
-    });
-    builder.addCase(registration.rejected, (state, { payload }) => {
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error.message = data.message;
-        state.isLoading = false;
-      }
-    });
-    builder.addCase(login.pending, (state) => {
-      state.isLoading = true;
     });
     builder.addCase(login.fulfilled, (state, action) => {
       localStorage.setItem(TOKEN, action.payload.token);
@@ -125,40 +122,32 @@ const authSlice = createSlice({
       state.userId = credentials.userId;
       state.isLoading = false;
     });
-    builder.addCase(login.rejected, (state, { payload }) => {
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error.message = data.message;
-        state.isLoading = false;
-      }
-    });
-    builder.addCase(getUserData.pending, (state) => {
-      state.isLoading = true;
-    });
     builder.addCase(getUserData.fulfilled, (state, action) => {
       state.isLoading = false;
       state.userData = action.payload;
     });
-    builder.addCase(getUserData.rejected, (state, { payload }) => {
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error.message = data.message;
-        state.isLoading = false;
-      }
-    });
-    builder.addCase(editProfile.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(editProfile.fulfilled, (state) => {
-      state.isLoading = false;
-    });
-    builder.addCase(editProfile.rejected, (state, { payload }) => {
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error.message = data.message;
-        state.isLoading = false;
-      }
-    });
+    builder.addMatcher(
+      (action): action is RejectedAction => action.type.endsWith('/rejected'),
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.isLoading = false;
+          if ((action.payload)) {
+            const error = action.payload as ErrorResponseData;
+            state.error.message = error.message;
+            return;
+          }
+          state.error.message = 'Server error';
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is PendingAction => action.type.endsWith('pending'),
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.isLoading = true;
+        }
+      },
+    );
   },
 });
 
