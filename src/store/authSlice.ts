@@ -141,7 +141,7 @@ const authSlice = createSlice({
       },
     );
     builder.addMatcher(
-      (action): action is PendingAction => action.type.endsWith('pending'),
+      (action): action is PendingAction => action.type.endsWith('/pending'),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.isLoading = true;

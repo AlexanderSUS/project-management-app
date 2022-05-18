@@ -15,11 +15,14 @@ const Login: React.FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  // TODO find solution to fix eslint error,
+  // DO NOT PUT error.message in dependency!!!!
+  // it cause excessive dispatch call
   useEffect(() => () => {
     if (error.message) {
       dispatch(clearAuthError());
     }
-  }, [error.message, dispatch]);
+  }, [dispatch]);
 
   return (
     <Container component="main" maxWidth="xs">
