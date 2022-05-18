@@ -42,7 +42,7 @@ const BoardWrapper = () => {
     if (!currentBoardId) {
       navigate(AppRoutes.PROJECTS);
     }
-  }, [currentBoardId]);
+  }, [currentBoardId, navigate]);
 
   return pending ? <Loader /> : (
     <>
