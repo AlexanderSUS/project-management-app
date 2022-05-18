@@ -2,16 +2,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import ColumnService from '../api/columnServise';
 import { ColumnState, Column } from '../types/columns';
-import { VoidArgument } from '../types/boards';
-import { ModalInputData } from '../types/modal';
+import type { ModalInputData } from '../types/modal';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/columns';
 
-export const getColumns = createAsyncThunk<Column[], VoidArgument, {
+export const getColumns = createAsyncThunk<Column[], null, {
   state: RootState, rejectWithValue: ValidationErrors } >(
   'column/getColumns',
-  async (_: VoidArgument, { getState, rejectWithValue }) => {
+  async (_: null, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
 
     try {
@@ -74,10 +73,10 @@ export const editColumn = createAsyncThunk<Column[], ModalInputData, {
   },
 );
 
-export const removeColumn = createAsyncThunk<Column[], VoidArgument, {
+export const removeColumn = createAsyncThunk<Column[], null, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'column/removeColumn',
-  async (_: VoidArgument, { getState, rejectWithValue }) => {
+  async (_: null, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
     const columnId = getState().columnStore.currentColumnId;
 

@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
-import { Boards, VoidArgument, BoardState } from '../types/boards';
+import { Boards, BoardState } from '../types/boards';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/boards';
 import type { ModalInputData } from '../types/modal';
 
-export const getBoards = createAsyncThunk<Boards, VoidArgument, {
+export const getBoards = createAsyncThunk<Boards, null, {
   state: RootState,
   rejectWithValue: ValidationErrors } >(
   'board/getBoards',
-  async (_: VoidArgument, { rejectWithValue }) => {
+  async (_: null, { rejectWithValue }) => {
     try {
       const response = await BoardService.fetchBoards();
       return response.data;
@@ -43,10 +43,10 @@ export const addBoard = createAsyncThunk<Boards, ModalInputData, {
   },
 );
 
-export const removeBoard = createAsyncThunk<Boards, VoidArgument, {
+export const removeBoard = createAsyncThunk<Boards, null, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/removeBoard',
-  async (_: VoidArgument, { getState, rejectWithValue }) => {
+  async (_: null, { getState, rejectWithValue }) => {
     try {
       await BoardService.deleteBoard(getState().boardStore.currentBoardId);
       const response = await BoardService.fetchBoards();
