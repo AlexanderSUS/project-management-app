@@ -27,7 +27,7 @@ export const getBoards = createAsyncThunk<Boards, null, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw error;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
@@ -45,7 +45,7 @@ export const addBoard = createAsyncThunk<Boards, ModalInputData, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw error;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
@@ -63,7 +63,7 @@ export const removeBoard = createAsyncThunk<Boards, null, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw error;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
@@ -81,7 +81,7 @@ export const editBoard = createAsyncThunk<Boards, ModalInputData, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }

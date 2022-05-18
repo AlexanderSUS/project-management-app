@@ -30,7 +30,7 @@ export const registration = createAsyncThunk<SignUpResponse, NewUser, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
@@ -48,7 +48,7 @@ export const login = createAsyncThunk<SignInResponse, User, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
@@ -64,7 +64,7 @@ export const getUserData = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
@@ -81,7 +81,7 @@ export const editProfile = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
