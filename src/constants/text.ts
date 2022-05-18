@@ -67,3 +67,31 @@ export const editProfilePageText = {
   title: 'Edit Profile',
   successSignUp: 'was successfuly updated',
 };
+
+export const welcomePageEn = {
+  title:
+    'Are you looking for a convenient application that will be convenient to manage the process of setting and completing tasks?',
+  desc: 'We are glad to present to your attention our application PMA. With it, you can easily manage your project, be aware of all the tasks and control the progress of their implementation.',
+  advantages: [
+    'Simple and intuitive interface',
+    'Personal fully editable list of projects',
+    'Ability to create an unlimited number of task stages and tasks themselves',
+    'Ability to add/edit/delete tasks, assign a team of performers and responsible',
+    'Instant change of statuses of tasks and projects for the convenience of interaction between the team of performers',
+    'Convenient search among the list of all your projects',
+  ],
+};
+
+export const welcomePageRu = {
+  title:
+    'Ищете удобное приложение, в которым будет удобно управлять процессом постановки и выполнения задач?',
+  desc: 'Рады представить Вашему вниманию наше приложение PMA. С ним Вы можете лего управлять своим проектом, быть в курсе всех поставленных задач и контролировать ход их выполнения.',
+  advantages: [
+    'Простой и интуитивно понятный интерфейс',
+    'Персональный полностью редактируемый список проектов',
+    'Возможность создавать неограниченное количестов стадий выполнения задач и самих задач',
+    'Возможность добавлять/редактировать/удалять задачи, назначать команду исполнителей и ответственного',
+    'Мгновенное изменение статусов задач и проектов для удобства взаимодействия между командой исполнителей',
+    'Удобный поиск среди списка всех ваших проектов',
+  ],
+};

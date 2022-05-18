@@ -10,6 +10,8 @@ import {
   registrationPageTextRu,
   registrationTextEn,
   registrationTextRu,
+  welcomePageRu,
+  welcomePageEn,
 } from '../constants/text';
 import { AuthTextEn, AuthTextRu } from '../constants/authorization';
 
@@ -44,6 +46,11 @@ i18n
             maxLength: 'Password must be no more than 20 symbols',
             pattern: 'Minimum eight characters, at least one letter and one number',
           },
+          welcomePage: {
+            title: welcomePageEn.title,
+            desc: welcomePageEn.desc,
+            advantages: welcomePageEn.advantages,
+          },
         },
       },
       ru: {
@@ -66,6 +73,11 @@ i18n
             minLength: 'Пароль должен быть не меньше 8 символов',
             maxLength: 'Пароль должен быть не больше 20 символов',
             pattern: 'Минимум 8 символов, одна буква и одна цифра',
+          },
+          welcomePage: {
+            title: welcomePageRu.title,
+            desc: welcomePageRu.desc,
+            advantages: welcomePageRu.advantages,
           },
         },
       },
