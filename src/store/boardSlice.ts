@@ -1,5 +1,5 @@
 import {
-  createAsyncThunk, createSlice, PayloadAction,
+  createAsyncThunk, createSlice, PayloadAction, AsyncThunk, isAsyncThunkAction,
 } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
@@ -9,12 +9,12 @@ import type { RootState } from './store';
 import initialState from '../constants/boards';
 import type { ModalInputData } from '../types/modal';
 
-// type GenericAsyncThunk = AsyncThunk<Boards, null | ModalInputData,
-// { state: RootState, rejectWithvalue: ValidationErrors }>;
+type GenericAsyncThunk = AsyncThunk<Boards, null | ModalInputData,
+{ state: RootState, rejectWithvalue: ValidationErrors }>;
 
-// type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
-// type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
-// type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
+type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
+type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
+type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 export const getBoards = createAsyncThunk<Boards, null, {
   state: RootState,
@@ -88,6 +88,8 @@ export const editBoard = createAsyncThunk<Boards, ModalInputData, {
   },
 );
 
+const isARequestedAction = isAsyncThunkAction(getBoards, addBoard, editBoard, removeBoard);
+
 const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -97,100 +99,38 @@ const boardSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getBoards.pending, (state) => {
-      state.pending = true;
-      state.error = null;
-    });
-    builder.addCase(getBoards.fulfilled, (state, { payload }) => {
-      if (payload instanceof Array) {
-        state.boards = payload;
-        state.pending = false;
-      }
-    });
-    builder.addCase(getBoards.rejected, (state, { payload }) => {
-      state.pending = false;
-      state.error = 'OOops! Some error occoured!!';
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error = data.message;
-      }
-    });
-    builder.addCase(addBoard.pending, (state) => {
-      state.pending = true;
-      state.error = null;
-    });
-    builder.addCase(addBoard.fulfilled, (state, { payload }) => {
-      state.pending = false;
-      state.boards = payload;
-    });
-    builder.addCase(addBoard.rejected, (state, { payload }) => {
-      state.pending = false;
-      state.error = 'OOops! Some error occoured!! addBoard';
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error = data.message;
-      }
-    });
-    builder.addCase(removeBoard.pending, (state) => {
-      state.pending = true;
-    });
-    builder.addCase(removeBoard.fulfilled, (state, { payload }) => {
-      if (payload instanceof Array) {
-        state.boards = payload;
-        state.pending = false;
-        state.currentBoardId = '';
-      }
-    });
-    builder.addCase(removeBoard.rejected, (state, { payload }) => {
-      state.pending = false;
-      state.error = 'OOops! Some error occoured!! remove board';
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error = data.message;
-      }
-    });
-    builder.addCase(editBoard.pending, (state) => {
-      state.pending = true;
-      state.error = null;
-    });
-    builder.addCase(editBoard.fulfilled, (state, { payload }) => {
-      state.pending = false;
-      state.boards = payload;
-    });
-    builder.addCase(editBoard.rejected, (state, { payload }) => {
-      state.pending = false;
-      state.error = 'OOops! Some error occoured!! addBoard';
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error = data.message;
-      }
-    });
-    // builder.addMatcher(
-    //   (action): action is PendingAction => action.type.endsWith('/pending'),
-    //   (state) => {
-    //     state.pending = true;
-    //     state.error = '';
-    //   },
-    // );
-    // builder.addMatcher(
-    //   (action): action is RejectedAction => action.type.endsWith('/rejected'),
-    //   (state, { payload }) => {
-    //     state.pending = false;
-    //     if (payload) {
-    //       const error = payload as ErrorResponseData;
-    //       state.error = error.message;
-    //       return;
-    //     }
-    //     state.error = 'Server error';
-    //   },
-    // );
-    // builder.addMatcher(
-    //   (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
-    //   (state, { payload }) => {
-    //     state.pending = false;
-    //     state.boards = payload;
-    //   },
-    // );
+    builder.addMatcher(
+      (action): action is PendingAction => action.type.endsWith('/pending'),
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = true;
+          state.error = '';
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is RejectedAction => action.type.endsWith('/rejected'),
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = false;
+          if (action.payload) {
+            const error = action.payload as ErrorResponseData;
+            state.error = error.message;
+            return;
+          }
+          state.error = 'Server error';
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = false;
+          state.boards = action.payload;
+        }
+      },
+    );
   },
 });
 
