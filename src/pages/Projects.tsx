@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {
   Box, Stack, Typography,
 } from '@mui/material';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useMatch } from 'react-router-dom';
 import { boardPage } from '../constants/text';
 import Board from '../components/Board';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -13,14 +13,13 @@ import AppRoutes from '../constants/routes';
 function Projects(): JSX.Element {
   const { boards, error, pending } = useAppSelector(boardSelector);
   const dispatch = useAppDispatch();
-  const location = useLocation();
 
   useEffect(() => {
     // TODO solve problem with void argument
     dispatch(getBoards(null));
   }, [dispatch]);
 
-  const content = location.pathname === AppRoutes.PROJECTS ? (
+  const content = useMatch(AppRoutes.PROJECTS) ? (
     <>
       <Typography component="h1" variant="h3">
         {boardPage.title}
