@@ -15,7 +15,7 @@ const CustomizedLink = styled(Link)`
 
 function RSSchoolLogo(): JSX.Element {
   return (
-    <CustomizedLink href="https://rs.school/js/" target="_blank" rel="noreferrer">
+    <CustomizedLink href="https://rs.school/react/" target="_blank" rel="noreferrer">
       <RSSchoolSVG />
     </CustomizedLink>
   );

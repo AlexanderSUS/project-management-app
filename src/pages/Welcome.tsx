@@ -1,65 +1,46 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Grid, Typography, Container } from '@mui/material';
+import { Grid, Typography, Container } from '@mui/material';
 import Link from '@mui/material/Link';
 import { useTranslation } from 'react-i18next';
-import CelebrationSharpIcon from '@mui/icons-material/CelebrationSharp';
-import HomeRepairServiceSharpIcon from '@mui/icons-material/HomeRepairServiceSharp';
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
 import { technology, welcomePageEn } from '../constants/text';
-import AppRoutes from '../constants/routes';
 import team from '../constants/teammate';
 import RSSchoolLogo from '../components/RSSchoolLogo';
+import MainBanner from '../components/mainBanner';
+import Advantage from '../components/Home/Advantage';
+import Section from '../components/Home/Section';
 
 const Welcome: React.FC = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
     <main>
       <Container>
-        <Typography component="h1" variant="h4">
-          {t('welcomePage.title')}
-        </Typography>
-        <Typography component="h2" variant="h4">
-          {t('welcomePage.desc')}
-        </Typography>
-        <CelebrationSharpIcon color="primary" />
-        <Grid container spacing={2}>
-          <Grid item>
-            <Button variant="contained" onClick={() => navigate(AppRoutes.LOGIN)}>
-              {t('AuthText.LOG_IN')}
-            </Button>
+        <MainBanner />
+        <Section>
+          <Grid container spacing={2} justifyContent="center">
+            {welcomePageEn.advantages.map((item, index) => (
+              <Grid item xs={3} key={item}>
+                <Advantage index={index} />
+              </Grid>
+            ))}
           </Grid>
-          <Grid item>
-            <Button variant="contained" onClick={() => navigate(AppRoutes.REGISTRATION)}>
-              {t('AuthText.SIGN_UP')}
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          {welcomePageEn.advantages.map((item, index) => (
-            <Grid item xs={4} key={item}>
-              <HomeRepairServiceSharpIcon color="primary" />
-              <Typography component="h3" variant="h4">
-                {t(`welcomePage.advantages.${index}`)}
-              </Typography>
+        </Section>
+        <Section>
+          <Typography component="h3" variant="h4">
+            {t('welcomePage.technology')}
+          </Typography>
+          {technology.map((item) => (
+            <Grid item xs={3} key={item.id}>
+              <Link href={item.link} target="_blank">
+                <img src={item.icon} alt={item.name} />
+                <Typography component="h3" variant="h5">
+                  {item.name}
+                </Typography>
+              </Link>
             </Grid>
           ))}
-        </Grid>
-        <Typography component="h3" variant="h4">
-          {t('welcomePage.technology')}
-        </Typography>
-        {technology.map((item) => (
-          <Grid item xs={3} key={item.id}>
-            <Link href={item.link} target="_blank">
-              <img src={item.icon} alt={item.name} />
-              <Typography component="h3" variant="h5">
-                {item.name}
-              </Typography>
-            </Link>
-          </Grid>
-        ))}
+        </Section>
         <Typography component="h3" variant="h4">
           {t('welcomePage.app')}
         </Typography>
