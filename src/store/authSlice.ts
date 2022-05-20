@@ -8,20 +8,18 @@ import {
   SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData,
 } from '../types/response';
 import { NewUser, User, UserDataParams } from '../types/user';
-import type { RootState } from './store';
 import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData } from '../types/authTypes';
 import UserService from '../api/userServise';
+import { TypedThunkAPI } from '../types/slice';
 
 type GenericAsyncThunk = AsyncThunk<SignInResponse | SignUpResponse, UserDataParams | string | User,
-{ state: RootState, rejectWithvalue: ValidationErrors }>;
+TypedThunkAPI>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 
-export const registration = createAsyncThunk<SignUpResponse, NewUser, {
-  state: RootState, rejectWithValue: ValidationErrors
-} >(
+export const registration = createAsyncThunk<SignUpResponse, NewUser, TypedThunkAPI >(
   'auth/registration',
   async (user: NewUser, { rejectWithValue }) => {
     try {
@@ -37,9 +35,7 @@ export const registration = createAsyncThunk<SignUpResponse, NewUser, {
   },
 );
 
-export const logIn = createAsyncThunk<SignInResponse, User, {
-  state: RootState, rejectWithValue: ValidationErrors
-} >(
+export const logIn = createAsyncThunk<SignInResponse, User, TypedThunkAPI >(
   'auth/login',
   async (user: User, { rejectWithValue }) => {
     try {

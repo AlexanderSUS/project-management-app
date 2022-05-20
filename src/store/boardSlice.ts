@@ -5,20 +5,18 @@ import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
 import { Boards, BoardState } from '../types/boards';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
-import type { RootState } from './store';
 import initialState from '../constants/boards';
 import type { ModalInputData } from '../types/modal';
+import { TypedThunkAPI } from '../types/slice';
 
 type GenericAsyncThunk = AsyncThunk<Boards, void | ModalInputData,
-{ state: RootState, rejectWithvalue: ValidationErrors }>;
+TypedThunkAPI>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
-export const getBoards = createAsyncThunk<Boards, void, {
-  state: RootState,
-  rejectWithValue: ValidationErrors } >(
+export const getBoards = createAsyncThunk<Boards, void, TypedThunkAPI >(
   'board/getBoards',
   async (_, { rejectWithValue }) => {
     try {
@@ -34,8 +32,7 @@ export const getBoards = createAsyncThunk<Boards, void, {
   },
 );
 
-export const addBoard = createAsyncThunk<Boards, ModalInputData, {
-  state: RootState, rejectWithValue: ValidationErrors }>(
+export const addBoard = createAsyncThunk<Boards, ModalInputData, TypedThunkAPI>(
   'board/addBoard',
   async (data: ModalInputData, { rejectWithValue }) => {
     try {
@@ -52,8 +49,7 @@ export const addBoard = createAsyncThunk<Boards, ModalInputData, {
   },
 );
 
-export const removeBoard = createAsyncThunk<Boards, void, {
-  state: RootState, rejectWithValue: ValidationErrors }>(
+export const removeBoard = createAsyncThunk<Boards, void, TypedThunkAPI>(
   'board/removeBoard',
   async (_, { getState, rejectWithValue }) => {
     try {
@@ -70,8 +66,7 @@ export const removeBoard = createAsyncThunk<Boards, void, {
   },
 );
 
-export const editBoard = createAsyncThunk<Boards, ModalInputData, {
-  state: RootState, rejectWithValue: ValidationErrors }>(
+export const editBoard = createAsyncThunk<Boards, ModalInputData, TypedThunkAPI>(
   'board/editBoard',
   async (data: ModalInputData, { getState, rejectWithValue }) => {
     try {

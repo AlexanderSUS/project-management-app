@@ -6,18 +6,17 @@ import ColumnService from '../api/columnServise';
 import { ColumnState, Column } from '../types/columns';
 import type { ModalInputData } from '../types/modal';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
-import type { RootState } from './store';
 import initialState from '../constants/columns';
+import { TypedThunkAPI } from '../types/slice';
 
 type GenericAsyncThunk = AsyncThunk<Column[], void | ModalInputData,
-{ state: RootState, rejectWithvalue: ValidationErrors }>;
+TypedThunkAPI>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
-export const getColumns = createAsyncThunk<Column[], void, {
-  state: RootState, rejectWithValue: AxiosError<ValidationErrors> } >(
+export const getColumns = createAsyncThunk<Column[], void, TypedThunkAPI >(
   'column/getColumns',
   async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -35,8 +34,7 @@ export const getColumns = createAsyncThunk<Column[], void, {
   },
 );
 
-export const addColumn = createAsyncThunk<Column[], ModalInputData, {
-  state: RootState, rejectWithValue: ValidationErrors }>(
+export const addColumn = createAsyncThunk<Column[], ModalInputData, TypedThunkAPI>(
   'column/addColumn',
   async (data: ModalInputData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -60,8 +58,7 @@ export const addColumn = createAsyncThunk<Column[], ModalInputData, {
   },
 );
 
-export const editColumn = createAsyncThunk<Column[], ModalInputData, {
-  state: RootState, rejectWithValue: ValidationErrors }>(
+export const editColumn = createAsyncThunk<Column[], ModalInputData, TypedThunkAPI>(
   'column/editColumn',
   async (data: ModalInputData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -82,7 +79,7 @@ export const editColumn = createAsyncThunk<Column[], ModalInputData, {
   },
 );
 
-export const removeColumn = createAsyncThunk<Column[], void, { state: RootState }>(
+export const removeColumn = createAsyncThunk<Column[], void, TypedThunkAPI>(
   'column/removeColumn',
   async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
