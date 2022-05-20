@@ -12,13 +12,13 @@ import Loader from './Loader';
 import AppRoutes from '../constants/routes';
 import { getColumns } from '../store/columnSlice';
 import ListsWrapper from './ListsWrapper';
+import { authSelector } from '../store/authSlice';
 
 const BoardWrapper = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {
-    currentBoardId, boards, pending, error,
-  } = useAppSelector(boardSelector);
+  const { currentBoardId, boards } = useAppSelector(boardSelector);
+  const { isLoading, error } = useAppSelector(authSelector);
   const currentBoard = boards.find((board) => board.id === currentBoardId);
 
   const deleteBoard = () => {
@@ -44,7 +44,7 @@ const BoardWrapper = () => {
     }
   }, [currentBoardId, navigate]);
 
-  return pending ? <Loader /> : (
+  return isLoading ? <Loader /> : (
     <>
       <ButtonGroup>
         <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>{currentBoard && currentBoard.title}</Typography>
@@ -59,8 +59,8 @@ const BoardWrapper = () => {
         </Button>
       </ButtonGroup>
       <Box>
-        {!pending && error && <Typography>{error}</Typography> }
-        {!pending && !error && <ListsWrapper /> }
+        {!isLoading && error && <Typography>{error}</Typography> }
+        {!isLoading && !error && <ListsWrapper /> }
       </Box>
     </>
   );

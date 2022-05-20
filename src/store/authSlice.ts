@@ -11,7 +11,7 @@ import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData, SignUpFormInput } from '../types/authTypes';
 import UserService from '../api/userServise';
 import { TypedThunkAPI } from '../types/slice';
-import ThunkError, { PENDING, REJECTED } from '../constants/asyncThunk';
+import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
 import type { ModalInputData } from '../types/modal';
 import { NewUser, User, UserData } from '../types/user';
 
@@ -159,43 +159,41 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(registration.fulfilled, (state, action) => {
       state.newUser = action.payload;
-      state.isLoading = false;
     });
     builder.addCase(logIn.fulfilled, (state, action) => {
       localStorage.setItem(TOKEN, action.payload.token);
       const credentials = jwt_decode<JwtData>(action.payload.token);
       state.login = credentials.login;
       state.userId = credentials.userId;
-      state.isLoading = false;
     });
     builder.addCase(getUserData.fulfilled, (state, action) => {
-      state.isLoading = false;
       state.userName = action.payload.name;
       state.login = action.payload.login;
       state.userId = action.payload.id;
     });
     // TOD Inmplement message from response
     builder.addCase(removeUser.fulfilled, (state) => {
-      state.isLoading = false;
       state.userId = '';
       state.login = '';
       state.userName = '';
     });
     builder.addCase(editLogin.fulfilled, (state, action) => {
-      state.isLoading = false;
       state.login = action.payload.login;
     });
     builder.addCase(editName.fulfilled, (state, action) => {
-      state.isLoading = false;
       state.userName = action.payload.name;
     });
+    builder.addMatcher(
+      (action): action is RejectedAction => action.type.endsWith(FULFILED),
+      (state) => {
+        state.isLoading = false;
+      },
+    );
     builder.addMatcher(
       (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
         state.isLoading = false;
         if (isARequestedAction(action)) {
-          state.isLoading = false;
-
           if ((action.payload)) {
             const error = action.payload as ErrorResponseData;
 
@@ -215,10 +213,9 @@ const authSlice = createSlice({
     );
     builder.addMatcher(
       (action): action is PendingAction => action.type.endsWith(PENDING),
-      (state, action) => {
-        if (isARequestedAction(action)) {
-          state.isLoading = true;
-        }
+      (state) => {
+        state.isLoading = true;
+        state.error = '';
       },
     );
   },

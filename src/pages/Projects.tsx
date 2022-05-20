@@ -9,9 +9,12 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { boardSelector, getBoards } from '../store/boardSlice';
 import Loader from '../components/Loader';
 import AppRoutes from '../constants/routes';
+import { authSelector } from '../store/authSlice';
 
 function Projects(): JSX.Element {
-  const { boards, error, pending } = useAppSelector(boardSelector);
+  const { boards } = useAppSelector(boardSelector);
+  const { isLoading, error } = useAppSelector(authSelector);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -23,10 +26,10 @@ function Projects(): JSX.Element {
       <Typography component="h1" variant="h3">
         {boardPage.title}
       </Typography>
-      {pending && <Loader />}
-      {!pending && error && <span>{error}</span>}
-      {!pending && !error && !boards.length && <Box>{boardPage.noBoards}</Box>}
-      {!pending && !error && !!boards.length && (
+      {isLoading && <Loader />}
+      {!isLoading && error && <span>{error}</span>}
+      {!isLoading && !error && !boards.length && <Box>{boardPage.noBoards}</Box>}
+      {!isLoading && !error && !!boards.length && (
       <Box sx={{ width: '100%' }}>
         <Stack spacing={2}>
           {boards.map((board) => (
