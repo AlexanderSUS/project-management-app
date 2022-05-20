@@ -9,7 +9,7 @@ export default class AuthService {
     return axios.post(API_URL + Endpoint.SIGN_IN, user);
   }
 
-  static async signup(newUser: NewUser): Promise<AxiosResponse<SignUpResponse>> {
+  static signup(newUser: NewUser): Promise<AxiosResponse<SignUpResponse>> {
     return axios.post(API_URL + Endpoint.SIGN_UP, newUser);
   }
 }
