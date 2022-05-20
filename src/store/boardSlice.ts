@@ -9,18 +9,18 @@ import type { RootState } from './store';
 import initialState from '../constants/boards';
 import type { ModalInputData } from '../types/modal';
 
-type GenericAsyncThunk = AsyncThunk<Boards, null | ModalInputData,
+type GenericAsyncThunk = AsyncThunk<Boards, void | ModalInputData,
 { state: RootState, rejectWithvalue: ValidationErrors }>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
-export const getBoards = createAsyncThunk<Boards, null, {
+export const getBoards = createAsyncThunk<Boards, void, {
   state: RootState,
   rejectWithValue: ValidationErrors } >(
   'board/getBoards',
-  async (_: null, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await BoardService.fetchBoards();
       return response.data;
@@ -52,10 +52,10 @@ export const addBoard = createAsyncThunk<Boards, ModalInputData, {
   },
 );
 
-export const removeBoard = createAsyncThunk<Boards, null, {
+export const removeBoard = createAsyncThunk<Boards, void, {
   state: RootState, rejectWithValue: ValidationErrors }>(
   'board/removeBoard',
-  async (_: null, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
       await BoardService.deleteBoard(getState().boardStore.currentBoardId);
       const response = await BoardService.fetchBoards();

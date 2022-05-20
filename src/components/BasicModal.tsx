@@ -33,7 +33,7 @@ const BasicModal: React.FC = () => {
 
   const confirm = () => {
     const confirmAction = modalConfirmAction[action as keyof typeof modalConfirmAction];
-    dispatch(confirmAction(null));
+    dispatch(confirmAction());
     dispatch(closeModal());
   };
 

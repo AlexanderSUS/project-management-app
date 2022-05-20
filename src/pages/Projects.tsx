@@ -16,7 +16,7 @@ function Projects(): JSX.Element {
 
   useEffect(() => {
     // TODO solve problem with void argument
-    dispatch(getBoards(null));
+    dispatch(getBoards());
   }, [dispatch]);
 
   const content = useMatch(AppRoutes.PROJECTS) ? (

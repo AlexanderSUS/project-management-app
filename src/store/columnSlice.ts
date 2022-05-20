@@ -9,17 +9,17 @@ import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/columns';
 
-type GenericAsyncThunk = AsyncThunk<Column[], null | ModalInputData,
+type GenericAsyncThunk = AsyncThunk<Column[], void | ModalInputData,
 { state: RootState, rejectWithvalue: ValidationErrors }>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
-export const getColumns = createAsyncThunk<Column[], null, {
+export const getColumns = createAsyncThunk<Column[], void, {
   state: RootState, rejectWithValue: AxiosError<ValidationErrors> } >(
   'column/getColumns',
-  async (_: null, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
 
     try {
@@ -82,9 +82,9 @@ export const editColumn = createAsyncThunk<Column[], ModalInputData, {
   },
 );
 
-export const removeColumn = createAsyncThunk<Column[], null, { state: RootState }>(
+export const removeColumn = createAsyncThunk<Column[], void, { state: RootState }>(
   'column/removeColumn',
-  async (_: null, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
     const columnId = getState().columnStore.currentColumnId;
 
