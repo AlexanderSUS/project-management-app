@@ -23,9 +23,15 @@ const Registration: React.FC = () => {
     }
   }, [dispatch, newUser]);
 
+  // TODO find solution to fix eslint error,
+  // DO NOT PUT error.message in dependency!!!!
+  // it cause ERRASE the error MESSAGE  adnd
+  // excessive dispatch call
   useEffect(() => () => {
-    dispatch(clearAuthError());
-  }, [error.message, dispatch]);
+    if (error.message) {
+      dispatch(clearAuthError());
+    }
+  }, [dispatch]);
 
   return (
     <Container component="main" maxWidth="xs">

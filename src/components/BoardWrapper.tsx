@@ -36,13 +36,13 @@ const BoardWrapper = () => {
   useEffect(() => {
     dispatch(setCurrentBoardId(currentBoardId));
     dispatch(getColumns(null));
-  }, []);
+  }, [dispatch, currentBoardId]);
 
   useEffect(() => {
     if (!currentBoardId) {
       navigate(AppRoutes.PROJECTS);
     }
-  }, [currentBoardId]);
+  }, [currentBoardId, navigate]);
 
   return pending ? <Loader /> : (
     <>

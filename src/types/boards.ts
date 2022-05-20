@@ -30,5 +30,3 @@ export type BoardState = {
   error: string | null;
   currentBoardId: string;
 };
-
-export type VoidArgument = null;

@@ -1,17 +1,25 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  AsyncThunk, createAsyncThunk, createSlice, isAsyncThunkAction, PayloadAction,
+} from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import ColumnService from '../api/columnServise';
 import { ColumnState, Column } from '../types/columns';
-import { VoidArgument } from '../types/boards';
-import { ModalInputData } from '../types/modal';
+import type { ModalInputData } from '../types/modal';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import type { RootState } from './store';
 import initialState from '../constants/columns';
 
-export const getColumns = createAsyncThunk<Column[], VoidArgument, {
-  state: RootState, rejectWithValue: ValidationErrors } >(
+type GenericAsyncThunk = AsyncThunk<Column[], null | ModalInputData,
+{ state: RootState, rejectWithvalue: ValidationErrors }>;
+
+type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
+type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
+type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
+
+export const getColumns = createAsyncThunk<Column[], null, {
+  state: RootState, rejectWithValue: AxiosError<ValidationErrors> } >(
   'column/getColumns',
-  async (_: VoidArgument, { getState, rejectWithValue }) => {
+  async (_: null, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
 
     try {
@@ -20,7 +28,7 @@ export const getColumns = createAsyncThunk<Column[], VoidArgument, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
@@ -45,7 +53,7 @@ export const addColumn = createAsyncThunk<Column[], ModalInputData, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
@@ -67,17 +75,16 @@ export const editColumn = createAsyncThunk<Column[], ModalInputData, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
   },
 );
 
-export const removeColumn = createAsyncThunk<Column[], VoidArgument, {
-  state: RootState, rejectWithValue: ValidationErrors }>(
+export const removeColumn = createAsyncThunk<Column[], null, { state: RootState }>(
   'column/removeColumn',
-  async (_: VoidArgument, { getState, rejectWithValue }) => {
+  async (_: null, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
     const columnId = getState().columnStore.currentColumnId;
 
@@ -88,12 +95,14 @@ export const removeColumn = createAsyncThunk<Column[], VoidArgument, {
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        throw err;
+        return rejectWithValue(error);
       }
       return rejectWithValue(error.response?.data);
     }
   },
 );
+
+const isARequestedAction = isAsyncThunkAction(getColumns, addColumn, editColumn, removeColumn);
 
 const columnSlice = createSlice({
   name: 'column',
@@ -107,72 +116,38 @@ const columnSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getColumns.pending, (state) => {
-      state.pending = true;
-      state.error = '';
-    });
-    builder.addCase(getColumns.rejected, (state, { payload }) => {
-      state.pending = false;
-      state.error = 'OOops! Some error occoured! Cant fetch listst';
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error = data.message;
-      }
-    });
-    builder.addCase(getColumns.fulfilled, (state, { payload }) => {
-      state.pending = false;
-      state.columns = payload;
-      state.pending = false;
-    });
-    builder.addCase(addColumn.pending, (state) => {
-      state.pending = true;
-      state.error = '';
-    });
-    builder.addCase(addColumn.rejected, (state, { payload }) => {
-      state.pending = false;
-      state.error = 'OOops! Some error occoured! Cant fetch listst';
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error = data.message;
-      }
-    });
-    builder.addCase(addColumn.fulfilled, (state, { payload }) => {
-      state.pending = false;
-      state.columns = payload;
-      state.pending = false;
-    });
-    builder.addCase(editColumn.pending, (state) => {
-      state.pending = true;
-      state.error = '';
-    });
-    builder.addCase(editColumn.rejected, (state, { payload }) => {
-      state.pending = false;
-      state.error = 'OOops! Some error occoured! Cant fetch listst';
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error = data.message;
-      }
-    });
-    builder.addCase(editColumn.fulfilled, (state, { payload }) => {
-      state.pending = false;
-      state.columns = payload;
-    });
-    builder.addCase(removeColumn.pending, (state) => {
-      state.pending = true;
-      state.error = '';
-    });
-    builder.addCase(removeColumn.rejected, (state, { payload }) => {
-      state.pending = false;
-      state.error = 'OOops! Some error occoured! Cant fetch listst';
-      if (payload) {
-        const data = payload as ErrorResponseData;
-        state.error = data.message;
-      }
-    });
-    builder.addCase(removeColumn.fulfilled, (state, { payload }) => {
-      state.pending = false;
-      state.columns = payload;
-    });
+    builder.addMatcher(
+      (action): action is PendingAction => action.type.endsWith('/pending'),
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = false;
+          state.error = '';
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is RejectedAction => action.type.endsWith('/rejected'),
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = false;
+          if ((action.payload)) {
+            const error = action.payload as ErrorResponseData;
+            state.error = error.message;
+            return;
+          }
+          state.error = 'Server error';
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
+      (state, action) => {
+        if (isARequestedAction(action)) {
+          state.pending = false;
+          state.columns = action.payload;
+        }
+      },
+    );
   },
 });
 
