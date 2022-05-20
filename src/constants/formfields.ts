@@ -4,7 +4,7 @@ import { Content } from '../types/modal';
 export const inputRegExps: RegExpPatterns = {
   user: '[A-Za-z][a-zA-Z ]+$',
   login: '^[A-Za-z][A-Za-z0-9_]{2,20}$',
-  password: '^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$',
+  password: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$',
 };
 
 export const nameAuthInput: FormField = {
