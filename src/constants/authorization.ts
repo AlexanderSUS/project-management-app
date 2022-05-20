@@ -33,7 +33,7 @@ export enum AuthTextRu {
   SUBMIT = 'Подтвердить',
 }
 
-const inputRegEpxs: RegExpPatterns = {
+export const inputRegExps: RegExpPatterns = {
   user: /[A-Za-z][a-zA-Z ]+$/,
   login: /^[A-Za-z][A-Za-z0-9_]{2,20}$/,
   password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
@@ -57,7 +57,7 @@ export const userAuthInput: AuthInput = {
       message: 'nameErrors.maxLength',
     },
     pattern: {
-      value: inputRegEpxs.user,
+      value: inputRegExps.user,
       message: 'nameErrors.pattern',
     },
   },
@@ -74,14 +74,14 @@ export const loginAuthInput: AuthInput = {
   registerOptions: {
     required: 'This field is required',
     pattern: {
-      value: inputRegEpxs.login,
+      value: inputRegExps.login,
       message: 'loginErrors.pattern',
     },
   },
   labelText: 'AuthText.login',
 };
 
-const passwordAuthInput: AuthInput = {
+export const passwordAuthInput: AuthInput = {
   properties: {
     id: 'password',
     type: 'password',
@@ -99,7 +99,7 @@ const passwordAuthInput: AuthInput = {
       message: 'passwordError.maxLength',
     },
     pattern: {
-      value: inputRegEpxs.password,
+      value: inputRegExps.password,
       message: 'passwordError.pattern',
     },
   },

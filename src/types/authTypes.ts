@@ -1,4 +1,3 @@
-import { HTMLProps } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 import type { NewUser } from './user';
 
@@ -33,8 +32,15 @@ export type RegExpPatterns = {
   [key: string]: RegExp;
 };
 
+export type AuthInputFeldProps = {
+  id: string;
+  type: string;
+  placeholder: string;
+  autoComplete: string;
+};
+
 export type AuthInput = {
-  properties: HTMLProps<HTMLInputElement>;
+  properties: AuthInputFeldProps;
   registerOptions: RegisterOptions;
   labelText: string;
 };

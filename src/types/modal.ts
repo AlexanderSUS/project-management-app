@@ -1,17 +1,18 @@
+import { RegisterOptions } from 'react-hook-form';
 import { editLogin, editName, removeUser } from '../store/authSlice';
 import {
   addBoard, editBoard, removeBoard,
 } from '../store/boardSlice';
 import { addColumn, editColumn, removeColumn } from '../store/columnSlice';
-// import { store } from '../store/store';
 
 type FormField = {
   name: string;
-  required: boolean;
+  registerOptions: RegisterOptions;
   type: string;
   label: string;
   defaultValue: string;
   placeholder: string;
+  autocomplete: string;
 };
 
 // Add here your AsynkThunk parameter (name from form FormField type) for form Action
