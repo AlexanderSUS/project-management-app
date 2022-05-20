@@ -37,7 +37,7 @@ export const registration = createAsyncThunk<SignUpResponse, NewUser, {
   },
 );
 
-export const login = createAsyncThunk<SignInResponse, User, {
+export const logIn = createAsyncThunk<SignInResponse, User, {
   state: RootState, rejectWithValue: ValidationErrors
 } >(
   'auth/login',
@@ -88,7 +88,7 @@ export const editProfile = createAsyncThunk(
   },
 );
 
-const isARequestedAction = isAsyncThunkAction(registration, login, getUserData, editProfile);
+const isARequestedAction = isAsyncThunkAction(registration, logIn, getUserData, editProfile);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -115,7 +115,7 @@ const authSlice = createSlice({
       state.newUser = action.payload;
       state.isLoading = false;
     });
-    builder.addCase(login.fulfilled, (state, action) => {
+    builder.addCase(logIn.fulfilled, (state, action) => {
       localStorage.setItem(TOKEN, action.payload.token);
       const credentials = jwt_decode<JwtData>(action.payload.token);
       state.login = credentials.login;

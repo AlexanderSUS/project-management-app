@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { SIGNIN_INPUTS } from '../constants/authorization';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { SignInFormInput } from '../types/authTypes';
-import { login } from '../store/authSlice';
+import { logIn } from '../store/authSlice';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ const LoginForm: React.FC = () => {
   const { handleSubmit, control, formState: { errors } } = useForm<SignInFormInput>({ mode: 'onChange' });
 
   const onSubmit = (data: SignInFormInput) => {
-    dispatch(login(data));
+    dispatch(logIn(data));
   };
 
   return (
