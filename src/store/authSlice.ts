@@ -24,7 +24,7 @@ export const registration = createAsyncThunk<SignUpResponse, NewUser, TypedThunk
   'auth/registration',
   async (user: NewUser, { rejectWithValue }) => {
     try {
-      const response = await AuthService.signup<SignUpResponse>(user);
+      const response = await AuthService.signup(user);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -40,7 +40,7 @@ export const logIn = createAsyncThunk<SignInResponse, User, TypedThunkAPI >(
   'auth/login',
   async (user: User, { rejectWithValue }) => {
     try {
-      const response = await AuthService.signin<SignInResponse>(user);
+      const response = await AuthService.signin(user);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
