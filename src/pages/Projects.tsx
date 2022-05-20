@@ -15,7 +15,6 @@ function Projects(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // TODO solve problem with void argument
     dispatch(getBoards());
   }, [dispatch]);
 
