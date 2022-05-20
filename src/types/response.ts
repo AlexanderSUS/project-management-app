@@ -8,6 +8,11 @@ export interface SignInResponse {
   token: string;
 }
 
+export type RemoveUserResponse = {
+  statusCode: number;
+  message: string;
+};
+
 export interface ErrorResponseData {
   message: string;
   statusCode: number;
