@@ -8,6 +8,7 @@ import { ErrorResponseData, ValidationErrors } from '../types/response';
 import initialState from '../constants/boards';
 import type { ModalInputData } from '../types/modal';
 import { TypedThunkAPI } from '../types/slice';
+import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
 
 type GenericAsyncThunk = AsyncThunk<Boards, void | ModalInputData,
 TypedThunkAPI>;
@@ -25,7 +26,7 @@ export const getBoards = createAsyncThunk<Boards, void, TypedThunkAPI >(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -42,7 +43,7 @@ export const addBoard = createAsyncThunk<Boards, ModalInputData, TypedThunkAPI>(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -59,7 +60,7 @@ export const removeBoard = createAsyncThunk<Boards, void, TypedThunkAPI>(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -76,7 +77,7 @@ export const editBoard = createAsyncThunk<Boards, ModalInputData, TypedThunkAPI>
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -95,7 +96,7 @@ const boardSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      (action): action is PendingAction => action.type.endsWith('/pending'),
+      (action): action is PendingAction => action.type.endsWith(PENDING),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = true;
@@ -104,7 +105,7 @@ const boardSlice = createSlice({
       },
     );
     builder.addMatcher(
-      (action): action is RejectedAction => action.type.endsWith('/rejected'),
+      (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = false;
@@ -113,12 +114,12 @@ const boardSlice = createSlice({
             state.error = error.message;
             return;
           }
-          state.error = 'Server error';
+          state.error = action.error.message || ThunkError.unknownError;
         }
       },
     );
     builder.addMatcher(
-      (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = false;

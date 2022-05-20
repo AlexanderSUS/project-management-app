@@ -8,6 +8,7 @@ import type { ModalInputData } from '../types/modal';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
 import initialState from '../constants/columns';
 import { TypedThunkAPI } from '../types/slice';
+import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
 
 type GenericAsyncThunk = AsyncThunk<Column[], void | ModalInputData,
 TypedThunkAPI>;
@@ -114,7 +115,7 @@ const columnSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      (action): action is PendingAction => action.type.endsWith('/pending'),
+      (action): action is PendingAction => action.type.endsWith(PENDING),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = false;
@@ -123,7 +124,7 @@ const columnSlice = createSlice({
       },
     );
     builder.addMatcher(
-      (action): action is RejectedAction => action.type.endsWith('/rejected'),
+      (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = false;
@@ -132,12 +133,12 @@ const columnSlice = createSlice({
             state.error = error.message;
             return;
           }
-          state.error = 'Server error';
+          state.error = action.error.message || ThunkError.unknownError;
         }
       },
     );
     builder.addMatcher(
-      (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = false;

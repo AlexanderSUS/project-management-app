@@ -12,6 +12,7 @@ import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData } from '../types/authTypes';
 import UserService from '../api/userServise';
 import { TypedThunkAPI } from '../types/slice';
+import ThunkError, { PENDING, REJECTED } from '../constants/asyncThunk';
 
 type GenericAsyncThunk = AsyncThunk<SignInResponse | SignUpResponse, UserDataParams | string | User,
 TypedThunkAPI>;
@@ -28,7 +29,7 @@ export const registration = createAsyncThunk<SignUpResponse, NewUser, TypedThunk
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -44,7 +45,7 @@ export const logIn = createAsyncThunk<SignInResponse, User, TypedThunkAPI >(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -60,7 +61,7 @@ export const getUserData = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -77,7 +78,7 @@ export const editProfile = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -123,7 +124,7 @@ const authSlice = createSlice({
       state.userData = action.payload;
     });
     builder.addMatcher(
-      (action): action is RejectedAction => action.type.endsWith('/rejected'),
+      (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.isLoading = false;
@@ -132,12 +133,12 @@ const authSlice = createSlice({
             state.error = error.message;
             return;
           }
-          state.error = 'Server error';
+          state.error = action.error.message || ThunkError.unknownError;
         }
       },
     );
     builder.addMatcher(
-      (action): action is PendingAction => action.type.endsWith('/pending'),
+      (action): action is PendingAction => action.type.endsWith(PENDING),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.isLoading = true;
