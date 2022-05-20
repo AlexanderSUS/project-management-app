@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -9,11 +7,8 @@ import { closeModal, modalSelector } from '../store/modalSlice';
 import BoardForm from './forms/BoardForm';
 import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
-import { ModalConfirmAction, ModalInputData } from '../types/modal';
+import { ModalInputData } from '../types/modal';
 import isConfirmAction from '../helpers/modalFunctions';
-import { removeUser } from '../store/authSlice';
-import { removeColumn } from '../store/columnSlice';
-import { removeBoard } from '../store/boardSlice';
 import { store } from '../store/store';
 
 const style = {
@@ -30,7 +25,7 @@ const style = {
 
 const BasicModal: React.FC = () => {
   const {
-    isOpen, modalType, title, action,
+    isOpen, title, action,
   } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
 
@@ -52,7 +47,7 @@ const BasicModal: React.FC = () => {
     dispatch(closeModal());
   };
 
-  const content = modalType === 'confirmation' && isConfirmAction(action) ? (
+  const content = isConfirmAction(action) ? (
     <ModalConfirmButtons close={closeWindow} confirm={confirm} />
   ) : <BoardForm createOrUpdate={createOrUpdate} />;
 
@@ -64,7 +59,7 @@ const BasicModal: React.FC = () => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography variant={modalType === 'form' ? 'h4' : 'h6'} align="center">{title}</Typography>
+        <Typography variant={isConfirmAction(action) ? 'h6' : 'h4'} align="center">{title}</Typography>
         {content}
       </Box>
     </Modal>

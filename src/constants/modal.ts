@@ -24,7 +24,6 @@ export const modalConfirmAction: ModalConfirmAction = {
 
 // Such way must look your 'content' with form fields for modal window
 export const NEW_BOARD: Content = {
-  modalType: 'form',
   modalTitle: 'New board',
   action: 'addBoard',
   fields: [{
@@ -39,13 +38,11 @@ export const NEW_BOARD: Content = {
 
 // Such way must look your 'content' for modal window with yes/no buttons
 export const REMOVE_BOARD: Content = {
-  modalType: 'confirmation',
   modalTitle: 'Do you really want to delete board?',
   action: 'removeBoard',
 };
 
 export const EDIT_BOARD: Content = {
-  modalType: 'form',
   modalTitle: 'Edit board',
   action: 'editBoard',
   fields: [{
@@ -59,7 +56,6 @@ export const EDIT_BOARD: Content = {
 };
 
 export const ADD_COLUMN: Content = {
-  modalType: 'form',
   modalTitle: 'New list',
   action: 'addColumn',
   fields: [{
@@ -74,13 +70,11 @@ export const ADD_COLUMN: Content = {
 };
 
 export const REMOVE_COLUMN: Content = {
-  modalType: 'confirmation',
   modalTitle: 'Do you really want to delete list?',
   action: 'removeColumn',
 };
 
 export const EDIT_COLUMN_TITLE: Content = {
-  modalType: 'form',
   modalTitle: 'Edit list title',
   action: 'editColumn',
   fields: [{
@@ -96,7 +90,6 @@ export const EDIT_COLUMN_TITLE: Content = {
 
 // TODO add password validation to modal window
 export const EDIT_NAME: Content = {
-  modalType: 'form',
   modalTitle: 'Edit user name',
   action: 'editName',
   fields: [{
@@ -120,7 +113,6 @@ export const EDIT_NAME: Content = {
 
 // TODO add password validation to modal window
 export const EDIT_LOGIN: Content = {
-  modalType: 'form',
   modalTitle: 'Edit login',
   action: 'editLogin',
   fields: [{
@@ -143,13 +135,12 @@ export const EDIT_LOGIN: Content = {
 };
 
 export const REMOVE_USER : Content = {
-  modalType: 'confirmation',
   modalTitle: 'Do you really want to delete your accoutn?',
   action: 'removeUser',
 };
 
 const initialState: ModalState = {
-  isOpen: false, title: '', action: 'addBoard', modalType: 'confirmation',
+  isOpen: false, title: '', action: 'addBoard',
 };
 
 export default initialState;

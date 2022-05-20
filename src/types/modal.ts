@@ -40,12 +40,9 @@ export type ModalFormAction = {
   editName: typeof editName;
 };
 
-export type ModalType = 'confirmation' | 'form';
-
 export type ModalAction = keyof ModalConfirmAction | keyof ModalFormAction;
 
 export type Content = {
-  modalType: ModalType;
   modalTitle: string;
   action: ModalAction;
   fields?: FormField[];
@@ -53,7 +50,6 @@ export type Content = {
 
 export type ModalState = {
   title: string;
-  modalType: ModalType;
   action: ModalAction;
   isOpen: boolean;
   fields?: FormField[];

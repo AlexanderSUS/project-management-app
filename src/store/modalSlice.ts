@@ -9,14 +9,12 @@ const modalSlice = createSlice({
     openModal: (state, { payload: content }: PayloadAction<Content>) => {
       state.isOpen = true;
       state.fields = content.fields;
-      state.modalType = content.modalType;
       state.title = content.modalTitle;
       state.action = content.action;
     },
     closeModal: (state) => {
       state.isOpen = false;
       state.fields = NEW_BOARD.fields;
-      state.modalType = NEW_BOARD.modalType;
       state.title = NEW_BOARD.modalTitle;
     },
   },
