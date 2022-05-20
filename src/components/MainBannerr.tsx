@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Grid, Typography } from '@mui/material';
 import AppRoutes from '../constants/routes';
-import Section from './Home/Section';
 import Title from './Home/Title';
 import { ReactComponent as PmaSvg } from '../assets/pma.svg';
 import muiTheme from '../constants/muiTheme';
@@ -59,21 +58,12 @@ const CustomizedMainBanner = styled('div')`
       margin: 0 auto 15px;
     }
   }
-
-  p {
-    @media screen and (max-width: ${sm}px) {
-      margin-bottom: 25px;
-      font-size: 1rem;
-    }
-  }
 `;
 
 const MainBanner: React.FC = () => (
-  <Section>
-    <CustomizedMainBanner>
-      <MainBannerContent />
-    </CustomizedMainBanner>
-  </Section>
+  <CustomizedMainBanner>
+    <MainBannerContent />
+  </CustomizedMainBanner>
 );
 
 export default MainBanner;

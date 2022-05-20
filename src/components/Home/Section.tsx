@@ -13,6 +13,13 @@ const Section = styled('section')`
   @media screen and (max-width: ${sm}px) {
     padding: 15px 0;
   }
+
+  p {
+    @media screen and (max-width: ${sm}px) {
+      margin-bottom: 25px;
+      font-size: 1rem;
+    }
+  }
 `;
 
 export default Section;

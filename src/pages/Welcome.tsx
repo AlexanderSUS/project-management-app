@@ -1,8 +1,6 @@
 import React from 'react';
 import { Grid, Typography, Container } from '@mui/material';
-import Link from '@mui/material/Link';
 import { useTranslation } from 'react-i18next';
-import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
 import { technology, welcomePageEn } from '../constants/text';
 import team from '../constants/teammate';
 import RSSchoolLogo from '../components/RSSchoolLogo';
@@ -11,6 +9,7 @@ import Advantage from '../components/Home/Advantage';
 import Section from '../components/Home/Section';
 import Title from '../components/Home/Title';
 import Technology from '../components/Home/Technology';
+import Teammate from '../components/Home/Teammate';
 
 const Welcome: React.FC = () => {
   const { t } = useTranslation();
@@ -18,7 +17,9 @@ const Welcome: React.FC = () => {
   return (
     <main>
       <Container>
-        <MainBanner />
+        <Section>
+          <MainBanner />
+        </Section>
         <Section>
           <Grid container spacing={2} justifyContent="center">
             {welcomePageEn.advantages.map((item, index) => (
@@ -34,35 +35,35 @@ const Welcome: React.FC = () => {
           </Title>
           <Grid container spacing={2} justifyContent="center">
             {technology.map((item) => (
-              <Grid item xs={6} sm={4} lg={3} key={item.id}>
+              <Grid item xs={6} sm={3} lg={2} key={item.id}>
                 <Technology {...item} />
               </Grid>
             ))}
           </Grid>
         </Section>
-        <Typography component="h3" variant="h4">
-          {t('welcomePage.app')}
-        </Typography>
-        <Typography component="p" variant="h5">
-          {t('welcomePage.school')}
-        </Typography>
-        <RSSchoolLogo />
-        <Typography component="h3" variant="h4">
-          {t('welcomePage.team')}
-        </Typography>
-        {team.map((item) => (
-          <Grid item xs={3} key={item.id}>
-            <Link href={item.href} target="_blank">
-              <GroupsSharpIcon />
-              <Typography component="h3" variant="h5">
-                {item.login}
-              </Typography>
-              <Typography component="h3" variant="h6">
-                {item.role}
-              </Typography>
-            </Link>
+        <Section>
+          <Title variant="h4" textAlign="center">
+            {t('welcomePage.app')}
+          </Title>
+          <Typography component="p" variant="h5">
+            {t('welcomePage.school')}
+          </Typography>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={6} sx={{ margin: '50px 0', display: 'flex', justifyContent: 'center' }}>
+              <RSSchoolLogo />
+            </Grid>
           </Grid>
-        ))}
+          <Title variant="h4" textAlign="center">
+            {t('welcomePage.team')}
+          </Title>
+          <Grid container spacing={2} justifyContent="center">
+            {team.map((item) => (
+              <Grid item xs={12} sm={4} key={item.id}>
+                <Teammate {...item} />
+              </Grid>
+            ))}
+          </Grid>
+        </Section>
       </Container>
     </main>
   );

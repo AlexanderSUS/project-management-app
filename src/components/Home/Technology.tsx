@@ -5,7 +5,7 @@ import { TechnologyType } from '../../types/technology';
 import muiTheme from '../../constants/muiTheme';
 
 const { sm } = muiTheme.breakpoints.values;
-const { main } = muiTheme.palette.primary;
+const { divider } = muiTheme.palette;
 
 const LinkStyled = styled(Link)`
   height: 100%;
@@ -13,7 +13,7 @@ const LinkStyled = styled(Link)`
   flex-direction: column;
   padding: 15px;
   border-radius: 5px;
-  border: 1px solid ${main};
+  border: 1px solid ${divider};
   text-align: center;
   text-decoration: none;
 
