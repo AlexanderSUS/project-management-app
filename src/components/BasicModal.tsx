@@ -8,6 +8,7 @@ import BoardForm from './forms/BoardForm';
 import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
 import { ModalInputData } from '../types/modal';
+import isConfirmAction from '../helpers/modalFunctions';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -32,14 +33,18 @@ const BasicModal: React.FC = () => {
   };
 
   const confirm = () => {
-    const confirmAction = modalConfirmAction[action as keyof typeof modalConfirmAction];
-    dispatch(confirmAction());
+    if (isConfirmAction(action)) {
+      const confirmAction = modalConfirmAction[action];
+      dispatch(confirmAction());
+    }
     dispatch(closeModal());
   };
 
   const createOrUpdate = (data: ModalInputData) => {
-    const formAction = modalFormAction[action as keyof typeof modalFormAction];
-    dispatch(formAction(data));
+    if (!isConfirmAction(action)) {
+      const formAction = modalFormAction[action];
+      dispatch(formAction(data));
+    }
     dispatch(closeModal());
   };
 
