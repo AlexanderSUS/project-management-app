@@ -1,4 +1,3 @@
-import { RegisterOptions } from 'react-hook-form';
 import type { NewUser } from './user';
 
 export type AuthState = {
@@ -29,7 +28,7 @@ export type SignInFormInput = {
 };
 
 export type RegExpPatterns = {
-  [key: string]: RegExp;
+  [key: string]: string;
 };
 
 export type AuthInputFeldProps = {
@@ -39,8 +38,19 @@ export type AuthInputFeldProps = {
   autoComplete: string;
 };
 
-export type AuthInput = {
-  properties: AuthInputFeldProps;
-  registerOptions: RegisterOptions;
-  labelText: string;
+export type MyRegisterOptions = {
+  required: string,
+  minLength?: {
+    value: number,
+    message: string,
+  },
+  maxLength?: {
+    value: number,
+    message: string,
+  },
+  pattern?: {
+    value: string,
+    message: string,
+  },
+
 };

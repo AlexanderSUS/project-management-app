@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../../store/modalSlice';
 import { modalText } from '../../constants/text';
 import { ModalInputData } from '../../types/modal';
+import convertRulesRegExp from '../../helpers/ConvertRulesRegExp';
 
 type BoardFormProps = {
   createOrUpdate: (data: ModalInputData) => void;
@@ -22,8 +23,6 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
     dispatch(closeModal());
   };
 
-  // TODO add form validation!!!!
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {fields && fields.map((input) => (
@@ -31,7 +30,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
           key={input.name}
           name={input.name as keyof ModalInputData}
           control={control}
-          rules={input.registerOptions}
+          rules={convertRulesRegExp(input.registerOptions)}
           defaultValue=""
           render={({ field: { onChange, value } }) => (
             <TextField
@@ -42,7 +41,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
               label={input.label}
               onChange={onChange}
               value={value}
-              autoComplete={input.autocomplete}
+              autoComplete={input.autoComplete}
               error={!!errors[input.name as keyof typeof errors]}
               helperText={errors[input.name as keyof typeof errors]
               && t(`${errors[input.name as keyof typeof errors]?.message}`)}

@@ -6,6 +6,7 @@ import { SIGNUP_INPUTS } from '../constants/authorization';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { SignUpFormInput } from '../types/authTypes';
 import { registration } from '../store/authSlice';
+import convertRulesRegExp from '../helpers/ConvertRulesRegExp';
 
 const RegistrationForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -20,23 +21,23 @@ const RegistrationForm: React.FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       {SIGNUP_INPUTS.map((input) => (
         <Controller
-          key={input.properties.id}
-          name={input.properties.id as keyof SignUpFormInput}
+          key={input.name}
+          name={input.name as keyof SignUpFormInput}
           control={control}
-          rules={input.registerOptions}
+          rules={convertRulesRegExp(input.registerOptions)}
           defaultValue=""
           render={({ field: { onChange, value } }) => (
             <TextField
               margin="normal"
               fullWidth
-              label={t(input.labelText)}
-              type={input.properties.type}
+              label={t(input.label)}
+              type={input.type}
               value={value}
               onChange={onChange}
-              autoComplete={input.properties.autoComplete}
-              error={!!errors[input.properties.id as keyof typeof errors]}
-              helperText={errors[input.properties.id as keyof typeof errors]
-              && t(`${errors[input.properties.id as keyof typeof errors]?.message}`)}
+              autoComplete={input.autoComplete}
+              error={!!errors[input.name as keyof typeof errors]}
+              helperText={errors[input.name as keyof typeof errors]
+              && t(`${errors[input.name as keyof typeof errors]?.message}`)}
             />
           )}
         />

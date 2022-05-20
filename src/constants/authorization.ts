@@ -1,4 +1,5 @@
-import { RegExpPatterns, AuthInput, AuthState } from '../types/authTypes';
+import { RegExpPatterns, AuthState } from '../types/authTypes';
+import { FormField } from '../types/modal';
 
 export const API_URL = 'https://mighty-headland-55040.herokuapp.com';
 
@@ -34,18 +35,16 @@ export enum AuthTextRu {
 }
 
 export const inputRegExps: RegExpPatterns = {
-  user: /[A-Za-z][a-zA-Z ]+$/,
-  login: /^[A-Za-z][A-Za-z0-9_]{2,20}$/,
-  password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+  user: '[A-Za-z][a-zA-Z ]+$',
+  login: '^[A-Za-z][A-Za-z0-9_]{2,20}$',
+  password: '^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$',
 };
 
-export const userAuthInput: AuthInput = {
-  properties: {
-    id: 'name',
-    type: 'text',
-    placeholder: 'Input your name',
-    autoComplete: 'name',
-  },
+export const nameAuthInput: FormField = {
+  name: 'name',
+  type: 'text',
+  placeholder: 'Input your name',
+  autoComplete: 'name',
   registerOptions: {
     required: 'This field is required',
     minLength: {
@@ -61,16 +60,14 @@ export const userAuthInput: AuthInput = {
       message: 'nameErrors.pattern',
     },
   },
-  labelText: 'AuthText.name',
+  label: 'AuthText.name',
 };
 
-export const loginAuthInput: AuthInput = {
-  properties: {
-    id: 'login',
-    type: 'text',
-    placeholder: 'Input your username',
-    autoComplete: 'username001',
-  },
+export const loginAuthInput: FormField = {
+  name: 'login',
+  type: 'text',
+  placeholder: 'Input your username',
+  autoComplete: 'username001',
   registerOptions: {
     required: 'This field is required',
     pattern: {
@@ -78,16 +75,14 @@ export const loginAuthInput: AuthInput = {
       message: 'loginErrors.pattern',
     },
   },
-  labelText: 'AuthText.login',
+  label: 'AuthText.login',
 };
 
-export const passwordAuthInput: AuthInput = {
-  properties: {
-    id: 'password',
-    type: 'password',
-    placeholder: 'Enter your password',
-    autoComplete: 'current-password',
-  },
+export const passwordAuthInput: FormField = {
+  name: 'password',
+  type: 'password',
+  placeholder: 'Enter your password',
+  autoComplete: 'current-password',
   registerOptions: {
     required: 'This field is required',
     minLength: {
@@ -103,9 +98,8 @@ export const passwordAuthInput: AuthInput = {
       message: 'passwordError.pattern',
     },
   },
-  labelText: 'AuthText.PASSWORD',
+  label: 'AuthText.PASSWORD',
 };
 
-export const SIGNIN_INPUTS: AuthInput[] = [loginAuthInput, passwordAuthInput];
-
-export const SIGNUP_INPUTS: AuthInput[] = [userAuthInput, loginAuthInput, passwordAuthInput];
+export const SIGNIN_INPUTS: FormField[] = [loginAuthInput, passwordAuthInput];
+export const SIGNUP_INPUTS: FormField[] = [nameAuthInput, loginAuthInput, passwordAuthInput];

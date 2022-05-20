@@ -4,7 +4,9 @@ import {
 import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
 import { addColumn, editColumn, removeColumn } from '../store/columnSlice';
 import { editLogin, editName, removeUser } from '../store/authSlice';
-import { loginAuthInput, passwordAuthInput, userAuthInput } from './authorization';
+import {
+  loginAuthInput, nameAuthInput, passwordAuthInput,
+} from './authorization';
 
 // Add here your action for modal with form
 export const modalFormAction: ModalFormAction = {
@@ -43,10 +45,9 @@ export const NEW_BOARD: Content = {
     name: 'title',
     type: 'text',
     label: 'Board title',
-    defaultValue: '',
     placeholder: 'Input board title',
     // TODO add translation
-    autocomplete: 'New board',
+    autoComplete: 'New board',
   }],
 };
 
@@ -75,10 +76,9 @@ export const EDIT_BOARD: Content = {
     name: 'title',
     type: 'text',
     label: 'Board title',
-    defaultValue: '',
     placeholder: 'Input new board title',
     // TODO add translation
-    autocomplete: 'New board',
+    autoComplete: 'New board',
   }],
 };
 
@@ -101,10 +101,9 @@ export const ADD_COLUMN: Content = {
     name: 'title',
     type: 'text',
     label: 'Column title',
-    defaultValue: '',
     placeholder: 'Input column title',
     // TODO add translation
-    autocomplete: 'New list',
+    autoComplete: 'New list',
   },
   ],
 };
@@ -133,10 +132,9 @@ export const EDIT_COLUMN_TITLE: Content = {
     name: 'title',
     type: 'text',
     label: 'List title',
-    defaultValue: '',
     placeholder: 'Input new list title',
     // TODO add translation
-    autocomplete: 'New list',
+    autoComplete: 'New list',
   },
   ],
 };
@@ -146,49 +144,28 @@ export const EDIT_NAME: Content = {
   modalTitle: 'Edit user name',
   action: 'editName',
   fields: [{
-    registerOptions: userAuthInput.registerOptions,
-    name: 'name',
-    type: 'text',
-    label: 'New name',
-    defaultValue: '',
+    ...nameAuthInput,
     placeholder: 'Input new name',
-    autocomplete: 'Teodor',
   },
   {
-    registerOptions: passwordAuthInput.registerOptions,
-    name: 'password',
-    type: 'password',
-    label: 'password',
-    defaultValue: '',
+    ...passwordAuthInput,
     // TODO add translation
     placeholder: 'Input your password for confirmation',
-    autocomplete: 'current-password',
   },
   ],
 };
 
-// TODO add password validation to modal window
 export const EDIT_LOGIN: Content = {
   modalTitle: 'Edit login',
   action: 'editLogin',
   fields: [{
-    registerOptions: loginAuthInput.registerOptions,
-    name: 'login',
-    type: 'text',
-    label: 'New login name',
-    defaultValue: '',
+    ...loginAuthInput,
     placeholder: 'Input new login',
-    autocomplete: 'CoolLogin777',
   },
   {
-    registerOptions: passwordAuthInput.registerOptions,
-    name: 'password',
-    type: 'password',
-    label: 'password',
-    defaultValue: '',
+    ...passwordAuthInput,
     // TODO add translation
     placeholder: 'Input your password for confirmation',
-    autocomplete: 'current-password',
   },
   ],
 };
