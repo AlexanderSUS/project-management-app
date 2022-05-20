@@ -19,6 +19,7 @@ const LinkStyled = styled(Link)`
   text-decoration: none;
   border: 1px solid ${divider};
   padding: 15px;
+  transition: border-color 0.3s;
 
   @media screen and (max-width: ${sm}px) {
     padding: 10px;
@@ -34,6 +35,7 @@ const LinkStyled = styled(Link)`
 
   h4 {
     font-weight: bold;
+    transition: color 0.3s;
 
     @media screen and (max-width: ${sm}px) {
       font-size: 1.5rem;
@@ -43,6 +45,14 @@ const LinkStyled = styled(Link)`
   h6 {
     @media screen and (max-width: ${sm}px) {
       font-size: 1rem;
+    }
+  }
+
+  &:hover {
+    border-color: ${primary.main};
+
+    h4 {
+      color: ${primary.main}
     }
   }
 `;

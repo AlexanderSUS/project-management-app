@@ -16,6 +16,7 @@ const LinkStyled = styled(Link)`
   border: 1px solid ${divider};
   text-align: center;
   text-decoration: none;
+  transition: background-color 0.3s;
 
   @media screen and (max-width: ${sm}px) {
     padding: 10px;
@@ -37,6 +38,10 @@ const LinkStyled = styled(Link)`
     @media screen and (max-width: ${sm}px) {
       font-size: 1rem;
     }
+  }
+
+  &:hover {
+    background-color: ${divider};
   }
 `;
 
