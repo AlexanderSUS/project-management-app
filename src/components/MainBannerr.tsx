@@ -36,11 +36,15 @@ const MainBannerContent: React.FC = () => {
   );
 };
 
+const { sm } = muiTheme.breakpoints.values;
 const CustomizedMainBanner = styled('div')`
   display: grid;
   grid-template-columns: 25% 75%;
-
   gap: 15px;
+
+  @media screen and (max-width: ${sm}px) {
+    display: block;
+  }
 
   svg {
     fill: ${muiTheme.palette.primary.main};
@@ -48,6 +52,19 @@ const CustomizedMainBanner = styled('div')`
     height: auto;
     grid-row: 1/4;
     grid-column: 1/2;
+
+    @media screen and (max-width: ${sm}px) {
+      display: block;
+      width: 75%;
+      margin: 0 auto 15px;
+    }
+  }
+
+  p {
+    @media screen and (max-width: ${sm}px) {
+      margin-bottom: 25px;
+      font-size: 1rem;
+    }
   }
 `;
 

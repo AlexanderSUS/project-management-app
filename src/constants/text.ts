@@ -155,10 +155,10 @@ export const technology = [
     link: 'https://react-hook-form.com/',
     name: 'React Hook Form',
   },
-  {
-    id: 'id-1652984108573',
-    icon: '',
-    link: '',
-    name: 'Drag-and-Drop',
-  },
+  // {
+  //   id: 'id-1652984108573',
+  //   icon: '',
+  //   link: '',
+  //   name: 'Drag-and-Drop',
+  // },
 ];

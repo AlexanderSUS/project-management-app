@@ -10,6 +10,7 @@ const Title = styled(Typography)`
 
   @media screen and (max-width: ${sm}px) {
     margin-bottom: 15px;
+    font-size: 1.5rem;
   }
 `;
 

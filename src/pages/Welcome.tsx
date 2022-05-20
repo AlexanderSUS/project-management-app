@@ -6,9 +6,11 @@ import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
 import { technology, welcomePageEn } from '../constants/text';
 import team from '../constants/teammate';
 import RSSchoolLogo from '../components/RSSchoolLogo';
-import MainBanner from '../components/mainBanner';
+import MainBanner from '../components/MainBannerr';
 import Advantage from '../components/Home/Advantage';
 import Section from '../components/Home/Section';
+import Title from '../components/Home/Title';
+import Technology from '../components/Home/Technology';
 
 const Welcome: React.FC = () => {
   const { t } = useTranslation();
@@ -20,26 +22,23 @@ const Welcome: React.FC = () => {
         <Section>
           <Grid container spacing={2} justifyContent="center">
             {welcomePageEn.advantages.map((item, index) => (
-              <Grid item xs={3} key={item}>
+              <Grid item xs={6} sm={4} md={2} key={item}>
                 <Advantage index={index} />
               </Grid>
             ))}
           </Grid>
         </Section>
         <Section>
-          <Typography component="h3" variant="h4">
+          <Title variant="h4" textAlign="center">
             {t('welcomePage.technology')}
-          </Typography>
-          {technology.map((item) => (
-            <Grid item xs={3} key={item.id}>
-              <Link href={item.link} target="_blank">
-                <img src={item.icon} alt={item.name} />
-                <Typography component="h3" variant="h5">
-                  {item.name}
-                </Typography>
-              </Link>
-            </Grid>
-          ))}
+          </Title>
+          <Grid container spacing={2} justifyContent="center">
+            {technology.map((item) => (
+              <Grid item xs={6} sm={4} lg={3} key={item.id}>
+                <Technology {...item} />
+              </Grid>
+            ))}
+          </Grid>
         </Section>
         <Typography component="h3" variant="h4">
           {t('welcomePage.app')}
