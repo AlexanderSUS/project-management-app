@@ -11,7 +11,7 @@ import Loader from '../components/Loader';
 import { editProfilePageText } from '../constants/text';
 import { authSelector } from '../store/authSlice';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import { EDIT_LOGIN, EDIT_NAME, REMOVE_USER } from '../constants/modal';
+import { EDIT_LOGIN, EDIT_NAME, REMOVE_USER } from '../constants/formfields';
 import { openModal } from '../store/modalSlice';
 
 const EditProfile: React.FC = () => {

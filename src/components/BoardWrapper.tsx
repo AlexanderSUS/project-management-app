@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { boardPage } from '../constants/text';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { boardSelector, setCurrentBoardId } from '../store/boardSlice';
-import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/modal';
+import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { openModal } from '../store/modalSlice';
 import Loader from './Loader';
 import AppRoutes from '../constants/routes';

@@ -1,5 +1,6 @@
-import { RegExpPatterns, AuthState } from '../types/authTypes';
-import { FormField } from '../types/modal';
+import { AuthState } from '../types/authTypes';
+import { FormField } from '../types/formTypes';
+import { loginAuthInput, passwordAuthInput, nameAuthInput } from './formfields';
 
 export const API_URL = 'https://mighty-headland-55040.herokuapp.com';
 
@@ -33,73 +34,6 @@ export enum AuthTextRu {
   SIGN_UP = 'Регистрация',
   SUBMIT = 'Подтвердить',
 }
-
-export const inputRegExps: RegExpPatterns = {
-  user: '[A-Za-z][a-zA-Z ]+$',
-  login: '^[A-Za-z][A-Za-z0-9_]{2,20}$',
-  password: '^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$',
-};
-
-export const nameAuthInput: FormField = {
-  name: 'name',
-  type: 'text',
-  placeholder: 'Input your name',
-  autoComplete: 'name',
-  registerOptions: {
-    required: 'This field is required',
-    minLength: {
-      value: 2,
-      message: 'nameErrors.minLength',
-    },
-    maxLength: {
-      value: 20,
-      message: 'nameErrors.maxLength',
-    },
-    pattern: {
-      value: inputRegExps.user,
-      message: 'nameErrors.pattern',
-    },
-  },
-  label: 'AuthText.name',
-};
-
-export const loginAuthInput: FormField = {
-  name: 'login',
-  type: 'text',
-  placeholder: 'Input your username',
-  autoComplete: 'username001',
-  registerOptions: {
-    required: 'This field is required',
-    pattern: {
-      value: inputRegExps.login,
-      message: 'loginErrors.pattern',
-    },
-  },
-  label: 'AuthText.login',
-};
-
-export const passwordAuthInput: FormField = {
-  name: 'password',
-  type: 'password',
-  placeholder: 'Enter your password',
-  autoComplete: 'current-password',
-  registerOptions: {
-    required: 'This field is required',
-    minLength: {
-      value: 8,
-      message: 'passwordError.minLength',
-    },
-    maxLength: {
-      value: 20,
-      message: 'passwordError.maxLength',
-    },
-    pattern: {
-      value: inputRegExps.password,
-      message: 'passwordError.pattern',
-    },
-  },
-  label: 'AuthText.PASSWORD',
-};
 
 export const SIGNIN_INPUTS: FormField[] = [loginAuthInput, passwordAuthInput];
 export const SIGNUP_INPUTS: FormField[] = [nameAuthInput, loginAuthInput, passwordAuthInput];

@@ -11,7 +11,7 @@ import GridFlexGrow from './GridFlexGrow';
 import HeaderButton from './HeaderButton';
 import LangSwitcher from './LangSwitcher';
 import BasicModal from './BasicModal';
-import { NEW_BOARD } from '../constants/modal';
+import { NEW_BOARD } from '../constants/formfields';
 
 const Header: React.FC = () => {
   const { userId } = useAppSelector(authSelector);

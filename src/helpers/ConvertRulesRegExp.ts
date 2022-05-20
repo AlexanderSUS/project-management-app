@@ -1,5 +1,5 @@
 import { RegisterOptions } from 'react-hook-form';
-import { MyRegisterOptions } from '../types/authTypes';
+import { MyRegisterOptions } from '../types/formTypes';
 
 const convertRulesRegExp = (options: MyRegisterOptions): RegisterOptions => {
   if (options.pattern) {

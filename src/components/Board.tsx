@@ -3,7 +3,7 @@ import React from 'react';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { EDIT_BOARD, REMOVE_BOARD } from '../constants/modal';
+import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal } from '../store/modalSlice';
 import { BoardType } from '../types/boards';
