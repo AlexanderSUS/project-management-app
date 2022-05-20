@@ -19,7 +19,7 @@ const Login: React.FC = () => {
   // DO NOT PUT error.message in dependency!!!!
   // it cause excessive dispatch call
   useEffect(() => () => {
-    if (error.message) {
+    if (error) {
       dispatch(clearAuthError());
     }
   }, [dispatch]);
@@ -40,7 +40,7 @@ const Login: React.FC = () => {
           : (
             <>
               <LoginForm />
-              {error.message && <Alert sx={{ mb: '1rem' }} severity="error">{error.message}</Alert>}
+              {error && <Alert sx={{ mb: '1rem' }} severity="error">{error}</Alert>}
             </>
           )}
       </Box>

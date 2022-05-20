@@ -95,8 +95,8 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logOut: (state) => {
-      state.login = null;
-      state.userId = null;
+      state.login = '';
+      state.userId = '';
     },
     authorize: (state, { payload }: PayloadAction<string>) => {
       const credentials = jwt_decode<JwtData>(payload);
@@ -104,7 +104,7 @@ const authSlice = createSlice({
       state.userId = credentials.userId;
     },
     clearAuthError: (state) => {
-      state.error.message = '';
+      state.error = '';
     },
     removeNewUserData: (state) => {
       state.newUser = null;
@@ -133,10 +133,10 @@ const authSlice = createSlice({
           state.isLoading = false;
           if ((action.payload)) {
             const error = action.payload as ErrorResponseData;
-            state.error.message = error.message;
+            state.error = error.message;
             return;
           }
-          state.error.message = 'Server error';
+          state.error = 'Server error';
         }
       },
     );

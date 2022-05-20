@@ -28,7 +28,7 @@ const Registration: React.FC = () => {
   // it cause ERRASE the error MESSAGE  adnd
   // excessive dispatch call
   useEffect(() => () => {
-    if (error.message) {
+    if (error) {
       dispatch(clearAuthError());
     }
   }, [dispatch]);
@@ -63,7 +63,7 @@ const Registration: React.FC = () => {
         {!isLoading && !newUser && (
         <>
           <RegistrationForm />
-          {error.message && <Alert sx={{ mb: '1rem' }} severity="error">{error.message}</Alert>}
+          {error && <Alert sx={{ mb: '1rem' }} severity="error">{error}</Alert>}
         </>
         )}
       </Box>

@@ -6,11 +6,9 @@ export const TOKEN = 'token';
 
 export const initialState: AuthState = {
   isLoading: false,
-  error: {
-    message: '',
-  },
-  userId: null,
-  login: null,
+  error: '',
+  userId: '',
+  login: '',
   newUser: null,
   userData: {
     id: '',

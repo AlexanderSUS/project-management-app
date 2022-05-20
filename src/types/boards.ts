@@ -27,6 +27,6 @@ export interface Task extends NewTask {
 export type BoardState = {
   boards: Boards;
   pending: boolean;
-  error: string | null;
+  error: string;
   currentBoardId: string;
 };
