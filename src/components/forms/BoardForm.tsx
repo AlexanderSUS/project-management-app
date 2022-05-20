@@ -31,6 +31,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
           render={({ field: { onChange, value } }) => (
             <TextField
               margin="normal"
+              type={input.type}
               required={input.required}
               placeholder={input.placeholder}
               fullWidth

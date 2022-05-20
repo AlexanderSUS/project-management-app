@@ -1,14 +1,14 @@
 import { HTMLProps } from 'react';
 import { RegisterOptions } from 'react-hook-form';
-import type { NewUser, UserData } from './user';
+import type { NewUser } from './user';
 
 export type AuthState = {
   isLoading: boolean;
   login: string;
   userId: string;
+  userName: string;
   newUser: NewUser | null;
   error: string;
-  userData: UserData;
 };
 
 export type JwtData = {

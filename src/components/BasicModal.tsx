@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -7,8 +9,12 @@ import { closeModal, modalSelector } from '../store/modalSlice';
 import BoardForm from './forms/BoardForm';
 import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
-import { ModalInputData } from '../types/modal';
+import { ModalConfirmAction, ModalInputData } from '../types/modal';
 import isConfirmAction from '../helpers/modalFunctions';
+import { removeUser } from '../store/authSlice';
+import { removeColumn } from '../store/columnSlice';
+import { removeBoard } from '../store/boardSlice';
+import { store } from '../store/store';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -34,21 +40,19 @@ const BasicModal: React.FC = () => {
 
   const confirm = () => {
     if (isConfirmAction(action)) {
-      const confirmAction = modalConfirmAction[action];
-      dispatch(confirmAction());
+      dispatch(modalConfirmAction[action]() as Parameters<typeof store.dispatch>[0]);
     }
     dispatch(closeModal());
   };
 
   const createOrUpdate = (data: ModalInputData) => {
     if (!isConfirmAction(action)) {
-      const formAction = modalFormAction[action];
-      dispatch(formAction(data));
+      dispatch(modalFormAction[action](data) as Parameters<typeof store.dispatch>[0]);
     }
     dispatch(closeModal());
   };
 
-  const content = modalType === 'confirmation' ? (
+  const content = modalType === 'confirmation' && isConfirmAction(action) ? (
     <ModalConfirmButtons close={closeWindow} confirm={confirm} />
   ) : <BoardForm createOrUpdate={createOrUpdate} />;
 

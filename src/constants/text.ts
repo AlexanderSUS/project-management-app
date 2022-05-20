@@ -64,6 +64,11 @@ export const modalText = {
 };
 
 export const editProfilePageText = {
-  title: 'Edit Profile',
+  title: 'Profile',
   successSignUp: 'was successfuly updated',
+  edit: 'Edit',
+  deleteAccount: 'Delete account',
+  name: 'Name: ',
+  login: 'Login: ',
+  id: 'ID: ',
 };

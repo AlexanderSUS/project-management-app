@@ -3,6 +3,7 @@ import {
 } from '../types/modal';
 import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
 import { addColumn, editColumn, removeColumn } from '../store/columnSlice';
+import { editLogin, editName, removeUser } from '../store/authSlice';
 
 // Add here your action for modal with form
 export const modalFormAction: ModalFormAction = {
@@ -10,12 +11,15 @@ export const modalFormAction: ModalFormAction = {
   editBoard,
   addColumn,
   editColumn,
+  editLogin,
+  editName,
 };
 
-// Add here your action from modal with confrim buttons
+// Add here your action for modal with confrim buttons
 export const modalConfirmAction: ModalConfirmAction = {
   removeBoard,
   removeColumn,
+  removeUser,
 };
 
 // Such way must look your 'content' with form fields for modal window
@@ -26,6 +30,7 @@ export const NEW_BOARD: Content = {
   fields: [{
     required: true,
     name: 'title',
+    type: 'text',
     label: 'Board title',
     defaultValue: '',
     placeholder: 'Input board title',
@@ -46,6 +51,7 @@ export const EDIT_BOARD: Content = {
   fields: [{
     required: true,
     name: 'title',
+    type: 'text',
     label: 'Board title',
     defaultValue: '',
     placeholder: 'Input new board title',
@@ -59,6 +65,7 @@ export const ADD_COLUMN: Content = {
   fields: [{
     required: true,
     name: 'title',
+    type: 'text',
     label: 'Column title',
     defaultValue: '',
     placeholder: 'Input column title',
@@ -79,11 +86,66 @@ export const EDIT_COLUMN_TITLE: Content = {
   fields: [{
     required: true,
     name: 'title',
+    type: 'text',
     label: 'List title',
     defaultValue: '',
     placeholder: 'Input new list title',
   },
   ],
+};
+
+// TODO add password validation to modal window
+export const EDIT_NAME: Content = {
+  modalType: 'form',
+  modalTitle: 'Edit user name',
+  action: 'editName',
+  fields: [{
+    required: true,
+    name: 'name',
+    type: 'text',
+    label: 'New name',
+    defaultValue: '',
+    placeholder: 'Input new name',
+  },
+  {
+    required: true,
+    name: 'password',
+    type: 'password',
+    label: 'password',
+    defaultValue: '',
+    placeholder: 'Input your password for confirmation',
+  },
+  ],
+};
+
+// TODO add password validation to modal window
+export const EDIT_LOGIN: Content = {
+  modalType: 'form',
+  modalTitle: 'Edit login',
+  action: 'editLogin',
+  fields: [{
+    required: true,
+    name: 'login',
+    type: 'text',
+    label: 'New login name',
+    defaultValue: '',
+    placeholder: 'Input new login',
+  },
+  {
+    required: true,
+    name: 'password',
+    type: 'password',
+    label: 'password',
+    defaultValue: '',
+    placeholder: 'Input your password for confirmation',
+  },
+  ],
+};
+
+export const REMOVE_USER : Content = {
+  modalType: 'confirmation',
+  modalTitle: 'Do you really want to delete your accoutn?',
+  action: 'removeUser',
 };
 
 const initialState: ModalState = {
