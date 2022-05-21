@@ -4,12 +4,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../../store/modalSlice';
+import { FormData } from '../../types/formTypes';
 import { modalText } from '../../constants/text';
-import { ModalInputData } from '../../types/modal';
 import convertRulesRegExp from '../../helpers/ConvertRulesRegExp';
 
 type BoardFormProps = {
-  createOrUpdate: (data: ModalInputData) => void;
+  createOrUpdate: (data: FormData) => void;
 };
 
 const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
@@ -18,7 +18,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
   const { handleSubmit, control, formState: { errors } } = useForm<Parameters<typeof createOrUpdate>[0]>({ mode: 'onChange' });
   const { t } = useTranslation();
 
-  const onSubmit = (data: ModalInputData) => {
+  const onSubmit = (data: FormData) => {
     createOrUpdate(data);
     dispatch(closeModal());
   };
@@ -28,7 +28,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
       {fields && fields.map((input) => (
         <Controller
           key={input.name}
-          name={input.name as keyof ModalInputData}
+          name={input.name as keyof FormData}
           control={control}
           rules={convertRulesRegExp(input.registerOptions)}
           defaultValue=""

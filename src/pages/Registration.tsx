@@ -7,10 +7,13 @@ import { useSelector } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
 import { useTranslation } from 'react-i18next';
-import RegistrationForm from '../components/RegistrationFrom';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import { authSelector, removeNewUserData, clearAuthError } from '../store/authSlice';
+import {
+  authSelector, removeNewUserData, clearAuthError, registration,
+} from '../store/authSlice';
 import Loader from '../components/Loader';
+import AuthForm from '../components/AuthForm';
+import { SIGNUP_INPUTS } from '../constants/authorization';
 
 const Registration: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -62,7 +65,13 @@ const Registration: React.FC = () => {
         )}
         {!isLoading && !newUser && (
         <>
-          <RegistrationForm />
+          <AuthForm
+            action={registration}
+            fields={SIGNUP_INPUTS}
+            buttonText={
+              t('registrationPageText.title')
+           }
+          />
           {error && <Alert sx={{ mb: '1rem' }} severity="error">{error}</Alert>}
         </>
         )}

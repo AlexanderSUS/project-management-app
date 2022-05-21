@@ -6,11 +6,11 @@ import BoardService from '../api/boardServise';
 import { Boards, BoardState } from '../types/boards';
 import { ValidationErrors } from '../types/response';
 import initialState from '../constants/boards';
-import type { ModalInputData } from '../types/modal';
+import type { FormData } from '../types/formTypes';
 import { TypedThunkAPI } from '../types/slice';
 import { FULFILED } from '../constants/asyncThunk';
 
-type GenericAsyncThunk = AsyncThunk<Boards, void | ModalInputData,
+type GenericAsyncThunk = AsyncThunk<Boards, void | FormData,
 TypedThunkAPI>;
 
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
@@ -31,9 +31,9 @@ export const getBoards = createAsyncThunk<Boards, void, TypedThunkAPI >(
   },
 );
 
-export const addBoard = createAsyncThunk<Boards, ModalInputData, TypedThunkAPI>(
+export const addBoard = createAsyncThunk<Boards, FormData, TypedThunkAPI>(
   'board/addBoard',
-  async (data: ModalInputData, { rejectWithValue }) => {
+  async (data: FormData, { rejectWithValue }) => {
     try {
       await BoardService.createBoard({ title: data.title });
       const response = await BoardService.fetchBoards();
@@ -65,9 +65,9 @@ export const removeBoard = createAsyncThunk<Boards, void, TypedThunkAPI>(
   },
 );
 
-export const editBoard = createAsyncThunk<Boards, ModalInputData, TypedThunkAPI>(
+export const editBoard = createAsyncThunk<Boards, FormData, TypedThunkAPI>(
   'board/editBoard',
-  async (data: ModalInputData, { getState, rejectWithValue }) => {
+  async (data: FormData, { getState, rejectWithValue }) => {
     try {
       await BoardService.editBoard({ id: getState().boardStore.currentBoardId, title: data.title });
       const response = await BoardService.fetchBoards();

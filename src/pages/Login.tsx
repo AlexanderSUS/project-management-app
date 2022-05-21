@@ -5,10 +5,11 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useTranslation } from 'react-i18next';
-import LoginForm from '../components/LoginForm';
-import { authSelector, clearAuthError } from '../store/authSlice';
+import { authSelector, clearAuthError, logIn } from '../store/authSlice';
 import Loader from '../components/Loader';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
+import AuthForm from '../components/AuthForm';
+import { SIGNIN_INPUTS } from '../constants/authorization';
 
 const Login: React.FC = () => {
   const { error, isLoading } = useSelector(authSelector);
@@ -36,13 +37,10 @@ const Login: React.FC = () => {
         <Typography component="h1" variant="h5">
           {t('loginPage.title')}
         </Typography>
-        {isLoading ? <Loader />
-          : (
-            <>
-              <LoginForm />
-              {error && <Alert sx={{ mb: '1rem' }} severity="error">{error}</Alert>}
-            </>
-          )}
+        {isLoading && <Loader />}
+        {!isLoading && error && <Alert sx={{ mb: '1rem' }} severity="error">{error}</Alert>}
+        {!isLoading && !error
+        && <AuthForm action={logIn} fields={SIGNIN_INPUTS} buttonText={t('loginPage.title')} />}
       </Box>
     </Container>
   );

@@ -12,12 +12,12 @@ import { AuthState, JwtData, SignUpFormInput } from '../types/authTypes';
 import UserService from '../api/userServise';
 import { TypedThunkAPI } from '../types/slice';
 import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
-import type { ModalInputData } from '../types/modal';
+import type { FormData } from '../types/formTypes';
 import { NewUser, User, UserData } from '../types/user';
 
 type GenericAsyncThunk = AsyncThunk<
 SignInResponse | SignUpResponse | UserData | RemoveUserResponse,
-string | User | ModalInputData | void | NewUser,
+string | User | FormData | void | NewUser,
 TypedThunkAPI>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
@@ -73,9 +73,9 @@ export const getUserData = createAsyncThunk<UserData, string, TypedThunkAPI>(
   },
 );
 
-export const editName = createAsyncThunk<UserData, ModalInputData, TypedThunkAPI>(
+export const editName = createAsyncThunk<UserData, FormData, TypedThunkAPI>(
   'auth/editName',
-  async (data: ModalInputData, { getState, rejectWithValue }) => {
+  async (data: FormData, { getState, rejectWithValue }) => {
     const { userId, login } = getState().authStore;
     const { name, password } = data;
     const userData: SignUpFormInput = { login, name, password };
@@ -93,9 +93,9 @@ export const editName = createAsyncThunk<UserData, ModalInputData, TypedThunkAPI
   },
 );
 
-export const editLogin = createAsyncThunk<UserData, ModalInputData, TypedThunkAPI>(
+export const editLogin = createAsyncThunk<UserData, FormData, TypedThunkAPI>(
   'auth/editLogin',
-  async (data: ModalInputData, { getState, rejectWithValue }) => {
+  async (data: FormData, { getState, rejectWithValue }) => {
     const { userId, userName } = getState().authStore;
     const { login, password } = data;
     const userData: SignUpFormInput = { login, name: userName, password };

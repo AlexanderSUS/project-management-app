@@ -3,15 +3,6 @@ import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
 import { addColumn, editColumn, removeColumn } from '../store/columnSlice';
 import { FormField } from './formTypes';
 
-// Add here your AsynkThunk parameter (name from form FormField type) for form Action
-export interface ModalInputData {
-  title: string;
-  order: number;
-  name: string;
-  login: string;
-  password: string;
-}
-
 // Add here your AsynkThunk type for confirm action
 export type ModalConfirmAction = {
   removeBoard: typeof removeBoard;

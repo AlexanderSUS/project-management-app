@@ -1,39 +1,48 @@
-import React from 'react';
+import * as React from 'react';
+import { TextField, Button } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
-import { Button, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { SIGNUP_INPUTS } from '../constants/authorization';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import { SignUpFormInput } from '../types/authTypes';
-import { registration } from '../store/authSlice';
+import { closeModal } from '../store/modalSlice';
 import convertRulesRegExp from '../helpers/ConvertRulesRegExp';
+import { FormData, FormField } from '../types/formTypes';
+import { AppDispatch } from '../store/store';
+import { logIn, registration } from '../store/authSlice';
 
-const RegistrationForm: React.FC = () => {
+type AppFormProps = {
+  fields: FormField[]
+  action: typeof registration | typeof logIn;
+  buttonText: string;
+};
+
+const AuthForm: React.FC<AppFormProps> = ({ fields, action, buttonText }) => {
   const dispatch = useAppDispatch();
+  const { handleSubmit, control, formState: { errors } } = useForm<FormData>({ mode: 'onChange' });
   const { t } = useTranslation();
-  const { handleSubmit, control, formState: { errors } } = useForm<SignUpFormInput>({ mode: 'onChange' });
 
-  const onSubmit = (data: SignUpFormInput) => {
-    dispatch(registration(data));
+  const onSubmit = (data: FormData) => {
+    dispatch(action(data) as Parameters<AppDispatch>[0]);
+    dispatch(closeModal());
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {SIGNUP_INPUTS.map((input) => (
+    <form onSubmit={handleSubmit(onSubmit)} id="auth-form">
+      {fields && fields.map((input) => (
         <Controller
           key={input.name}
-          name={input.name as keyof SignUpFormInput}
+          name={input.name as keyof FormData}
           control={control}
           rules={convertRulesRegExp(input.registerOptions)}
           defaultValue=""
           render={({ field: { onChange, value } }) => (
             <TextField
               margin="normal"
-              fullWidth
-              label={t(input.label)}
               type={input.type}
-              value={value}
+              placeholder={input.placeholder}
+              fullWidth
+              label={input.label}
               onChange={onChange}
+              value={value}
               autoComplete={input.autoComplete}
               error={!!errors[input.name as keyof typeof errors]}
               helperText={errors[input.name as keyof typeof errors]
@@ -43,9 +52,11 @@ const RegistrationForm: React.FC = () => {
         />
       ))}
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-        {t('registrationPageText.title')}
+        {buttonText}
       </Button>
+
     </form>
   );
 };
-export default RegistrationForm;
+
+export default AuthForm;
