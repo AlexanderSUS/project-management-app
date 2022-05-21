@@ -4,7 +4,7 @@ import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../store/modalSlice';
-import BoardForm from './forms/BoardForm';
+import BoardForm from './ModalForm';
 import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
 import { FormData } from '../types/formTypes';

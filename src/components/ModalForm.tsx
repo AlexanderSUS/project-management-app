@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypedHooks';
-import { closeModal, modalSelector } from '../../store/modalSlice';
-import { FormData } from '../../types/formTypes';
-import { modalText } from '../../constants/text';
-import convertRulesRegExp from '../../helpers/ConvertRulesRegExp';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
+import { closeModal, modalSelector } from '../store/modalSlice';
+import { FormData } from '../types/formTypes';
+import { modalText } from '../constants/text';
+import convertRulesRegExp from '../helpers/ConvertRulesRegExp';
 
 type BoardFormProps = {
   createOrUpdate: (data: FormData) => void;
