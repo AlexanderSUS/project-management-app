@@ -30,3 +30,9 @@ export type UpdateTaskData = {
   boardId: BoardType['id'];
   columnId: Column['id'];
 };
+
+export type TaskState = {
+  currentTaskId: string;
+  currentTaskOrder: number;
+  tasks: Task[];
+};
