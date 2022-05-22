@@ -3,6 +3,7 @@ import api from '.';
 import { API_URL } from '../constants/authorization';
 import Endpoint from '../constants/endpoints';
 import { SignUpFormInput } from '../types/authTypes';
+import { RemoveUserResponse } from '../types/response';
 import { NewUser, UserData } from '../types/user';
 
 export default class UserService {
@@ -19,5 +20,9 @@ export default class UserService {
     userData: SignUpFormInput,
   ): Promise<AxiosResponse<UserData>> {
     return api.put(`${API_URL}${Endpoint.USERS}/${id}`, userData);
+  }
+
+  static removeUser(userId: string): Promise<AxiosResponse<RemoveUserResponse>> {
+    return api.delete(`${Endpoint.USERS}/${userId}`);
   }
 }

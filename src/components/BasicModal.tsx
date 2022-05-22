@@ -9,6 +9,7 @@ import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
 import { ModalInputData } from '../types/modal';
 import isConfirmAction from '../helpers/modalFunctions';
+import { store } from '../store/store';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -24,7 +25,7 @@ const style = {
 
 const BasicModal: React.FC = () => {
   const {
-    isOpen, modalType, title, action,
+    isOpen, title, action,
   } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
 
@@ -34,21 +35,19 @@ const BasicModal: React.FC = () => {
 
   const confirm = () => {
     if (isConfirmAction(action)) {
-      const confirmAction = modalConfirmAction[action];
-      dispatch(confirmAction());
+      dispatch(modalConfirmAction[action]() as Parameters<typeof store.dispatch>[0]);
     }
     dispatch(closeModal());
   };
 
   const createOrUpdate = (data: ModalInputData) => {
     if (!isConfirmAction(action)) {
-      const formAction = modalFormAction[action];
-      dispatch(formAction(data));
+      dispatch(modalFormAction[action](data) as Parameters<typeof store.dispatch>[0]);
     }
     dispatch(closeModal());
   };
 
-  const content = modalType === 'confirmation' ? (
+  const content = isConfirmAction(action) ? (
     <ModalConfirmButtons close={closeWindow} confirm={confirm} />
   ) : <BoardForm createOrUpdate={createOrUpdate} />;
 
@@ -60,7 +59,7 @@ const BasicModal: React.FC = () => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography variant={modalType === 'form' ? 'h4' : 'h6'} align="center">{title}</Typography>
+        <Typography variant={isConfirmAction(action) ? 'h6' : 'h4'} align="center">{title}</Typography>
         {content}
       </Box>
     </Modal>

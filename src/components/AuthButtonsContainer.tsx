@@ -9,7 +9,7 @@ import { TOKEN } from '../constants/authorization';
 import HeaderButton from './HeaderButton';
 
 type AuthButtonsContainerProps = {
-  userId: string | null;
+  userId: string;
 };
 
 const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ userId }) => {

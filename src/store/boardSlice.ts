@@ -111,6 +111,12 @@ const boardSlice = createSlice({
           state.pending = false;
           if (action.payload) {
             const error = action.payload as ErrorResponseData;
+
+            if (error.statusCode === 401) {
+              state.error = ThunkError.notAuthorized;
+              // TODO find solution for log out user
+              return;
+            }
             state.error = error.message;
             return;
           }

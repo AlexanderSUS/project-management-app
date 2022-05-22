@@ -8,13 +8,9 @@ export const initialState: AuthState = {
   isLoading: false,
   error: '',
   userId: '',
+  userName: '',
   login: '',
   newUser: null,
-  userData: {
-    id: '',
-    login: '',
-    name: '',
-  },
 };
 
 export enum AuthTextEn {

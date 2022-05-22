@@ -5,18 +5,19 @@ import { AxiosError } from 'axios';
 import jwt_decode from 'jwt-decode';
 import AuthService from '../api/authService';
 import {
-  SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData,
+  SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData, RemoveUserResponse,
 } from '../types/response';
-import {
-  NewUser, User, UserData, UserDataParams,
-} from '../types/user';
 import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData, SignUpFormInput } from '../types/authTypes';
 import UserService from '../api/userServise';
 import { TypedThunkAPI } from '../types/slice';
 import ThunkError, { PENDING, REJECTED } from '../constants/asyncThunk';
+import type { ModalInputData } from '../types/modal';
+import { NewUser, User, UserData } from '../types/user';
 
-type GenericAsyncThunk = AsyncThunk<SignInResponse | SignUpResponse, UserDataParams | string | User,
+type GenericAsyncThunk = AsyncThunk<
+SignInResponse | SignUpResponse | UserData | RemoveUserResponse,
+string | User | ModalInputData | void | NewUser,
 TypedThunkAPI>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
@@ -72,13 +73,15 @@ export const getUserData = createAsyncThunk<UserData, string, TypedThunkAPI>(
   },
 );
 
-export const editProfile = createAsyncThunk<UserData, SignUpFormInput, TypedThunkAPI>(
-  'auth/editProfile',
-  async (userData: SignUpFormInput, { getState, rejectWithValue }) => {
-    const { userId: id } = getState().authStore;
+export const editName = createAsyncThunk<UserData, ModalInputData, TypedThunkAPI>(
+  'auth/editName',
+  async (data: ModalInputData, { getState, rejectWithValue }) => {
+    const { userId, login } = getState().authStore;
+    const { name, password } = data;
+    const userData: SignUpFormInput = { login, name, password };
 
     try {
-      const response = await UserService.updateUserData(id, userData);
+      const response = await UserService.updateUserData(userId, userData);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -90,7 +93,52 @@ export const editProfile = createAsyncThunk<UserData, SignUpFormInput, TypedThun
   },
 );
 
-const isARequestedAction = isAsyncThunkAction(registration, logIn, getUserData, editProfile);
+export const editLogin = createAsyncThunk<UserData, ModalInputData, TypedThunkAPI>(
+  'auth/editLogin',
+  async (data: ModalInputData, { getState, rejectWithValue }) => {
+    const { userId, userName } = getState().authStore;
+    const { login, password } = data;
+    const userData: SignUpFormInput = { login, name: userName, password };
+
+    try {
+      const response = await UserService.updateUserData(userId, userData);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const removeUser = createAsyncThunk<RemoveUserResponse, void, TypedThunkAPI>(
+  'auth/removeUser',
+  async (_, { getState, rejectWithValue }) => {
+    const { userId } = getState().authStore;
+
+    try {
+      const response = await UserService.removeUser(userId);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+const isARequestedAction = isAsyncThunkAction(
+  registration,
+  logIn,
+  getUserData,
+  editName,
+  editLogin,
+  removeUser,
+);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -99,6 +147,7 @@ const authSlice = createSlice({
     logOut: (state) => {
       state.login = '';
       state.userId = '';
+      state.userName = '';
     },
     clearAuthError: (state) => {
       state.error = '';
@@ -121,15 +170,24 @@ const authSlice = createSlice({
     });
     builder.addCase(getUserData.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.userData = action.payload;
-      state.userId = action.payload.id;
+      state.userName = action.payload.name;
       state.login = action.payload.login;
+      state.userId = action.payload.id;
     });
-    builder.addCase(editProfile.fulfilled, (state, action) => {
+    // TOD Inmplement message from response
+    builder.addCase(removeUser.fulfilled, (state) => {
+      state.isLoading = false;
+      state.userId = '';
+      state.login = '';
+      state.userName = '';
+    });
+    builder.addCase(editLogin.fulfilled, (state, action) => {
       state.isLoading = false;
       state.login = action.payload.login;
-      state.userData.login = action.payload.login;
-      state.userData.name = action.payload.name;
+    });
+    builder.addCase(editName.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.userName = action.payload.name;
     });
     builder.addMatcher(
       (action): action is RejectedAction => action.type.endsWith(REJECTED),
@@ -137,8 +195,17 @@ const authSlice = createSlice({
         state.isLoading = false;
         if (isARequestedAction(action)) {
           state.isLoading = false;
+
           if ((action.payload)) {
             const error = action.payload as ErrorResponseData;
+
+            if (error.statusCode === 401) {
+              state.userId = '';
+              state.login = '';
+              state.userName = '';
+              state.error = ThunkError.notAuthorized;
+              return;
+            }
             state.error = error.message;
             return;
           }
