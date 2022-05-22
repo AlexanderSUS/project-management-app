@@ -1,12 +1,10 @@
 import type { NewUser } from './user';
 
 export type AuthState = {
-  isLoading: boolean;
   login: string;
   userId: string;
   userName: string;
   newUser: NewUser | null;
-  error: string;
 };
 
 export type JwtData = {

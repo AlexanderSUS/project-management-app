@@ -3,22 +3,21 @@ import {
   Box, Container, Typography, AlertTitle,
 } from '@mui/material';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import {
-  authSelector, removeNewUserData, clearAuthError, registration,
-} from '../store/authSlice';
+import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
+import { authSelector, removeNewUserData, registration } from '../store/authSlice';
 import Loader from '../components/Loader';
 import AuthForm from '../components/AuthForm';
 import { SIGNUP_INPUTS } from '../constants/authorization';
+import { clearError, notificationSelector } from '../store/notificationSlice';
 
 const Registration: React.FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { newUser, error, isLoading } = useSelector(authSelector);
+  const { newUser } = useAppSelector(authSelector);
+  const { error, isLoading } = useAppSelector(notificationSelector);
 
   useEffect(() => () => {
     if (newUser) {
@@ -27,12 +26,12 @@ const Registration: React.FC = () => {
   }, [dispatch, newUser]);
 
   // TODO find solution to fix eslint error,
-  // DO NOT PUT error.message in dependency!!!!
+  // DO NOT PUT error in dependency!!!!
   // it cause ERRASE the error MESSAGE  adnd
   // excessive dispatch call
   useEffect(() => () => {
     if (error) {
-      dispatch(clearAuthError());
+      dispatch(clearError());
     }
   }, [dispatch]);
 

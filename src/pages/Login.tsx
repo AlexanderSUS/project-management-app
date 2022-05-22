@@ -2,17 +2,17 @@ import {
   Typography, Container, Box, Avatar, Alert,
 } from '@mui/material';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useTranslation } from 'react-i18next';
-import { authSelector, clearAuthError, logIn } from '../store/authSlice';
+import { logIn } from '../store/authSlice';
 import Loader from '../components/Loader';
-import { useAppDispatch } from '../hooks/reduxTypedHooks';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import AuthForm from '../components/AuthForm';
 import { SIGNIN_INPUTS } from '../constants/authorization';
+import { clearError, notificationSelector } from '../store/notificationSlice';
 
 const Login: React.FC = () => {
-  const { error, isLoading } = useSelector(authSelector);
+  const { error, isLoading } = useAppSelector(notificationSelector);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -21,7 +21,7 @@ const Login: React.FC = () => {
   // it cause excessive dispatch call
   useEffect(() => () => {
     if (error) {
-      dispatch(clearAuthError());
+      dispatch(clearError());
     }
   }, [dispatch]);
 

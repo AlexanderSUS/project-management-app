@@ -130,15 +130,6 @@ export const removeUser = createAsyncThunk<RemoveUserResponse, void, TypedThunkA
   },
 );
 
-// const isARequestedAction = isAsyncThunkAction(
-//   registration,
-//   logIn,
-//   getUserData,
-//   editName,
-//   editLogin,
-//   removeUser,
-// );
-
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -147,9 +138,6 @@ const authSlice = createSlice({
       state.login = '';
       state.userId = '';
       state.userName = '';
-    },
-    clearAuthError: (state) => {
-      state.error = '';
     },
     removeNewUserData: (state) => {
       state.newUser = null;
@@ -170,7 +158,7 @@ const authSlice = createSlice({
       state.login = action.payload.login;
       state.userId = action.payload.id;
     });
-    // TOD Inmplement message from response
+    // TODO Inmplement message from response
     builder.addCase(removeUser.fulfilled, (state) => {
       state.userId = '';
       state.login = '';
@@ -185,7 +173,6 @@ const authSlice = createSlice({
     builder.addMatcher(
       (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
-        state.isLoading = false;
         if ((action.payload)) {
           const error = action.payload as ErrorResponseData;
           if (error.statusCode === 401) {
@@ -199,9 +186,7 @@ const authSlice = createSlice({
   },
 });
 
-export const {
-  logOut, clearAuthError, removeNewUserData,
-} = authSlice.actions;
+export const { logOut, removeNewUserData } = authSlice.actions;
 
 export default authSlice.reducer;
 

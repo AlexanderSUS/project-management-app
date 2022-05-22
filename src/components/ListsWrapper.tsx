@@ -3,7 +3,7 @@ import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from '../hooks/reduxTypedHooks';
 import { columnSelector } from '../store/columnSlice';
-import { authSelector } from '../store/authSlice';
+import { notificationSelector } from '../store/notificationSlice';
 import { boardPage } from '../constants/text';
 import List from './List';
 import Loader from './Loader';
@@ -18,7 +18,7 @@ const StyledListWrapper = styled(Box)`
 
 const ListsWrapper: React.FC = () => {
   const { columns } = useAppSelector(columnSelector, shallowEqual);
-  const { isLoading, error } = useAppSelector(authSelector);
+  const { isLoading, error } = useAppSelector(notificationSelector);
   const { tasks } = useAppSelector(taskSelector);
 
   return (

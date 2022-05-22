@@ -7,12 +7,12 @@ import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { boardSelector, getBoards } from '../store/boardSlice';
 import Loader from '../components/Loader';
 import AppRoutes from '../constants/routes';
-import { authSelector } from '../store/authSlice';
+import { notificationSelector } from '../store/notificationSlice';
 
 function Projects(): JSX.Element {
   const dispatch = useAppDispatch();
   const { boards } = useAppSelector(boardSelector);
-  const { isLoading, error } = useAppSelector(authSelector);
+  const { isLoading, error } = useAppSelector(notificationSelector);
 
   useEffect(() => {
     dispatch(getBoards());

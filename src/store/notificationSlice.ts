@@ -14,7 +14,7 @@ import { addColumn, editColumn } from './columnSlice';
 import { addTask, editTask, removeTask } from './taskSlice';
 import { addBoard, editBoard, removeBoard } from './boardSlice';
 import { Boards } from '../types/boards';
-import { removeUser } from './authSlice';
+import { logIn, registration, removeUser } from './authSlice';
 
 type GenericAsyncThunk = AsyncThunk<
 SignInResponse | SignUpResponse | UserData | RemoveUserResponse | Boards,
@@ -28,6 +28,8 @@ type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 const isAddAction = isAsyncThunkAction(addBoard, addColumn, addTask);
 const isEditAction = isAsyncThunkAction(editBoard, editColumn, editTask);
 const isDeleteAction = isAsyncThunkAction(removeBoard, removeUser, removeTask);
+const isRegistrationAction = isAsyncThunkAction(registration);
+const isLogInAction = isAsyncThunkAction(logIn);
 
 const notificationSlice = createSlice({
   name: 'notification',
@@ -60,6 +62,12 @@ const notificationSlice = createSlice({
           state.info = JSON.stringify(action.payload);
         }
         if (isDeleteAction(action)) {
+          state.info = JSON.stringify(action.payload);
+        }
+        if (isRegistrationAction(action)) {
+          state.info = JSON.stringify(action.payload);
+        }
+        if (isLogInAction(action)) {
           state.info = JSON.stringify(action.payload);
         }
       },

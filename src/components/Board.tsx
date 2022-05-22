@@ -11,15 +11,15 @@ import AppRoutes from '../constants/routes';
 import { boardSelector, setCurrentBoardId } from '../store/boardSlice';
 import { columnSelector, getColumns } from '../store/columnSlice';
 import ListsWrapper from './ListsWrapper';
-import { authSelector } from '../store/authSlice';
 import { getTasks } from '../store/taskSlice';
 import { boardPage } from '../constants/text';
+import { notificationSelector } from '../store/notificationSlice';
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { currentBoardId, boards } = useAppSelector(boardSelector);
-  const { isLoading, error } = useAppSelector(authSelector);
+  const { isLoading, error } = useAppSelector(notificationSelector);
   const { columns } = useAppSelector(columnSelector);
   const currentBoard = boards.find((board) => board.id === currentBoardId);
 
