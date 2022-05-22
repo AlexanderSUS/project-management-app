@@ -13,7 +13,7 @@ import Welcome from '../pages/Welcome';
 import Layout from './Layout';
 import EditProfile from '../pages/EditProfile';
 import { TOKEN } from '../constants/authorization';
-import BoardWrapper from './BoardWrapper';
+import Board from './Board';
 
 function AppRouter(): JSX.Element {
   const { userId } = useAppSelector(authSelector);
@@ -43,7 +43,7 @@ function AppRouter(): JSX.Element {
         <Route path={AppRoutes.LOGIN} element={<Login />} />
         <Route path={AppRoutes.REGISTRATION} element={<Registration />} />
         <Route path={AppRoutes.PROJECTS} element={<Projects />}>
-          <Route path={AppRoutes.BOARD_ID} element={<BoardWrapper />} />
+          <Route path={AppRoutes.BOARD_ID} element={<Board />} />
         </Route>
         <Route path={AppRoutes.EDIT_PROFILE} element={<EditProfile />} />
         <Route path="*" element={<Error404 />} />

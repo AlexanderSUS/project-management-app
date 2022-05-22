@@ -1,54 +1,68 @@
 import React from 'react';
-import {
-  Box, Typography, Button, Tooltip,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { Box, Typography, Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { Column } from '../types/columns';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { setCurrentColumnId, setCurrentColumnOrder } from '../store/columnSlice';
-import { EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/formfields';
+import { ADD_TASK, EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/formfields';
 import { openModal } from '../store/modalSlice';
-import { boardPage } from '../constants/text';
+import { Task } from '../types/tasks';
+import TaskCard from './Task';
+import sortItems from '../helpers/sortItems';
+import EditAndDeleteButtons from './EditAndDeleteButtons';
 
 type ListProps = {
   column: Column;
+  tasks: Task[];
 };
 
-const List: React.FC<ListProps> = ({ column }) => {
+const List: React.FC<ListProps> = ({ column, tasks }) => {
   const dispatch = useAppDispatch();
 
-  const deleteColumn = () => {
+  const setCurrentColumn = () => {
     dispatch(setCurrentColumnId(column.id));
     dispatch(setCurrentColumnOrder(column.order));
+  };
+
+  const deleteColumn = () => {
+    setCurrentColumn();
     dispatch(openModal(REMOVE_COLUMN));
   };
 
   const editColumn = () => {
-    dispatch(setCurrentColumnId(column.id));
-    dispatch(setCurrentColumnOrder(column.order));
+    setCurrentColumn();
     dispatch(openModal(EDIT_COLUMN_TITLE));
   };
 
+  const addTask = () => {
+    setCurrentColumn();
+    dispatch(openModal(ADD_TASK));
+  };
+
   return (
-    <Box sx={{ display: 'flex', flexFlow: 'row no-wrap' }}>
-      <Typography variant="h5">
-        {/* ***!FOR TEST PURPOSE*** */}
-        {column.order}
-        {'. '}
-        {/* ******** */}
-        {column.title}
-      </Typography>
-      <Button variant="text" onClick={editColumn}>
-        <Tooltip title={boardPage.editBtn}>
-          <EditIcon />
-        </Tooltip>
-      </Button>
-      <Button variant="text" onClick={deleteColumn}>
-        <Tooltip title={boardPage.deleteBtn}>
-          <DeleteIcon />
-        </Tooltip>
-      </Button>
+    <Box sx={{ display: 'flex', flexFlow: 'column nowrap' }}>
+      <Box sx={{
+        display: 'flex', flexFlow: 'row nowrap', minWidth: '280px',
+      }}
+      >
+        <Typography variant="h5" sx={{ mr: 'auto', ml: 'auto' }}>
+          {/* ***!FOR TEST PURPOSE*** */}
+          {column.order}
+          {'. '}
+          {/* ******** */}
+          {column.title}
+        </Typography>
+        <EditAndDeleteButtons
+          editAction={editColumn}
+          deleteAction={deleteColumn}
+        />
+      </Box>
+      <Box>
+        {sortItems(tasks).map(
+          (task) => <TaskCard key={task.id} task={task} columnId={column.id} />,
+        )}
+      </Box>
+      <Button variant="outlined" onClick={addTask} startIcon={<AddIcon />}>Add task</Button>
     </Box>
   );
 };

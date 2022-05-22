@@ -10,6 +10,7 @@ import {
 } from '../types/tasks';
 import initialState from '../constants/task';
 import { FULFILED } from '../constants/asyncThunk';
+import { FormData } from '../types/formTypes';
 
 type GenericAsyncThunk = AsyncThunk<Task[], void | FormData, TypedThunkAPI>;
 
@@ -19,11 +20,12 @@ export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   'task/getTasks',
   async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
-    const columnId = getState().columnStore.currentColumnId;
+    const columnsIds = getState().columnStore.columns.map((column) => column.id);
+    const requests = columnsIds.map((columnId) => TaskService.fetchTasks(boardId, columnId));
 
     try {
-      const response = await TaskService.fetchTasks(boardId, columnId);
-      return response.data;
+      const responseArray = await Promise.all(requests);
+      return responseArray.map((response) => response.data).flat();
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
@@ -34,6 +36,26 @@ export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   },
 );
 
+// I leave it here for future use
+// export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
+//   'task/getTasks',
+//   async (_, { getState, rejectWithValue }) => {
+//     const boardId = getState().boardStore.currentBoardId;
+//     const columnId = getState().columnStore.currentColumnId;
+
+//     try {
+//       const response = await TaskService.fetchTasks(boardId, columnId);
+//       return response.data;
+//     } catch (err) {
+//       const error = err as AxiosError<ValidationErrors>;
+//       if (!error.response) {
+//         throw err;
+//       }
+//       return rejectWithValue(error.response?.data);
+//     }
+//   },
+// );
+
 // TODO write getTask Thunk
 
 export const addTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
@@ -41,9 +63,10 @@ export const addTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
   async (data: FormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
     const columnId = getState().columnStore.currentColumnId;
+    const { userId } = getState().authStore;
 
     // TODO move out this in helpers
-    const orders = getState().columnStore.columns.map((column) => column.order);
+    const orders = getState().taskStore.tasks.map((task) => task.order);
     const taskOrder = orders.length ? Math.max(...orders) + 1 : 1;
     // END TODO
 
@@ -52,7 +75,7 @@ export const addTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
       await TaskService.createTask(
         boardId,
         columnId,
-        { ...data, order: taskOrder } as unknown as NewTaskData,
+        { ...data, order: taskOrder, userId } as unknown as NewTaskData,
       );
       // TODO rewrite for single task fetching
       const response = await TaskService.fetchTasks(boardId, columnId);
@@ -74,6 +97,7 @@ export const editTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
     const columnId = getState().columnStore.currentColumnId;
     const taskId = getState().taskStore.currentTaskId;
     const order = getState().taskStore.currentTaskOrder;
+    const { userId } = getState().authStore;
 
     try {
       // TODO handle this response
@@ -81,7 +105,9 @@ export const editTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
         boardId,
         columnId,
         taskId,
-        { ...data, order } as unknown as UpdateTaskData,
+        {
+          ...data, order, userId, boardId, columnId,
+        } as unknown as UpdateTaskData,
       );
       const response = await TaskService.fetchTasks(boardId, columnId);
       return response.data;
