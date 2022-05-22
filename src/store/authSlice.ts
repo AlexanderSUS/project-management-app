@@ -8,47 +8,44 @@ import {
   SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData,
 } from '../types/response';
 import { NewUser, User, UserDataParams } from '../types/user';
-import type { RootState } from './store';
 import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData } from '../types/authTypes';
 import UserService from '../api/userServise';
+import { TypedThunkAPI } from '../types/slice';
+import ThunkError, { PENDING, REJECTED } from '../constants/asyncThunk';
 
 type GenericAsyncThunk = AsyncThunk<SignInResponse | SignUpResponse, UserDataParams | string | User,
-{ state: RootState, rejectWithvalue: ValidationErrors }>;
+TypedThunkAPI>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 
-export const registration = createAsyncThunk<SignUpResponse, NewUser, {
-  state: RootState, rejectWithValue: ValidationErrors
-} >(
+export const registration = createAsyncThunk<SignUpResponse, NewUser, TypedThunkAPI >(
   'auth/registration',
   async (user: NewUser, { rejectWithValue }) => {
     try {
-      const response = await AuthService.signup<SignUpResponse>(user);
+      const response = await AuthService.signup(user);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
   },
 );
 
-export const login = createAsyncThunk<SignInResponse, User, {
-  state: RootState, rejectWithValue: ValidationErrors
-} >(
+export const logIn = createAsyncThunk<SignInResponse, User, TypedThunkAPI >(
   'auth/login',
   async (user: User, { rejectWithValue }) => {
     try {
-      const response = await AuthService.signin<SignInResponse>(user);
+      const response = await AuthService.signin(user);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -64,7 +61,7 @@ export const getUserData = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
@@ -81,22 +78,22 @@ export const editProfile = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
   },
 );
 
-const isARequestedAction = isAsyncThunkAction(registration, login, getUserData, editProfile);
+const isARequestedAction = isAsyncThunkAction(registration, logIn, getUserData, editProfile);
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logOut: (state) => {
-      state.login = null;
-      state.userId = null;
+      state.login = '';
+      state.userId = '';
     },
     authorize: (state, { payload }: PayloadAction<string>) => {
       const credentials = jwt_decode<JwtData>(payload);
@@ -104,7 +101,7 @@ const authSlice = createSlice({
       state.userId = credentials.userId;
     },
     clearAuthError: (state) => {
-      state.error.message = '';
+      state.error = '';
     },
     removeNewUserData: (state) => {
       state.newUser = null;
@@ -115,7 +112,7 @@ const authSlice = createSlice({
       state.newUser = action.payload;
       state.isLoading = false;
     });
-    builder.addCase(login.fulfilled, (state, action) => {
+    builder.addCase(logIn.fulfilled, (state, action) => {
       localStorage.setItem(TOKEN, action.payload.token);
       const credentials = jwt_decode<JwtData>(action.payload.token);
       state.login = credentials.login;
@@ -127,21 +124,21 @@ const authSlice = createSlice({
       state.userData = action.payload;
     });
     builder.addMatcher(
-      (action): action is RejectedAction => action.type.endsWith('/rejected'),
+      (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.isLoading = false;
           if ((action.payload)) {
             const error = action.payload as ErrorResponseData;
-            state.error.message = error.message;
+            state.error = error.message;
             return;
           }
-          state.error.message = 'Server error';
+          state.error = action.error.message || ThunkError.unknownError;
         }
       },
     );
     builder.addMatcher(
-      (action): action is PendingAction => action.type.endsWith('/pending'),
+      (action): action is PendingAction => action.type.endsWith(PENDING),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.isLoading = true;

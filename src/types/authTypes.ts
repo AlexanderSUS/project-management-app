@@ -1,14 +1,13 @@
 import { HTMLProps } from 'react';
 import { RegisterOptions } from 'react-hook-form';
-import { AuthErrorResponse } from './response';
-import { NewUser, UserData } from './user';
+import type { NewUser, UserData } from './user';
 
 export type AuthState = {
   isLoading: boolean;
-  login: string | null;
-  userId: string | null;
+  login: string;
+  userId: string;
   newUser: NewUser | null;
-  error: AuthErrorResponse;
+  error: string;
   userData: UserData;
 };
 

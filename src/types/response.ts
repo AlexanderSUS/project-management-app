@@ -8,10 +8,6 @@ export interface SignInResponse {
   token: string;
 }
 
-export interface AuthErrorResponse {
-  message: string;
-}
-
 export interface ErrorResponseData {
   message: string;
   statusCode: number;

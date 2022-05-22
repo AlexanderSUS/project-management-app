@@ -6,20 +6,20 @@ import ColumnService from '../api/columnServise';
 import { ColumnState, Column } from '../types/columns';
 import type { ModalInputData } from '../types/modal';
 import { ErrorResponseData, ValidationErrors } from '../types/response';
-import type { RootState } from './store';
 import initialState from '../constants/columns';
+import { TypedThunkAPI } from '../types/slice';
+import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
 
-type GenericAsyncThunk = AsyncThunk<Column[], null | ModalInputData,
-{ state: RootState, rejectWithvalue: ValidationErrors }>;
+type GenericAsyncThunk = AsyncThunk<Column[], void | ModalInputData,
+TypedThunkAPI>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
-export const getColumns = createAsyncThunk<Column[], null, {
-  state: RootState, rejectWithValue: AxiosError<ValidationErrors> } >(
+export const getColumns = createAsyncThunk<Column[], void, TypedThunkAPI >(
   'column/getColumns',
-  async (_: null, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
 
     try {
@@ -35,8 +35,7 @@ export const getColumns = createAsyncThunk<Column[], null, {
   },
 );
 
-export const addColumn = createAsyncThunk<Column[], ModalInputData, {
-  state: RootState, rejectWithValue: ValidationErrors }>(
+export const addColumn = createAsyncThunk<Column[], ModalInputData, TypedThunkAPI>(
   'column/addColumn',
   async (data: ModalInputData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -60,8 +59,7 @@ export const addColumn = createAsyncThunk<Column[], ModalInputData, {
   },
 );
 
-export const editColumn = createAsyncThunk<Column[], ModalInputData, {
-  state: RootState, rejectWithValue: ValidationErrors }>(
+export const editColumn = createAsyncThunk<Column[], ModalInputData, TypedThunkAPI>(
   'column/editColumn',
   async (data: ModalInputData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -82,9 +80,9 @@ export const editColumn = createAsyncThunk<Column[], ModalInputData, {
   },
 );
 
-export const removeColumn = createAsyncThunk<Column[], null, { state: RootState }>(
+export const removeColumn = createAsyncThunk<Column[], void, TypedThunkAPI>(
   'column/removeColumn',
-  async (_: null, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
     const columnId = getState().columnStore.currentColumnId;
 
@@ -117,7 +115,7 @@ const columnSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      (action): action is PendingAction => action.type.endsWith('/pending'),
+      (action): action is PendingAction => action.type.endsWith(PENDING),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = false;
@@ -126,7 +124,7 @@ const columnSlice = createSlice({
       },
     );
     builder.addMatcher(
-      (action): action is RejectedAction => action.type.endsWith('/rejected'),
+      (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = false;
@@ -135,12 +133,12 @@ const columnSlice = createSlice({
             state.error = error.message;
             return;
           }
-          state.error = 'Server error';
+          state.error = action.error.message || ThunkError.unknownError;
         }
       },
     );
     builder.addMatcher(
-      (action): action is FulfilledAction => action.type.endsWith('/fulfilled'),
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
         if (isARequestedAction(action)) {
           state.pending = false;

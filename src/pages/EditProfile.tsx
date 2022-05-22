@@ -97,9 +97,9 @@ const EditProfile: React.FC = () => {
               {editProfilePageText.title}
             </Button>
           </form>
-          {error.message && (
+          {error && (
             <Alert sx={{ mb: '1rem' }} severity="error">
-              {error.message}
+              {error}
             </Alert>
           )}
         </>
