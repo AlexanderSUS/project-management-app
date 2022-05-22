@@ -1,5 +1,5 @@
 export type MyRegisterOptions = {
-  required: string,
+  required?: string,
   minLength?: {
     value: number,
     message: string,
@@ -33,4 +33,5 @@ export type FormData = {
   name: string;
   login: string;
   password: string;
+  description: string;
 };

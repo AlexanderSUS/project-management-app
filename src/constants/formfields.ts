@@ -216,3 +216,50 @@ export const REMOVE_USER : Content = {
   modalTitle: 'Do you really want to delete your accoutn?',
   action: 'removeUser',
 };
+
+export const ADD_TASK: Content = {
+  modalTitle: 'Add task',
+  action: 'addTask',
+  fields: [{
+    registerOptions: {
+      required: 'This field is required',
+      maxLength: {
+        value: 100,
+        message: 'No more than 100 symbols',
+      },
+      minLength: {
+        value: 1,
+        // TODO ADD translation for '1' value
+        message: 'nameErrors.minLength',
+      },
+    },
+    name: 'title',
+    type: 'text',
+    label: 'Task title',
+    placeholder: 'Input task title',
+    autoComplete: 'off',
+  },
+  {
+    registerOptions: { },
+    name: 'description',
+    type: 'text',
+    label: 'description',
+    placeholder: 'Input task description',
+    autoComplete: 'off',
+  },
+  ],
+};
+
+export const EDIT_TASK: Content = {
+  modalTitle: 'Edit task',
+  action: 'editTask',
+  fields: [
+    { ...ADD_TASK.fields![0], placeholder: 'Input new task title' },
+    { ...ADD_TASK.fields![1], placeholder: 'Input new description' },
+  ],
+};
+
+export const REMOVE_TASK: Content = {
+  modalTitle: 'Do you really want to delete task?',
+  action: 'removeTask',
+};

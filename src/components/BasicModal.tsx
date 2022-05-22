@@ -9,7 +9,7 @@ import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
 import { FormData } from '../types/formTypes';
 import isConfirmAction from '../helpers/modalFunctions';
-import { store } from '../store/store';
+import { AppDispatch } from '../store/store';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -36,14 +36,15 @@ const BasicModal: React.FC = () => {
 
   const confirm = () => {
     if (isConfirmAction(action)) {
-      dispatch(modalConfirmAction[action]() as Parameters<typeof store.dispatch>[0]);
+      dispatch(modalConfirmAction[action]() as Parameters<AppDispatch>[0]);
     }
     dispatch(closeModal());
   };
 
+  // TODO try to chage type FormData to Partial<FormData>
   const createOrUpdate = (data: FormData) => {
     if (!isConfirmAction(action)) {
-      dispatch(modalFormAction[action](data) as Parameters<typeof store.dispatch>[0]);
+      dispatch(modalFormAction[action](data) as Parameters<AppDispatch>[0]);
     }
     dispatch(closeModal());
   };
