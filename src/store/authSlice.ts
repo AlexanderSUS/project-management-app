@@ -1,5 +1,5 @@
 import {
-  createAsyncThunk, createSlice, PayloadAction, AsyncThunk, isAsyncThunkAction,
+  createAsyncThunk, createSlice, AsyncThunk, isAsyncThunkAction,
 } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -7,9 +7,11 @@ import AuthService from '../api/authService';
 import {
   SignUpResponse, SignInResponse, ValidationErrors, ErrorResponseData,
 } from '../types/response';
-import { NewUser, User, UserDataParams } from '../types/user';
+import {
+  NewUser, User, UserData, UserDataParams,
+} from '../types/user';
 import { initialState, TOKEN } from '../constants/authorization';
-import { AuthState, JwtData } from '../types/authTypes';
+import { AuthState, JwtData, SignUpFormInput } from '../types/authTypes';
 import UserService from '../api/userServise';
 import { TypedThunkAPI } from '../types/slice';
 import ThunkError, { PENDING, REJECTED } from '../constants/asyncThunk';
@@ -52,9 +54,11 @@ export const logIn = createAsyncThunk<SignInResponse, User, TypedThunkAPI >(
   },
 );
 
-export const getUserData = createAsyncThunk(
+export const getUserData = createAsyncThunk<UserData, string, TypedThunkAPI>(
   'auth/getUserData',
-  async (userId: string, { rejectWithValue }) => {
+  async (jwt: string, { rejectWithValue }) => {
+    const { userId } = jwt_decode<JwtData>(jwt);
+
     try {
       const response = await UserService.getUserData(userId);
       return response.data;
@@ -68,11 +72,12 @@ export const getUserData = createAsyncThunk(
   },
 );
 
-export const editProfile = createAsyncThunk(
+export const editProfile = createAsyncThunk<UserData, SignUpFormInput, TypedThunkAPI>(
   'auth/editProfile',
-  async (userDataParams: UserDataParams, { rejectWithValue }) => {
+  async (userData: SignUpFormInput, { getState, rejectWithValue }) => {
+    const { userId: id } = getState().authStore;
+
     try {
-      const { id, userData } = userDataParams;
       const response = await UserService.updateUserData(id, userData);
       return response.data;
     } catch (err) {
@@ -94,11 +99,6 @@ const authSlice = createSlice({
     logOut: (state) => {
       state.login = '';
       state.userId = '';
-    },
-    authorize: (state, { payload }: PayloadAction<string>) => {
-      const credentials = jwt_decode<JwtData>(payload);
-      state.login = credentials.login;
-      state.userId = credentials.userId;
     },
     clearAuthError: (state) => {
       state.error = '';
@@ -122,10 +122,19 @@ const authSlice = createSlice({
     builder.addCase(getUserData.fulfilled, (state, action) => {
       state.isLoading = false;
       state.userData = action.payload;
+      state.userId = action.payload.id;
+      state.login = action.payload.login;
+    });
+    builder.addCase(editProfile.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.login = action.payload.login;
+      state.userData.login = action.payload.login;
+      state.userData.name = action.payload.name;
     });
     builder.addMatcher(
       (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
+        state.isLoading = false;
         if (isARequestedAction(action)) {
           state.isLoading = false;
           if ((action.payload)) {
@@ -149,7 +158,7 @@ const authSlice = createSlice({
 });
 
 export const {
-  logOut, authorize, clearAuthError, removeNewUserData,
+  logOut, clearAuthError, removeNewUserData,
 } = authSlice.actions;
 
 export default authSlice.reducer;

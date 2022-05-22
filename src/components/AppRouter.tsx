@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import {
   Routes, Route, useNavigate,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../hooks/reduxTypedHooks';
-import { authorize, authSelector } from '../store/authSlice';
+import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
+import { authSelector, getUserData } from '../store/authSlice';
 import AppRoutes from '../constants/routes';
 import Error404 from '../pages/Error404';
 import Login from '../pages/Login';
@@ -19,14 +18,14 @@ import BoardWrapper from './BoardWrapper';
 function AppRouter(): JSX.Element {
   const { userId } = useAppSelector(authSelector);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const jwt = localStorage.getItem(TOKEN);
     if (jwt) {
-      dispatch(authorize(jwt));
+      dispatch(getUserData(jwt));
     }
-  }, [dispatch]);
+  }, [dispatch, userId]);
 
   useEffect(() => {
     if (userId) {
@@ -34,6 +33,7 @@ function AppRouter(): JSX.Element {
     } else {
       navigate(AppRoutes.WELCOME);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   return (

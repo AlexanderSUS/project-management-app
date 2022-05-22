@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -14,40 +14,21 @@ import { AccountCircleOutlined } from '@mui/icons-material';
 import Loader from '../components/Loader';
 import { editProfilePageText } from '../constants/text';
 import { authSelector, editProfile } from '../store/authSlice';
-import { loginAuthInput, SIGNUP_INPUTS, userAuthInput } from '../constants/authorization';
+import { SIGNUP_INPUTS } from '../constants/authorization';
 import { SignUpFormInput } from '../types/authTypes';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import UserService from '../api/userServise';
 
 const EditProfile: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { error, isLoading, userId } = useSelector(authSelector);
+  const { error, isLoading } = useSelector(authSelector);
   const {
     handleSubmit,
-    setValue,
     control,
     formState: { errors },
   } = useForm<SignUpFormInput>({ mode: 'onChange' });
-  const onSubmit = (data: SignUpFormInput) => {
-    dispatch(
-      editProfile({
-        id: userId!,
-        userData: data,
-      }),
-    );
+  const onSubmit = (userData: SignUpFormInput) => {
+    dispatch(editProfile(userData));
   };
-
-  const fetchUserData = useCallback(async (userDataId: string) => {
-    const response = await UserService.getUserData(userDataId!);
-    const { name, login } = response.data;
-
-    setValue(userAuthInput.properties.id as keyof SignUpFormInput, name);
-    setValue(loginAuthInput.properties.id as keyof SignUpFormInput, login);
-  }, []);
-
-  useEffect(() => {
-    fetchUserData(userId!);
-  }, [fetchUserData]);
 
   return (
     <Container component="main" maxWidth="xs">
