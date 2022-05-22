@@ -1,5 +1,5 @@
 import {
-  createAsyncThunk, createSlice, AsyncThunk, isAsyncThunkAction,
+  createAsyncThunk, createSlice, AsyncThunk,
 } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -11,7 +11,7 @@ import { initialState, TOKEN } from '../constants/authorization';
 import { AuthState, JwtData, SignUpFormInput } from '../types/authTypes';
 import UserService from '../api/userServise';
 import { TypedThunkAPI } from '../types/slice';
-import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
+import { REJECTED } from '../constants/asyncThunk';
 import type { FormData } from '../types/formTypes';
 import { NewUser, User, UserData } from '../types/user';
 
@@ -20,7 +20,6 @@ SignInResponse | SignUpResponse | UserData | RemoveUserResponse,
 string | User | FormData | void | NewUser,
 TypedThunkAPI>;
 
-type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 
 export const registration = createAsyncThunk<SignUpResponse, NewUser, TypedThunkAPI >(
@@ -131,14 +130,14 @@ export const removeUser = createAsyncThunk<RemoveUserResponse, void, TypedThunkA
   },
 );
 
-const isARequestedAction = isAsyncThunkAction(
-  registration,
-  logIn,
-  getUserData,
-  editName,
-  editLogin,
-  removeUser,
-);
+// const isARequestedAction = isAsyncThunkAction(
+//   registration,
+//   logIn,
+//   getUserData,
+//   editName,
+//   editLogin,
+//   removeUser,
+// );
 
 const authSlice = createSlice({
   name: 'auth',
@@ -184,38 +183,17 @@ const authSlice = createSlice({
       state.userName = action.payload.name;
     });
     builder.addMatcher(
-      (action): action is RejectedAction => action.type.endsWith(FULFILED),
-      (state) => {
-        state.isLoading = false;
-      },
-    );
-    builder.addMatcher(
       (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
         state.isLoading = false;
-        if (isARequestedAction(action)) {
-          if ((action.payload)) {
-            const error = action.payload as ErrorResponseData;
-
-            if (error.statusCode === 401) {
-              state.userId = '';
-              state.login = '';
-              state.userName = '';
-              state.error = ThunkError.notAuthorized;
-              return;
-            }
-            state.error = error.message;
-            return;
+        if ((action.payload)) {
+          const error = action.payload as ErrorResponseData;
+          if (error.statusCode === 401) {
+            state.userId = '';
+            state.login = '';
+            state.userName = '';
           }
-          state.error = action.error.message || ThunkError.unknownError;
         }
-      },
-    );
-    builder.addMatcher(
-      (action): action is PendingAction => action.type.endsWith(PENDING),
-      (state) => {
-        state.isLoading = true;
-        state.error = '';
       },
     );
   },

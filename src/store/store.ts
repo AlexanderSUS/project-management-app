@@ -4,6 +4,7 @@ import boardSliceReducer from './boardSlice';
 import modalSliceReducer from './modalSlice';
 import columnSliceReducer from './columnSlice';
 import taskSliceReducer from './taskSlice';
+import notificationSliceReducer from './notificationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     modalStore: modalSliceReducer,
     columnStore: columnSliceReducer,
     taskStore: taskSliceReducer,
+    notificationStore: notificationSliceReducer,
   },
 });
 
