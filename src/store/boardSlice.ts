@@ -4,17 +4,15 @@ import {
 import { AxiosError } from 'axios';
 import BoardService from '../api/boardServise';
 import { Boards, BoardState } from '../types/boards';
-import { ErrorResponseData, ValidationErrors } from '../types/response';
+import { ValidationErrors } from '../types/response';
 import initialState from '../constants/boards';
 import type { ModalInputData } from '../types/modal';
 import { TypedThunkAPI } from '../types/slice';
-import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
+import { FULFILED } from '../constants/asyncThunk';
 
 type GenericAsyncThunk = AsyncThunk<Boards, void | ModalInputData,
 TypedThunkAPI>;
 
-type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
-type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 export const getBoards = createAsyncThunk<Boards, void, TypedThunkAPI >(
@@ -96,39 +94,9 @@ const boardSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      (action): action is PendingAction => action.type.endsWith(PENDING),
-      (state, action) => {
-        if (isARequestedAction(action)) {
-          state.pending = true;
-          state.error = '';
-        }
-      },
-    );
-    builder.addMatcher(
-      (action): action is RejectedAction => action.type.endsWith(REJECTED),
-      (state, action) => {
-        if (isARequestedAction(action)) {
-          state.pending = false;
-          if (action.payload) {
-            const error = action.payload as ErrorResponseData;
-
-            if (error.statusCode === 401) {
-              state.error = ThunkError.notAuthorized;
-              // TODO find solution for log out user
-              return;
-            }
-            state.error = error.message;
-            return;
-          }
-          state.error = action.error.message || ThunkError.unknownError;
-        }
-      },
-    );
-    builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
         if (isARequestedAction(action)) {
-          state.pending = false;
           state.boards = action.payload;
         }
       },

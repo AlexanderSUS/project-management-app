@@ -11,6 +11,6 @@ export type ColumnState = {
   columns: Column[];
   currentColumnId: string;
   currentColumnOrder: number;
-  pending: boolean;
-  error: string;
+  // pending: boolean;
+  // error: string;
 };

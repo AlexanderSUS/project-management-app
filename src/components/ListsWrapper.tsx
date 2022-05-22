@@ -3,6 +3,7 @@ import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from '../hooks/reduxTypedHooks';
 import { columnSelector } from '../store/columnSlice';
+import { authSelector } from '../store/authSlice';
 import { boardPage } from '../constants/text';
 import List from './List';
 import Loader from './Loader';
@@ -14,17 +15,18 @@ const StyledListWrapper = styled(Box)`
 `;
 
 const ListsWrapper: React.FC = () => {
-  const { pending, columns, error } = useAppSelector(columnSelector, shallowEqual);
+  const { columns } = useAppSelector(columnSelector, shallowEqual);
+  const { isLoading, error } = useAppSelector(authSelector);
 
   const sortedColumns = columns.length > 1
     ? [...columns].sort((a, b) => (a.order - b.order)) : columns;
 
   return (
     <StyledListWrapper>
-      { pending && <Loader /> }
-      {!pending && error && <Typography>{error}</Typography>}
-      {!pending && !error && !columns.length && <Typography variant="h6">{boardPage.noLists}</Typography>}
-      {!pending && !error && columns.length ? (
+      { isLoading && <Loader /> }
+      {!isLoading && error && <Typography>{error}</Typography>}
+      {!isLoading && !error && !columns.length && <Typography variant="h6">{boardPage.noLists}</Typography>}
+      {!isLoading && !error && columns.length ? (
         <>
           { sortedColumns.map((column) => (
             <List key={column.id} column={column} />))}
