@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { closeModal } from '../store/modalSlice';
-import convertRulesRegExp from '../helpers/ConvertRulesRegExp';
+import convertRulesRegExp from '../helpers/convertRulesRegExp';
 import { FormData, FormField } from '../types/formTypes';
 import { AppDispatch } from '../store/store';
 import { logIn, registration } from '../store/authSlice';

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../store/modalSlice';
 import { FormData } from '../types/formTypes';
 import { modalText } from '../constants/text';
-import convertRulesRegExp from '../helpers/ConvertRulesRegExp';
+import convertRulesRegExp from '../helpers/convertRulesRegExp';
 
 type BoardFormProps = {
   createOrUpdate: (data: FormData) => void;
