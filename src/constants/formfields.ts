@@ -103,27 +103,9 @@ export const REMOVE_BOARD: Content = {
 export const EDIT_BOARD: Content = {
   modalTitle: 'Edit board',
   action: 'editBoard',
-  // TODO use fields from addBoard
-  fields: [{
-    registerOptions: {
-      required: 'This field is required',
-      maxLength: {
-        value: 30,
-        message: 'nameErrors.maxLength',
-      },
-      minLength: {
-        value: 1,
-        // TODO ADD translation for '1' value
-        message: 'nameErrors.minLength',
-      },
-    },
-    name: 'title',
-    type: 'text',
-    label: 'Board title',
-    placeholder: 'Input new board title',
-    // TODO add translation
-    autoComplete: 'New board',
-  }],
+  fields: [
+    { ...NEW_BOARD.fields![0], placeholder: 'Input new board title' },
+  ],
 };
 
 export const ADD_COLUMN: Content = {
@@ -160,26 +142,7 @@ export const REMOVE_COLUMN: Content = {
 export const EDIT_COLUMN_TITLE: Content = {
   modalTitle: 'Edit list title',
   action: 'editColumn',
-  fields: [{
-    registerOptions: {
-      required: 'This field is required',
-      maxLength: {
-        value: 20,
-        message: 'nameErrors.maxLength',
-      },
-      minLength: {
-        value: 1,
-        // TODO ADD translation for '1' value
-        message: 'nameErrors.minLength',
-      },
-    },
-    name: 'title',
-    type: 'text',
-    label: 'List title',
-    placeholder: 'Input new list title',
-    // TODO add translation
-    autoComplete: 'New list',
-  },
+  fields: [{ ...ADD_COLUMN.fields![0], placeholder: 'Input new list title' },
   ],
 };
 
