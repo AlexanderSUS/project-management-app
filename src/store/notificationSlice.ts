@@ -1,37 +1,13 @@
-import {
-  AsyncThunk, createSlice, isAnyOf, isAsyncThunkAction,
-} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import initialState from '../constants/notification';
-import { FormData } from '../types/formTypes';
 import { NotificationState } from '../types/notification';
-import {
-  RemoveUserResponse, SignInResponse, SignUpResponse, ErrorResponseData,
-} from '../types/response';
-import { TypedThunkAPI } from '../types/slice';
-import { NewUser, User, UserData } from '../types/user';
+import { ErrorResponseData } from '../types/response';
 import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
-import { addColumn, editColumn, removeColumn } from './columnSlice';
-import { addTask, editTask, removeTask } from './taskSlice';
-import { addBoard, editBoard, removeBoard } from './boardSlice';
-import { Boards } from '../types/boards';
-import { logIn, registration, removeUser } from './authSlice';
-
-type GenericAsyncThunk = AsyncThunk<
-SignInResponse | SignUpResponse | UserData | RemoveUserResponse | Boards,
-string | User | FormData | void | NewUser,
-TypedThunkAPI>;
-
-type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
-type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
-type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
-
-const isAddAction = isAsyncThunkAction(addBoard, addColumn, addTask);
-const isEditAction = isAsyncThunkAction(editBoard, editColumn, editTask);
-const isDeleteAction = isAsyncThunkAction(removeBoard, removeColumn, removeUser, removeTask);
-const isRegistrationAction = isAsyncThunkAction(registration);
-const isLogInAction = isAsyncThunkAction(logIn);
-
-const isModalFormAction = isAnyOf(isAddAction, isEditAction, isDeleteAction);
+import {
+  isModalFormAction, isAddAction, isEditAction, isDeleteAction,
+  isRegistrationAction, isLogInAction,
+} from './utils';
+import { FulfilledAction, PendingAction, RejectedAction } from '../types/slice';
 
 const notificationSlice = createSlice({
   name: 'notification',
@@ -82,11 +58,21 @@ const notificationSlice = createSlice({
           const error = action.payload as ErrorResponseData;
 
           if (error.statusCode === 401) {
+            // TODO add translation
             state.error = ThunkError.notAuthorized;
             return;
           }
+          // if (error.statusCode === 403) {
+          //   // TODO serverer reply 'User was not founded!'
+          //   // but it occuours also when password invalid
+          //   // add translation
+          //   state.error = error.message;
+          //   return;
+          // }
           state.error = error.message || ThunkError.unknownError;
+          return;
         }
+        state.error = action.error.message || ThunkError.unknownError;
       },
     );
   },
