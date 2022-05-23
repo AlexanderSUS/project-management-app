@@ -5,14 +5,15 @@ import { NotificationState } from '../types/notification';
 import { ErrorResponseData, SignInResponse } from '../types/response';
 import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
 import {
-  isAddAction, isEditAction, isDeleteAction,
-  isRegistrationAction, isLogInAction, isBoardAction, isColumnAction, isTaskAction,
+  isAddAction, isEditAction, isDeleteAction, isRegistrationAction,
+  isLogInAction, isBoardAction, isColumnAction, isTaskAction,
+  isEditNameAction, isUserRemoveAcition, isUserEditAction, isEditLoginAction,
 } from './utils';
 import { FulfilledAction, PendingAction, RejectedAction } from '../types/slice';
 import { BoardType } from '../types/boards';
 import { Column } from '../types/columns';
 import { Task } from '../types/tasks';
-import { NewUser } from '../types/user';
+import { NewUser, UserData } from '../types/user';
 import { JwtData } from '../types/authTypes';
 
 const notificationSlice = createSlice({
@@ -35,7 +36,7 @@ const notificationSlice = createSlice({
 
         // TODO refactor all this
         if (isAddAction(action)) {
-          const data = action.payload as unknown as BoardType | Column | Task;
+          const data = action.payload as BoardType | Column | Task;
 
           if (isBoardAction(action)) {
             state.log.push({ message: `Board "${data.title}" was succesfuly created`, severity });
@@ -48,7 +49,7 @@ const notificationSlice = createSlice({
           }
         }
         if (isEditAction(action)) {
-          const data = action.payload as unknown as BoardType | Column | Task;
+          const data = action.payload as BoardType | Column | Task;
 
           if (isBoardAction(action)) {
             state.log.push({ message: `Board "${data.title}" was succesfuly edited`, severity });
@@ -69,6 +70,18 @@ const notificationSlice = createSlice({
           }
           if (isTaskAction(action)) {
             state.log.push({ message: 'Task was removed', severity });
+          }
+          if (isUserRemoveAcition(action)) {
+            state.log.push({ message: 'Your account was removed', severity });
+          }
+        }
+        if (isUserEditAction(action)) {
+          const user = action.payload as UserData;
+          if (isEditLoginAction(action)) {
+            state.log.push({ message: `Your login was succesfuly edited. New login: "${user.login}" `, severity });
+          }
+          if (isEditNameAction(action)) {
+            state.log.push({ message: `Your name was succesfuly edited. New name: "${user.name}"`, severity });
           }
         }
         if (isRegistrationAction(action)) {
@@ -104,10 +117,12 @@ const notificationSlice = createSlice({
             return;
           }
           if (error.statusCode === 409) {
-            // TODO the same as above
+            // TODO add translation
             // "message":"User login already exists!"
             state.log.push({ message: error.message, severity });
+            return;
           }
+          state.log.push({ message: error.message || ThunkError.unknownError, severity });
           return;
         }
         state.log.push({ message: action.error.message || ThunkError.unknownError, severity });
