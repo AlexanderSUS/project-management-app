@@ -26,3 +26,11 @@ export type FormField = {
   placeholder: string;
   autoComplete: string;
 };
+
+export type FormData = {
+  title: string;
+  order: number;
+  name: string;
+  login: string;
+  password: string;
+};

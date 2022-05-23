@@ -4,13 +4,13 @@ import {
 import { AxiosError } from 'axios';
 import ColumnService from '../api/columnServise';
 import { ColumnState, Column } from '../types/columns';
-import type { ModalInputData } from '../types/modal';
+import type { FormData } from '../types/formTypes';
 import { ValidationErrors } from '../types/response';
 import initialState from '../constants/columns';
 import { TypedThunkAPI } from '../types/slice';
 import { FULFILED } from '../constants/asyncThunk';
 
-type GenericAsyncThunk = AsyncThunk<Column[], void | ModalInputData,
+type GenericAsyncThunk = AsyncThunk<Column[], void | FormData,
 TypedThunkAPI>;
 
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
@@ -33,9 +33,9 @@ export const getColumns = createAsyncThunk<Column[], void, TypedThunkAPI >(
   },
 );
 
-export const addColumn = createAsyncThunk<Column[], ModalInputData, TypedThunkAPI>(
+export const addColumn = createAsyncThunk<Column[], FormData, TypedThunkAPI>(
   'column/addColumn',
-  async (data: ModalInputData, { getState, rejectWithValue }) => {
+  async (data: FormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
 
     // TODO move out this in helpers
@@ -57,9 +57,9 @@ export const addColumn = createAsyncThunk<Column[], ModalInputData, TypedThunkAP
   },
 );
 
-export const editColumn = createAsyncThunk<Column[], ModalInputData, TypedThunkAPI>(
+export const editColumn = createAsyncThunk<Column[], FormData, TypedThunkAPI>(
   'column/editColumn',
-  async (data: ModalInputData, { getState, rejectWithValue }) => {
+  async (data: FormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
     const columnId = getState().columnStore.currentColumnId;
     const order = getState().columnStore.currentColumnOrder;
