@@ -7,6 +7,10 @@ export const inputRegExps: RegExpPatterns = {
   password: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$',
 };
 
+export const DESCRIPTION = 'description';
+export const MULTILINE_ROWS = 6;
+export const DEFAULT_ROWS = 1;
+
 export const nameAuthInput: FormField = {
   name: 'name',
   type: 'text',
@@ -200,7 +204,7 @@ export const ADD_TASK: Content = {
   {
     registerOptions: { },
     name: 'description',
-    type: 'text',
+    type: 'input',
     label: 'description',
     placeholder: 'Input task description',
   },
