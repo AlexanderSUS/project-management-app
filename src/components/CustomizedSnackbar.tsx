@@ -2,8 +2,8 @@ import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
-import { clearError, clearInfo, notificationSelector } from '../store/notificationSlice';
+import { useAppSelector } from '../hooks/reduxTypedHooks';
+import { notificationSelector } from '../store/notificationSlice';
 
 export enum Severity {
   info = 'info',
@@ -18,19 +18,15 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>((
   ref,
 ) => <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />);
 
+const greeteng = { message: 'Hello user!', severity: Severity.info };
+
 export default function CustomizedSnackbar() {
   const { error, info } = useAppSelector(notificationSelector);
   const [severity, setSeveriy] = React.useState<SeverityType>(Severity.success);
   const [open, setOpen] = React.useState(false);
-  const dispatch = useAppDispatch();
+  const [log, setLog] = React.useState<{ message: string, severity: SeverityType }[]>([greeteng]);
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (severity === Severity.error) {
-      dispatch(clearError());
-    }
-    if (severity === Severity.success) {
-      dispatch(clearInfo());
-    }
     if (reason === 'clickaway') {
       return;
     }
@@ -40,21 +36,19 @@ export default function CustomizedSnackbar() {
 
   useEffect(() => {
     if (error) {
-      setSeveriy(Severity.error);
-      setOpen(true);
+      const notification = { message: error, severity: Severity.error };
+      setLog((state) => [...state, notification]);
     }
     if (info) {
-      setSeveriy(Severity.success);
-      setOpen(true);
-    }
-    // TODO check this logic adn find solulition do not show empty message??
-    if (!error && severity === Severity.error) {
-      setOpen(false);
-    }
-    if (!info && severity === Severity.success) {
-      setOpen(false);
+      const notification = { message: info, severity: Severity.info };
+      setLog((state) => [...state, notification]);
     }
   }, [error, info]);
+
+  useEffect(() => {
+    setSeveriy(log[log.length - 1].severity);
+    setOpen(true);
+  }, [log]);
 
   return (
     <Snackbar
@@ -64,7 +58,7 @@ export default function CustomizedSnackbar() {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
     >
       <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
-        {error || info}
+        {log[log.length - 1].message}
       </Alert>
     </Snackbar>
   );
