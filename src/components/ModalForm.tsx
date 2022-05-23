@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
-import { closeModal, modalSelector } from '../store/modalSlice';
+import { clearDefaultValues, closeModal, modalSelector } from '../store/modalSlice';
 import { FormData } from '../types/formTypes';
 import { modalText } from '../constants/text';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
@@ -13,7 +14,7 @@ type BoardFormProps = {
 };
 
 const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
-  const { fields } = useAppSelector(modalSelector);
+  const { fields, defaultValues } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
   const { handleSubmit, control, formState: { errors } } = useForm<Parameters<typeof createOrUpdate>[0]>({ mode: 'onChange' });
   const { t } = useTranslation();
@@ -23,15 +24,19 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
     dispatch(closeModal());
   };
 
+  useEffect(() => () => {
+    dispatch(clearDefaultValues());
+  }, [dispatch]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {fields && fields.map((input) => (
+      {fields && fields.map((input, index) => (
         <Controller
           key={input.name}
           name={input.name as keyof FormData}
           control={control}
           rules={convertRulesRegExp(input.registerOptions)}
-          defaultValue=""
+          defaultValue={defaultValues[index] || ''}
           render={({ field: { onChange, value } }) => (
             <TextField
               margin="normal"

@@ -27,7 +27,10 @@ export const modalConfirmAction: ModalConfirmAction = {
 };
 
 const initialState: ModalState = {
-  isOpen: false, title: '', action: 'addBoard',
+  isOpen: false,
+  title: '',
+  action: 'addBoard',
+  defaultValues: [],
 };
 
 export default initialState;
