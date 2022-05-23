@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Alert, Box, Container, Typography, Button,
+  Box, Container, Typography, Button,
 } from '@mui/material';
 import Loader from '../components/Loader';
 import { editProfilePageText } from '../constants/text';
@@ -32,11 +32,6 @@ const EditProfile: React.FC = () => {
     <Container component="main" maxWidth="md">
       <Typography variant="h2" component="h1" gutterBottom>{editProfilePageText.title}</Typography>
       {isLoading && <Loader />}
-      {!isLoading && error && (
-        <Alert sx={{ mb: '1rem' }} severity="error">
-          {error}
-        </Alert>
-      )}
       {!isLoading && !error && (
         <>
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>

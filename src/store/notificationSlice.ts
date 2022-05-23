@@ -10,7 +10,7 @@ import {
 import { TypedThunkAPI } from '../types/slice';
 import { NewUser, User, UserData } from '../types/user';
 import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
-import { addColumn, editColumn } from './columnSlice';
+import { addColumn, editColumn, removeColumn } from './columnSlice';
 import { addTask, editTask, removeTask } from './taskSlice';
 import { addBoard, editBoard, removeBoard } from './boardSlice';
 import { Boards } from '../types/boards';
@@ -27,7 +27,7 @@ type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 const isAddAction = isAsyncThunkAction(addBoard, addColumn, addTask);
 const isEditAction = isAsyncThunkAction(editBoard, editColumn, editTask);
-const isDeleteAction = isAsyncThunkAction(removeBoard, removeUser, removeTask);
+const isDeleteAction = isAsyncThunkAction(removeBoard, removeColumn, removeUser, removeTask);
 const isRegistrationAction = isAsyncThunkAction(registration);
 const isLogInAction = isAsyncThunkAction(logIn);
 

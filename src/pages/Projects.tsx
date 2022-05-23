@@ -31,7 +31,6 @@ function Projects(): JSX.Element {
             {boardPage.title}
           </Typography>
           {isLoading && <Loader />}
-          {!isLoading && error && <span>{error}</span>}
           {!isLoading && !error && <BoardPreviewsWrapper boards={boards} />}
         </>
       ) : <Outlet />}

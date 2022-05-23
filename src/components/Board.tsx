@@ -64,7 +64,6 @@ const Board: React.FC = () => {
         </Button>
       </ButtonGroup>
       <Box>
-        {!isLoading && error && <Typography>{error}</Typography> }
         {!isLoading && !error && <ListsWrapper /> }
       </Box>
     </>

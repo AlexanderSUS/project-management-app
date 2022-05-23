@@ -24,7 +24,6 @@ const ListsWrapper: React.FC = () => {
   return (
     <StyledListWrapper>
       { isLoading && <Loader /> }
-      {error && <Typography>{error}</Typography>}
       {!isLoading && !error && !columns.length && <Typography variant="h6">{boardPage.noLists}</Typography>}
       {!isLoading && !error && columns.length ? (
         <>
