@@ -1,10 +1,7 @@
-import type { NewUser } from './user';
-
 export type AuthState = {
   login: string;
   userId: string;
   userName: string;
-  newUser: NewUser | null;
 };
 
 export type JwtData = {

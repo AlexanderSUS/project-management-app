@@ -10,7 +10,6 @@ export const initialState: AuthState = {
   userId: '',
   userName: '',
   login: '',
-  newUser: null,
 };
 
 export enum AuthTextEn {
