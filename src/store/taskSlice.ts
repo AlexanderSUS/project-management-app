@@ -1,6 +1,4 @@
-import {
-  AsyncThunk, createAsyncThunk, createSlice, isAsyncThunkAction, PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import TaskService from '../api/taskService';
 import { ValidationErrors } from '../types/response';
@@ -9,12 +7,7 @@ import {
   NewTaskData, Task, TaskState, UpdateTaskData,
 } from '../types/tasks';
 import initialState from '../constants/task';
-import { FULFILED } from '../constants/asyncThunk';
 import { FormData } from '../types/formTypes';
-
-type GenericAsyncThunk = AsyncThunk<Task[], void | FormData, TypedThunkAPI>;
-
-type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   'task/getTasks',
@@ -36,29 +29,9 @@ export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   },
 );
 
-// I leave it here for future use
-// export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
-//   'task/getTasks',
-//   async (_, { getState, rejectWithValue }) => {
-//     const boardId = getState().boardStore.currentBoardId;
-//     const columnId = getState().columnStore.currentColumnId;
+// TODO write getTask Thunk if neded
 
-//     try {
-//       const response = await TaskService.fetchTasks(boardId, columnId);
-//       return response.data;
-//     } catch (err) {
-//       const error = err as AxiosError<ValidationErrors>;
-//       if (!error.response) {
-//         throw err;
-//       }
-//       return rejectWithValue(error.response?.data);
-//     }
-//   },
-// );
-
-// TODO write getTask Thunk
-
-export const addTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
+export const addTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
   'task/addTask',
   async (data: FormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -71,14 +44,11 @@ export const addTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
     // END TODO
 
     try {
-      // TODO handle this response
-      await TaskService.createTask(
+      const response = await TaskService.createTask(
         boardId,
         columnId,
         { ...data, order: taskOrder, userId } as unknown as NewTaskData,
       );
-      // TODO rewrite for single task fetching
-      const response = await TaskService.fetchTasks(boardId, columnId);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -90,7 +60,7 @@ export const addTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
   },
 );
 
-export const editTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
+export const editTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
   'task/editTask',
   async (data: FormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -100,8 +70,8 @@ export const editTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
     const { userId } = getState().authStore;
 
     try {
-      // TODO handle this response
-      await TaskService.editTask(
+      // TODO optimze repeated variables
+      const response = await TaskService.editTask(
         boardId,
         columnId,
         taskId,
@@ -109,7 +79,6 @@ export const editTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
           ...data, order, userId, boardId, columnId,
         } as unknown as UpdateTaskData,
       );
-      const response = await TaskService.fetchTasks(boardId, columnId);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -121,7 +90,7 @@ export const editTask = createAsyncThunk<Task[], FormData, TypedThunkAPI>(
   },
 );
 
-export const removeTask = createAsyncThunk<Task[], void, TypedThunkAPI>(
+export const removeTask = createAsyncThunk<Task, void, TypedThunkAPI>(
   'task/removeTask',
   async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -129,9 +98,7 @@ export const removeTask = createAsyncThunk<Task[], void, TypedThunkAPI>(
     const taskId = getState().taskStore.currentTaskId;
 
     try {
-      // TODO handle this response
-      await TaskService.deleteTask(boardId, columnId, taskId);
-      const response = await TaskService.fetchTasks(boardId, columnId);
+      const response = await TaskService.deleteTask(boardId, columnId, taskId);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -142,8 +109,6 @@ export const removeTask = createAsyncThunk<Task[], void, TypedThunkAPI>(
     }
   },
 );
-
-const isARequestedAction = isAsyncThunkAction(getTasks, addTask, editTask, removeTask);
 
 const taskSlice = createSlice({
   name: 'task',
@@ -154,14 +119,9 @@ const taskSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
-      (state, action) => {
-        if (isARequestedAction(action)) {
-          state.tasks = action.payload;
-        }
-      },
-    );
+    builder.addCase(getTasks.fulfilled, (state, action) => {
+      state.tasks = action.payload;
+    });
   },
 });
 

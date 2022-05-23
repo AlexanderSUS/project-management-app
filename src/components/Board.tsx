@@ -9,7 +9,7 @@ import { openModal } from '../store/modalSlice';
 import Loader from './Loader';
 import AppRoutes from '../constants/routes';
 import { boardSelector, setCurrentBoardId } from '../store/boardSlice';
-import { columnSelector, getColumns } from '../store/columnSlice';
+import { getColumns } from '../store/columnSlice';
 import ListsWrapper from './ListsWrapper';
 import { getTasks } from '../store/taskSlice';
 import { boardPage } from '../constants/text';
@@ -20,7 +20,6 @@ const Board: React.FC = () => {
   const navigate = useNavigate();
   const { currentBoardId, boards } = useAppSelector(boardSelector);
   const { isLoading, error } = useAppSelector(notificationSelector);
-  const { columns } = useAppSelector(columnSelector);
   const currentBoard = boards.find((board) => board.id === currentBoardId);
 
   const deleteBoard = () => {
@@ -41,16 +40,14 @@ const Board: React.FC = () => {
       .then(() => {
         dispatch(getTasks());
       });
-  }, [dispatch, currentBoardId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   useEffect(() => {
-  }, [dispatch, columns]);
-
-  useEffect(() => {
-    if (!currentBoardId) {
+    if (!currentBoard) {
       navigate(AppRoutes.PROJECTS);
     }
-  }, [currentBoardId, navigate]);
+  }, [currentBoard, navigate]);
 
   return isLoading ? <Loader /> : (
     <>

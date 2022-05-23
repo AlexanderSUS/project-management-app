@@ -75,7 +75,8 @@ export const NEW_BOARD: Content = {
     registerOptions: {
       required: 'This field is required',
       maxLength: {
-        value: 20,
+        value: 40,
+        // TODO ADD translation for '40' value
         message: 'nameErrors.maxLength',
       },
       minLength: {
@@ -102,11 +103,12 @@ export const REMOVE_BOARD: Content = {
 export const EDIT_BOARD: Content = {
   modalTitle: 'Edit board',
   action: 'editBoard',
+  // TODO use fields from addBoard
   fields: [{
     registerOptions: {
       required: 'This field is required',
       maxLength: {
-        value: 20,
+        value: 30,
         message: 'nameErrors.maxLength',
       },
       minLength: {

@@ -1,19 +1,11 @@
-import {
-  AsyncThunk, createAsyncThunk, createSlice, isAsyncThunkAction, PayloadAction,
-} from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError, AxiosResponse } from 'axios';
 import ColumnService from '../api/columnServise';
 import { ColumnState, Column } from '../types/columns';
 import type { FormData } from '../types/formTypes';
 import { ValidationErrors } from '../types/response';
 import initialState from '../constants/columns';
 import { TypedThunkAPI } from '../types/slice';
-import { FULFILED } from '../constants/asyncThunk';
-
-type GenericAsyncThunk = AsyncThunk<Column[], void | FormData,
-TypedThunkAPI>;
-
-type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 export const getColumns = createAsyncThunk<Column[], void, TypedThunkAPI >(
   'column/getColumns',
@@ -26,14 +18,14 @@ export const getColumns = createAsyncThunk<Column[], void, TypedThunkAPI >(
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
   },
 );
 
-export const addColumn = createAsyncThunk<Column[], FormData, TypedThunkAPI>(
+export const addColumn = createAsyncThunk<Column, FormData, TypedThunkAPI>(
   'column/addColumn',
   async (data: FormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -44,20 +36,19 @@ export const addColumn = createAsyncThunk<Column[], FormData, TypedThunkAPI>(
     // END TODO
 
     try {
-      await ColumnService.createColumn(boardId, { title: data.title, order: columnOrder });
-      const response = await ColumnService.fetchColumns(boardId);
+      const response = await ColumnService.createColumn(boardId, { ...data, order: columnOrder });
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
   },
 );
 
-export const editColumn = createAsyncThunk<Column[], FormData, TypedThunkAPI>(
+export const editColumn = createAsyncThunk<Column, FormData, TypedThunkAPI>(
   'column/editColumn',
   async (data: FormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
@@ -65,40 +56,36 @@ export const editColumn = createAsyncThunk<Column[], FormData, TypedThunkAPI>(
     const order = getState().columnStore.currentColumnOrder;
 
     try {
-      await ColumnService.editColumn(boardId, columnId, { order, title: data.title });
-      const response = await ColumnService.fetchColumns(boardId);
+      const response = await ColumnService.editColumn(boardId, columnId, { ...data, order });
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
   },
 );
 
-export const removeColumn = createAsyncThunk<Column[], void, TypedThunkAPI>(
+export const removeColumn = createAsyncThunk<AxiosResponse, void, TypedThunkAPI>(
   'column/removeColumn',
   async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
     const columnId = getState().columnStore.currentColumnId;
 
     try {
-      await ColumnService.deleteColumn(boardId, columnId);
-      const response = await ColumnService.fetchColumns(boardId);
+      const response = await ColumnService.deleteColumn(boardId, columnId);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
-        return rejectWithValue(error);
+        throw err;
       }
       return rejectWithValue(error.response?.data);
     }
   },
 );
-
-const isARequestedAction = isAsyncThunkAction(getColumns, addColumn, editColumn, removeColumn);
 
 const columnSlice = createSlice({
   name: 'column',
@@ -112,14 +99,9 @@ const columnSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
-      (state, action) => {
-        if (isARequestedAction(action)) {
-          state.columns = action.payload;
-        }
-      },
-    );
+    builder.addCase(getColumns.fulfilled, (state, action) => {
+      state.columns = action.payload;
+    });
   },
 });
 

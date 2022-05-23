@@ -1,5 +1,5 @@
 import {
-  AsyncThunk, createSlice, isAsyncThunkAction,
+  AsyncThunk, createSlice, isAnyOf, isAsyncThunkAction,
 } from '@reduxjs/toolkit';
 import initialState from '../constants/notification';
 import { FormData } from '../types/formTypes';
@@ -31,6 +31,8 @@ const isDeleteAction = isAsyncThunkAction(removeBoard, removeUser, removeTask);
 const isRegistrationAction = isAsyncThunkAction(registration);
 const isLogInAction = isAsyncThunkAction(logIn);
 
+const isModalFormAction = isAnyOf(isAddAction, isEditAction, isDeleteAction);
+
 const notificationSlice = createSlice({
   name: 'notification',
   initialState,
@@ -47,14 +49,14 @@ const notificationSlice = createSlice({
       (action): action is PendingAction => action.type.endsWith(PENDING),
       (state) => {
         state.isLoading = true;
-        state.error = '';
-        state.info = '';
       },
     );
     builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
-        state.isLoading = false;
+        if (!isModalFormAction(action)) {
+          state.isLoading = false;
+        }
         if (isAddAction(action)) {
           state.info = JSON.stringify(action.payload);
         }
@@ -62,13 +64,13 @@ const notificationSlice = createSlice({
           state.info = JSON.stringify(action.payload);
         }
         if (isDeleteAction(action)) {
-          state.info = JSON.stringify(action.payload);
+          state.info = action.meta.requestStatus;
         }
         if (isRegistrationAction(action)) {
           state.info = JSON.stringify(action.payload);
         }
         if (isLogInAction(action)) {
-          state.info = JSON.stringify(action.payload);
+          state.info = 'Success logIn';
         }
       },
     );

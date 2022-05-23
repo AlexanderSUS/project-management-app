@@ -1,4 +1,4 @@
-import { AnyAction, isAsyncThunkAction } from '@reduxjs/toolkit';
+import { isAsyncThunkAction } from '@reduxjs/toolkit';
 import { AppStartListening } from './listenerMiddleware';
 import { RootState } from './store';
 import {
@@ -22,7 +22,6 @@ export const addBoardListener = (startAppListening: AppStartListening) => {
       state: RootState,
     ) => (isBoardAction(action) && !!state.notificationStore.info),
     effect: (_, listenerApi) => {
-      console.log('dispatch getBoards');
       listenerApi.dispatch(getBoards());
     },
   });
@@ -35,7 +34,6 @@ export const addColumnListener = (startAppListening: AppStartListening) => {
       state: RootState,
     ) => (isColumnAction(action) && !!state.notificationStore.info),
     effect: (_, listenerApi) => {
-      console.log('dispatch getColumns');
       listenerApi.dispatch(getColumns());
     },
   });
@@ -48,8 +46,7 @@ export const addTaskListener = (startAppListening: AppStartListening) => {
       state: RootState,
     ) => (isTaskAction(action) && !!state.notificationStore.info),
     effect: (_, listenerApi) => {
-      console.log('dispatch getTasks');
-      listenerApi.dispatch(getTasks() as unknown as AnyAction);
+      listenerApi.dispatch(getTasks());
     },
   });
 };
