@@ -11,7 +11,6 @@ export const nameAuthInput: FormField = {
   name: 'name',
   type: 'text',
   placeholder: 'Input your name',
-  autoComplete: 'name',
   registerOptions: {
     required: 'This field is required',
     minLength: {
@@ -34,7 +33,6 @@ export const loginAuthInput: FormField = {
   name: 'login',
   type: 'text',
   placeholder: 'Input your username',
-  autoComplete: 'username001',
   registerOptions: {
     required: 'This field is required',
     pattern: {
@@ -49,7 +47,6 @@ export const passwordAuthInput: FormField = {
   name: 'password',
   type: 'password',
   placeholder: 'Enter your password',
-  autoComplete: 'current-password',
   registerOptions: {
     required: 'This field is required',
     minLength: {
@@ -90,7 +87,6 @@ export const NEW_BOARD: Content = {
     label: 'Board title',
     placeholder: 'Input board title',
     // TODO add translation
-    autoComplete: 'New board',
   }],
 };
 
@@ -129,7 +125,6 @@ export const ADD_COLUMN: Content = {
     label: 'Column title',
     placeholder: 'Input column title',
     // TODO add translation
-    autoComplete: 'New list',
   },
   ],
 };
@@ -201,7 +196,6 @@ export const ADD_TASK: Content = {
     type: 'text',
     label: 'Task title',
     placeholder: 'Input task title',
-    autoComplete: 'off',
   },
   {
     registerOptions: { },
@@ -209,7 +203,6 @@ export const ADD_TASK: Content = {
     type: 'text',
     label: 'description',
     placeholder: 'Input task description',
-    autoComplete: 'off',
   },
   ],
 };

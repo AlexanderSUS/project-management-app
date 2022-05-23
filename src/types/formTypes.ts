@@ -24,7 +24,6 @@ export type FormField = {
   type: string;
   label: string;
   placeholder: string;
-  autoComplete: string;
 };
 
 export type FormData = {
