@@ -40,7 +40,7 @@ const AuthForm: React.FC<AppFormProps> = ({ fields, action, buttonText }) => {
               type={input.type}
               placeholder={input.placeholder}
               fullWidth
-              label={input.label}
+              label={t(input.label)}
               onChange={onChange}
               value={value}
               autoComplete={input.autoComplete}
