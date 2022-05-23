@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../../store/modalSlice';
 import { modalText } from '../../constants/text';
 import { ModalInputData } from '../../types/modal';
+import convertRulesRegExp from '../../helpers/ConvertRulesRegExp';
 
 type BoardFormProps = {
   createOrUpdate: (data: ModalInputData) => void;
@@ -13,7 +15,8 @@ type BoardFormProps = {
 const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
   const { fields } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
-  const { handleSubmit, control } = useForm<Parameters<typeof createOrUpdate>[0]>();
+  const { handleSubmit, control, formState: { errors } } = useForm<Parameters<typeof createOrUpdate>[0]>({ mode: 'onChange' });
+  const { t } = useTranslation();
 
   const onSubmit = (data: ModalInputData) => {
     createOrUpdate(data);
@@ -27,17 +30,22 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
           key={input.name}
           name={input.name as keyof ModalInputData}
           control={control}
+          rules={convertRulesRegExp(input.registerOptions)}
           defaultValue=""
           render={({ field: { onChange, value } }) => (
             <TextField
               margin="normal"
               type={input.type}
-              required={input.required}
               placeholder={input.placeholder}
               fullWidth
               label={input.label}
               onChange={onChange}
               value={value}
+              autoComplete={input.autoComplete}
+              error={!!errors[input.name as keyof typeof errors]}
+              helperText={errors[input.name as keyof typeof errors]
+              && t(`${errors[input.name as keyof typeof errors]?.message}`)}
+
             />
           )}
         />

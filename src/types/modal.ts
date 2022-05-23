@@ -1,18 +1,7 @@
 import { editLogin, editName, removeUser } from '../store/authSlice';
-import {
-  addBoard, editBoard, removeBoard,
-} from '../store/boardSlice';
+import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
 import { addColumn, editColumn, removeColumn } from '../store/columnSlice';
-// import { store } from '../store/store';
-
-type FormField = {
-  name: string;
-  required: boolean;
-  type: string;
-  label: string;
-  defaultValue: string;
-  placeholder: string;
-};
+import { FormField } from './formTypes';
 
 // Add here your AsynkThunk parameter (name from form FormField type) for form Action
 export interface ModalInputData {

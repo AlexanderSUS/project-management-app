@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ModalState, Content } from '../types/modal';
-import initialState, { NEW_BOARD } from '../constants/modal';
+import initialState from '../constants/modal';
+import { NEW_BOARD } from '../constants/formfields';
 
 const modalSlice = createSlice({
   name: 'modal',

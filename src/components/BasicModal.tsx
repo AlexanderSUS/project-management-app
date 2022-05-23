@@ -23,6 +23,7 @@ const style = {
   p: 4,
 };
 
+// TODO ADD TRANSLATION to this page
 const BasicModal: React.FC = () => {
   const {
     isOpen, title, action,

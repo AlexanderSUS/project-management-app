@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Column } from '../types/columns';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { setCurrentColumnId, setCurrentColumnOrder } from '../store/columnSlice';
-import { EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/modal';
+import { EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/formfields';
 import { openModal } from '../store/modalSlice';
 import { boardPage } from '../constants/text';
 
