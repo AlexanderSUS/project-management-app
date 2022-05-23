@@ -146,7 +146,6 @@ export const EDIT_COLUMN_TITLE: Content = {
   ],
 };
 
-// TODO add password validation to modal window
 export const EDIT_NAME: Content = {
   modalTitle: 'Edit user name',
   action: 'editName',
