@@ -1,5 +1,8 @@
+export type SeverityType = 'info' | 'success' | 'error';
+
+export type Log = { message: string, severity: SeverityType };
+
 export type NotificationState = {
-  error: string;
-  info: string;
   isLoading: boolean;
+  log: Log[];
 };

@@ -12,7 +12,7 @@ import { notificationSelector } from '../store/notificationSlice';
 function Projects(): JSX.Element {
   const dispatch = useAppDispatch();
   const { boards } = useAppSelector(boardSelector);
-  const { isLoading, error } = useAppSelector(notificationSelector);
+  const { isLoading } = useAppSelector(notificationSelector);
 
   useEffect(() => {
     dispatch(getBoards());
@@ -31,7 +31,7 @@ function Projects(): JSX.Element {
             {boardPage.title}
           </Typography>
           {isLoading && <Loader />}
-          {!isLoading && !error && <BoardPreviewsWrapper boards={boards} />}
+          {!isLoading && <BoardPreviewsWrapper boards={boards} />}
         </>
       ) : <Outlet />}
     </Box>

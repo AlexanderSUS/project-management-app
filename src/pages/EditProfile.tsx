@@ -14,7 +14,7 @@ import { notificationSelector } from '../store/notificationSlice';
 const EditProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const { userId, userName, login } = useSelector(authSelector);
-  const { error, isLoading } = useAppSelector(notificationSelector);
+  const { isLoading } = useAppSelector(notificationSelector);
 
   const deleteAccount = () => {
     dispatch(openModal(REMOVE_USER));
@@ -32,7 +32,7 @@ const EditProfile: React.FC = () => {
     <Container component="main" maxWidth="md">
       <Typography variant="h2" component="h1" gutterBottom>{editProfilePageText.title}</Typography>
       {isLoading && <Loader />}
-      {!isLoading && !error && (
+      {!isLoading && (
         <>
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Box>

@@ -10,7 +10,7 @@ export const addBoardListener = (startAppListening: AppStartListening) => {
     predicate: (
       action,
       state: RootState,
-    ) => (isBoardAction(action) && !!state.notificationStore.info),
+    ) => (isBoardAction(action) && !state.notificationStore.isLoading),
     effect: (_, listenerApi) => {
       listenerApi.dispatch(getBoards());
     },
@@ -22,7 +22,7 @@ export const addColumnListener = (startAppListening: AppStartListening) => {
     predicate: (
       action,
       state: RootState,
-    ) => (isColumnAction(action) && !!state.notificationStore.info),
+    ) => (isColumnAction(action) && !state.notificationStore.isLoading),
     effect: (_, listenerApi) => {
       listenerApi.dispatch(getColumns());
     },
@@ -34,7 +34,7 @@ export const addTaskListener = (startAppListening: AppStartListening) => {
     predicate: (
       action,
       state: RootState,
-    ) => (isTaskAction(action) && !!state.notificationStore.info),
+    ) => (isTaskAction(action) && !state.notificationStore.isLoading),
     effect: (_, listenerApi) => {
       listenerApi.dispatch(getTasks());
     },

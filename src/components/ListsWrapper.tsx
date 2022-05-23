@@ -18,14 +18,14 @@ const StyledListWrapper = styled(Box)`
 
 const ListsWrapper: React.FC = () => {
   const { columns } = useAppSelector(columnSelector, shallowEqual);
-  const { isLoading, error } = useAppSelector(notificationSelector);
+  const { isLoading } = useAppSelector(notificationSelector);
   const { tasks } = useAppSelector(taskSelector);
 
   return (
     <StyledListWrapper>
       { isLoading && <Loader /> }
-      {!isLoading && !error && !columns.length && <Typography variant="h6">{boardPage.noLists}</Typography>}
-      {!isLoading && !error && columns.length ? (
+      {!isLoading && !columns.length && <Typography variant="h6">{boardPage.noLists}</Typography>}
+      {!isLoading && columns.length ? (
         <>
           { sortItems(columns).map((column) => (
             <List
