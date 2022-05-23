@@ -39,8 +39,6 @@ export default function CustomizedSnackbar() {
   };
 
   useEffect(() => {
-    console.log('error: ', error);
-    console.log('info: ', info);
     if (error) {
       setSeveriy(Severity.error);
       setOpen(true);
