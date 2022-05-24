@@ -8,23 +8,29 @@ import { boardSelector, getBoards } from '../store/boardSlice';
 import Loader from '../components/Loader';
 import AppRoutes from '../constants/routes';
 import { notificationSelector } from '../store/notificationSlice';
+import { authSelector } from '../store/authSlice';
+
+const styles = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  p: '2rem',
+};
 
 function Projects(): JSX.Element {
   const dispatch = useAppDispatch();
   const { boards } = useAppSelector(boardSelector);
+  const { userId } = useAppSelector(authSelector);
   const { isLoading } = useAppSelector(notificationSelector);
 
   useEffect(() => {
-    dispatch(getBoards());
-  }, [dispatch]);
+    if (userId) {
+      dispatch(getBoards());
+    }
+  }, [dispatch, userId]);
 
   return (
-    <Box
-      component="main"
-      sx={{
-        display: 'flex', flexDirection: 'column', gap: '1rem', p: '2rem',
-      }}
-    >
+    <Box component="main" sx={styles}>
       {useMatch(AppRoutes.PROJECTS) ? (
         <>
           <Typography component="h1" variant="h3">

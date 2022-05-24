@@ -12,17 +12,16 @@ export const isColumnAction = isAsyncThunkAction(addColumn, editColumn, removeCo
 
 export const isTaskAction = isAsyncThunkAction(addTask, editTask, removeTask);
 
+export const isColumnOrTaskAction = isAnyOf(isColumnAction, isTaskAction);
+
 export const isUserAction = isAsyncThunkAction(editName, editLogin, removeUser);
 
 export const isAddAction = isAsyncThunkAction(addBoard, addColumn, addTask);
 
-export const isEditAction = isAsyncThunkAction(
-  editBoard,
-  editColumn,
-  editTask,
-);
+export const isEditAction = isAsyncThunkAction(editBoard, editColumn, editTask);
 
 export const isUserRemoveAcition = isAsyncThunkAction(removeUser);
+
 export const isDeleteAction = isAsyncThunkAction(removeBoard, removeColumn, removeTask, removeUser);
 
 export const isRegistrationAction = isAsyncThunkAction(registration);

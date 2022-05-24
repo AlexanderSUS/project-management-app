@@ -106,12 +106,12 @@ const boardSlice = createSlice({
     builder.addCase(getBoards.fulfilled, (state, action) => {
       state.boards = action.payload;
     });
-    // builder.addCase(getBoard.fulfilled, (state, action) => {
-    //   state.board = action.payload;
-    // });
-    // builder.addCase(removeBoard.fulfilled, (state) => {
-    //   state.board = null;
-    // });
+    builder.addCase(getBoard.fulfilled, (state, action) => {
+      state.board = action.payload;
+    });
+    builder.addCase(removeBoard.fulfilled, (state) => {
+      state.board = null;
+    });
   },
 });
 

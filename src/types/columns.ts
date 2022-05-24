@@ -1,3 +1,5 @@
+import type { Task } from './tasks';
+
 export interface NewColumn {
   title: string;
   order: number;
@@ -5,6 +7,7 @@ export interface NewColumn {
 
 export interface Column extends NewColumn {
   id: string;
+  tasks: Task[]
 }
 
 export type ColumnState = {
