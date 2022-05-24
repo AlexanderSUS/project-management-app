@@ -24,17 +24,19 @@ export type ModalFormAction = {
   editTask: typeof editTask;
 };
 
-export type ModalAction = keyof ModalConfirmAction | keyof ModalFormAction;
+export type ModalActions = ModalConfirmAction & ModalFormAction;
+
+export type ModalActionKey = keyof ModalActions;
 
 export type Content = {
   modalTitle: string;
-  action: ModalAction;
+  action: ModalActionKey;
   fields?: FormField[];
 };
 
 export type ModalState = {
   title: string;
-  action: ModalAction;
+  action: ModalActionKey;
   isOpen: boolean;
   fields?: FormField[];
 };
