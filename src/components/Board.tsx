@@ -12,11 +12,12 @@ import { boardSelector } from '../store/boardSlice';
 import ListsWrapper from './ListsWrapper';
 import { boardPage } from '../constants/text';
 import { notificationSelector } from '../store/notificationSlice';
+import { DEFALULT_BOARD_ID } from '../constants/boards';
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { board } = useAppSelector(boardSelector);
+  const { board: { title, description, id } } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(notificationSelector);
 
   const deleteBoard = () => {
@@ -24,9 +25,7 @@ const Board: React.FC = () => {
   };
 
   const editBoard = () => {
-    if (board?.title) {
-      dispatch(setDefaultValues([board.title, board.description]));
-    }
+    dispatch(setDefaultValues([title, description]));
     dispatch(openModal(EDIT_BOARD));
   };
 
@@ -35,15 +34,15 @@ const Board: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!board) {
+    if (id === DEFALULT_BOARD_ID) {
       navigate(AppRoutes.PROJECTS);
     }
-  }, [board, navigate]);
+  }, [id, navigate]);
 
   return isLoading ? <Loader /> : (
     <>
       <ButtonGroup>
-        <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>{board && board.title}</Typography>
+        <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>{title}</Typography>
         <Button onClick={editBoard}>
           {boardPage.editBtn}
         </Button>
@@ -54,7 +53,7 @@ const Board: React.FC = () => {
           {boardPage.addColunm}
         </Button>
       </ButtonGroup>
-      <Typography>{board?.description}</Typography>
+      <Typography>{description}</Typography>
       <Box>
         {!isLoading && <ListsWrapper /> }
       </Box>

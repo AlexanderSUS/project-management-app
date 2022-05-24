@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import BoardService from '../api/boardServise';
 import { Boards, BoardState, BoardType } from '../types/boards';
 import { ValidationErrors } from '../types/response';
-import initialState from '../constants/boards';
+import initialState, { DEFAULT_BOARD } from '../constants/boards';
 import type { FormData } from '../types/formTypes';
 import { TypedThunkAPI } from '../types/slice';
 
@@ -108,9 +108,10 @@ const boardSlice = createSlice({
     });
     builder.addCase(getBoard.fulfilled, (state, action) => {
       state.board = action.payload;
+      state.currentBoardId = action.payload.id;
     });
     builder.addCase(removeBoard.fulfilled, (state) => {
-      state.board = null;
+      state.board = DEFAULT_BOARD;
     });
   },
 });
