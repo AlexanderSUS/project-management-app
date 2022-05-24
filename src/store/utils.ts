@@ -8,13 +8,13 @@ import {
 
 export const isBoardAction = isAsyncThunkAction(addBoard, editBoard, removeBoard);
 
-export const isBoardEditAction = isAsyncThunkAction(editBoard);
+export const isBoardEditOrAddAction = isAsyncThunkAction(editBoard);
 
 export const isColumnAction = isAsyncThunkAction(addColumn, editColumn, removeColumn);
 
 export const isTaskAction = isAsyncThunkAction(addTask, editTask, removeTask);
-
-export const isModalBoardPageAction = isAnyOf(isColumnAction, isTaskAction, isBoardAction);
+// TODO add better name
+export const isModalBoardPageAction = isAnyOf(isColumnAction, isTaskAction, isBoardEditOrAddAction);
 
 export const isUserAction = isAsyncThunkAction(editName, editLogin, removeUser);
 
