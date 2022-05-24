@@ -4,7 +4,7 @@ import { Task } from '../types/tasks';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
-import { setCurrentTaskId } from '../store/taskSlice';
+import { setCurrentTaskId, setCurrentTaskOrder } from '../store/taskSlice';
 import { EDIT_TASK, REMOVE_TASK } from '../constants/formfields';
 import { setCurrentColumnId } from '../store/columnSlice';
 
@@ -19,6 +19,7 @@ const TaskCard: React.FC<TaskProps> = ({ task, columnId }) => {
   const setIds = () => {
     dispatch(setCurrentColumnId(columnId));
     dispatch(setCurrentTaskId(task.id));
+    dispatch(setCurrentTaskOrder(task.order));
   };
 
   const deleteTaks = () => {

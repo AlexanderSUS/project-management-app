@@ -112,6 +112,9 @@ const taskSlice = createSlice({
     setCurrentTaskId: (state, { payload }: PayloadAction<string>) => {
       state.currentTaskId = payload;
     },
+    setCurrentTaskOrder: (state, { payload }: PayloadAction<number>) => {
+      state.currentTaskOrder = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getTasks.fulfilled, (state, action) => {
@@ -120,7 +123,7 @@ const taskSlice = createSlice({
   },
 });
 
-export const { setCurrentTaskId } = taskSlice.actions;
+export const { setCurrentTaskId, setCurrentTaskOrder } = taskSlice.actions;
 
 export default taskSlice.reducer;
 
