@@ -1,49 +1,25 @@
-import {
-  AsyncThunk, createSlice, isAnyOf, isAsyncThunkAction,
-} from '@reduxjs/toolkit';
-import initialState from '../constants/notification';
-import { FormData } from '../types/formTypes';
+import { createSlice } from '@reduxjs/toolkit';
+import jwtDecode from 'jwt-decode';
+import initialState, { Severity } from '../constants/notification';
 import { NotificationState } from '../types/notification';
-import {
-  RemoveUserResponse, SignInResponse, SignUpResponse, ErrorResponseData,
-} from '../types/response';
-import { TypedThunkAPI } from '../types/slice';
-import { NewUser, User, UserData } from '../types/user';
+import { ErrorResponseData, SignInResponse } from '../types/response';
 import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
-import { addColumn, editColumn } from './columnSlice';
-import { addTask, editTask, removeTask } from './taskSlice';
-import { addBoard, editBoard, removeBoard } from './boardSlice';
-import { Boards } from '../types/boards';
-import { logIn, registration, removeUser } from './authSlice';
-
-type GenericAsyncThunk = AsyncThunk<
-SignInResponse | SignUpResponse | UserData | RemoveUserResponse | Boards,
-string | User | FormData | void | NewUser,
-TypedThunkAPI>;
-
-type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
-type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
-type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
-
-const isAddAction = isAsyncThunkAction(addBoard, addColumn, addTask);
-const isEditAction = isAsyncThunkAction(editBoard, editColumn, editTask);
-const isDeleteAction = isAsyncThunkAction(removeBoard, removeUser, removeTask);
-const isRegistrationAction = isAsyncThunkAction(registration);
-const isLogInAction = isAsyncThunkAction(logIn);
-
-const isModalFormAction = isAnyOf(isAddAction, isEditAction, isDeleteAction);
+import {
+  isAddAction, isEditAction, isDeleteAction, isRegistrationAction,
+  isLogInAction, isBoardAction, isColumnAction, isTaskAction,
+  isEditNameAction, isUserRemoveAcition, isUserEditAction, isEditLoginAction,
+} from './utils';
+import { FulfilledAction, PendingAction, RejectedAction } from '../types/slice';
+import { BoardType } from '../types/boards';
+import { Column } from '../types/columns';
+import { Task } from '../types/tasks';
+import { NewUser, UserData } from '../types/user';
+import { JwtData } from '../types/authTypes';
 
 const notificationSlice = createSlice({
   name: 'notification',
   initialState,
-  reducers: {
-    clearError: (state) => {
-      state.error = '';
-    },
-    clearInfo: (state) => {
-      state.info = '';
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addMatcher(
       (action): action is PendingAction => action.type.endsWith(PENDING),
@@ -54,45 +30,106 @@ const notificationSlice = createSlice({
     builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
-        if (!isModalFormAction(action)) {
-          state.isLoading = false;
-        }
+        const severity = Severity.success;
+
+        state.isLoading = false;
+
+        // TODO refactor all this
         if (isAddAction(action)) {
-          state.info = JSON.stringify(action.payload);
+          const data = action.payload as BoardType | Column | Task;
+
+          if (isBoardAction(action)) {
+            state.log.push({ message: `Board "${data.title}" was succesfuly created`, severity });
+          }
+          if (isColumnAction(action)) {
+            state.log.push({ message: `List "${data.title}" was succesfuly created`, severity });
+          }
+          if (isTaskAction(action)) {
+            state.log.push({ message: `Task "${data.title}" was succesfuly created`, severity });
+          }
         }
         if (isEditAction(action)) {
-          state.info = JSON.stringify(action.payload);
+          const data = action.payload as BoardType | Column | Task;
+
+          if (isBoardAction(action)) {
+            state.log.push({ message: `Board "${data.title}" was succesfuly edited`, severity });
+          }
+          if (isColumnAction(action)) {
+            state.log.push({ message: `List "${data.title}" was succesfuly edited`, severity });
+          }
+          if (isTaskAction(action)) {
+            state.log.push({ message: `Task "${data.title}" was succesfuly edited`, severity });
+          }
         }
         if (isDeleteAction(action)) {
-          state.info = action.meta.requestStatus;
+          if (isBoardAction(action)) {
+            state.log.push({ message: 'Board was removed', severity });
+          }
+          if (isColumnAction(action)) {
+            state.log.push({ message: 'Column was removed', severity });
+          }
+          if (isTaskAction(action)) {
+            state.log.push({ message: 'Task was removed', severity });
+          }
+          if (isUserRemoveAcition(action)) {
+            state.log.push({ message: 'Your account was removed', severity });
+          }
+        }
+        if (isUserEditAction(action)) {
+          const user = action.payload as UserData;
+          if (isEditLoginAction(action)) {
+            state.log.push({ message: `Your login was succesfuly edited. New login: "${user.login}" `, severity });
+          }
+          if (isEditNameAction(action)) {
+            state.log.push({ message: `Your name was succesfuly edited. New name: "${user.name}"`, severity });
+          }
         }
         if (isRegistrationAction(action)) {
-          state.info = JSON.stringify(action.payload);
+          const user = action.payload as NewUser;
+
+          state.log.push({ message: `New user ${user.login} was succesfuly created`, severity });
         }
         if (isLogInAction(action)) {
-          state.info = 'Success logIn';
+          const { token } = action.payload as SignInResponse;
+          const { login } = jwtDecode<JwtData>(token);
+          state.log.push({ message: `Hello ${login}!`, severity });
         }
       },
     );
     builder.addMatcher(
       (action): action is RejectedAction => action.type.endsWith(REJECTED),
       (state, action) => {
+        const severity = Severity.error;
         state.isLoading = false;
         if ((action.payload)) {
           const error = action.payload as ErrorResponseData;
-
+          // TODO move out status codes
           if (error.statusCode === 401) {
-            state.error = ThunkError.notAuthorized;
+            // TODO add translation to THunkError
+            state.log.push({ message: ThunkError.notAuthorized, severity });
             return;
           }
-          state.error = error.message || ThunkError.unknownError;
+          if (error.statusCode === 403) {
+            // TODO serverer reply 'User was not founded!'
+            // but it occuours also when password invalid
+            // add translation
+            state.log.push({ message: error.message, severity });
+            return;
+          }
+          if (error.statusCode === 409) {
+            // TODO add translation
+            // "message":"User login already exists!"
+            state.log.push({ message: error.message, severity });
+            return;
+          }
+          state.log.push({ message: error.message || ThunkError.unknownError, severity });
+          return;
         }
+        state.log.push({ message: action.error.message || ThunkError.unknownError, severity });
       },
     );
   },
 });
-
-export const { clearInfo, clearError } = notificationSlice.actions;
 
 export default notificationSlice.reducer;
 

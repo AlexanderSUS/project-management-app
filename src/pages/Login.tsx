@@ -1,29 +1,19 @@
 import {
-  Typography, Container, Box, Avatar, Alert,
+  Typography, Container, Box, Avatar,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useTranslation } from 'react-i18next';
 import { logIn } from '../store/authSlice';
 import Loader from '../components/Loader';
-import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
+import { useAppSelector } from '../hooks/reduxTypedHooks';
 import AuthForm from '../components/AuthForm';
 import { SIGNIN_INPUTS } from '../constants/authorization';
-import { clearError, notificationSelector } from '../store/notificationSlice';
+import { notificationSelector } from '../store/notificationSlice';
 
 const Login: React.FC = () => {
-  const { error, isLoading } = useAppSelector(notificationSelector);
-  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector(notificationSelector);
   const { t } = useTranslation();
-
-  // TODO find solution to fix eslint error,
-  // DO NOT PUT error.message in dependency!!!!
-  // it cause excessive dispatch call
-  useEffect(() => () => {
-    if (error) {
-      dispatch(clearError());
-    }
-  }, [dispatch]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -38,9 +28,7 @@ const Login: React.FC = () => {
           {t('loginPage.title')}
         </Typography>
         {isLoading && <Loader />}
-        {!isLoading && error && <Alert sx={{ mb: '1rem' }} severity="error">{error}</Alert>}
-        {!isLoading && !error
-        && <AuthForm action={logIn} fields={SIGNIN_INPUTS} buttonText={t('loginPage.title')} />}
+        {!isLoading && <AuthForm action={logIn} fields={SIGNIN_INPUTS} buttonText={t('loginPage.title')} />}
       </Box>
     </Container>
   );

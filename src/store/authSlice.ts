@@ -139,14 +139,8 @@ const authSlice = createSlice({
       state.userId = '';
       state.userName = '';
     },
-    removeNewUserData: (state) => {
-      state.newUser = null;
-    },
   },
   extraReducers: (builder) => {
-    builder.addCase(registration.fulfilled, (state, action) => {
-      state.newUser = action.payload;
-    });
     builder.addCase(logIn.fulfilled, (state, action) => {
       localStorage.setItem(TOKEN, action.payload.token);
       const credentials = jwt_decode<JwtData>(action.payload.token);
@@ -186,7 +180,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logOut, removeNewUserData } = authSlice.actions;
+export const { logOut } = authSlice.actions;
 
 export default authSlice.reducer;
 

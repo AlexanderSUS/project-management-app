@@ -3,7 +3,6 @@ import { TextField, Button } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import { closeModal } from '../store/modalSlice';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
 import { FormData, FormField } from '../types/formTypes';
 import { AppDispatch } from '../store/store';
@@ -22,7 +21,6 @@ const AuthForm: React.FC<AppFormProps> = ({ fields, action, buttonText }) => {
 
   const onSubmit = (data: FormData) => {
     dispatch(action(data) as Parameters<AppDispatch>[0]);
-    dispatch(closeModal());
   };
 
   return (

@@ -19,7 +19,7 @@ const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { currentBoardId, boards } = useAppSelector(boardSelector);
-  const { isLoading, error } = useAppSelector(notificationSelector);
+  const { isLoading } = useAppSelector(notificationSelector);
   const currentBoard = boards.find((board) => board.id === currentBoardId);
 
   const deleteBoard = () => {
@@ -64,8 +64,7 @@ const Board: React.FC = () => {
         </Button>
       </ButtonGroup>
       <Box>
-        {!isLoading && error && <Typography>{error}</Typography> }
-        {!isLoading && !error && <ListsWrapper /> }
+        {!isLoading && <ListsWrapper /> }
       </Box>
     </>
   );
