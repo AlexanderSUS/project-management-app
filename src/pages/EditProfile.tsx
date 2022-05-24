@@ -1,24 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Alert,
-  Box,
-  Container,
-  Typography,
-  Button,
+  Alert, Box, Container, Typography, Button,
 } from '@mui/material';
 import Loader from '../components/Loader';
 import { editProfilePageText } from '../constants/text';
 import { authSelector } from '../store/authSlice';
-import { useAppDispatch } from '../hooks/reduxTypedHooks';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { EDIT_LOGIN, EDIT_NAME, REMOVE_USER } from '../constants/formfields';
 import { openModal } from '../store/modalSlice';
+import { notificationSelector } from '../store/notificationSlice';
 
 const EditProfile: React.FC = () => {
   const dispatch = useAppDispatch();
-  const {
-    error, isLoading, userId, userName, login,
-  } = useSelector(authSelector);
+  const { userId, userName, login } = useSelector(authSelector);
+  const { error, isLoading } = useAppSelector(notificationSelector);
 
   const deleteAccount = () => {
     dispatch(openModal(REMOVE_USER));

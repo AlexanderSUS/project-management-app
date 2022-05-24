@@ -4,6 +4,8 @@ import boardSliceReducer from './boardSlice';
 import modalSliceReducer from './modalSlice';
 import columnSliceReducer from './columnSlice';
 import taskSliceReducer from './taskSlice';
+import notificationSliceReducer from './notificationSlice';
+import { listenerMiddleware } from './listenerMiddleware';
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +14,11 @@ export const store = configureStore({
     modalStore: modalSliceReducer,
     columnStore: columnSliceReducer,
     taskStore: taskSliceReducer,
+    notificationStore: notificationSliceReducer,
   },
+  middleware:
+  (getDefaultMiddleware) => getDefaultMiddleware()
+    .prepend(listenerMiddleware.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

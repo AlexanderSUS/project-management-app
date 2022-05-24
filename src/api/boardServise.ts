@@ -12,12 +12,10 @@ export default class BoardService {
     return api.post(Endpoint.BOARDS, { title: data.title });
   }
 
-  // TODO check response type
-  static deleteBoard(id: string): Promise<AxiosResponse<Boards>> {
+  static deleteBoard(id: string): Promise<AxiosResponse> {
     return api.delete(`${Endpoint.BOARDS}/${id}`);
   }
 
-  // TODO check argument type
   static editBoard(data: BoardType): Promise<AxiosResponse<BoardType>> {
     return api.put(`${Endpoint.BOARDS}/${data.id}`, { title: data.title });
   }

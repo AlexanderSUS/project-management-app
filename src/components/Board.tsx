@@ -9,18 +9,17 @@ import { openModal } from '../store/modalSlice';
 import Loader from './Loader';
 import AppRoutes from '../constants/routes';
 import { boardSelector, setCurrentBoardId } from '../store/boardSlice';
-import { columnSelector, getColumns } from '../store/columnSlice';
+import { getColumns } from '../store/columnSlice';
 import ListsWrapper from './ListsWrapper';
-import { authSelector } from '../store/authSlice';
 import { getTasks } from '../store/taskSlice';
 import { boardPage } from '../constants/text';
+import { notificationSelector } from '../store/notificationSlice';
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { currentBoardId, boards } = useAppSelector(boardSelector);
-  const { isLoading, error } = useAppSelector(authSelector);
-  const { columns } = useAppSelector(columnSelector);
+  const { isLoading, error } = useAppSelector(notificationSelector);
   const currentBoard = boards.find((board) => board.id === currentBoardId);
 
   const deleteBoard = () => {
@@ -41,16 +40,14 @@ const Board: React.FC = () => {
       .then(() => {
         dispatch(getTasks());
       });
-  }, [dispatch, currentBoardId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   useEffect(() => {
-  }, [dispatch, columns]);
-
-  useEffect(() => {
-    if (!currentBoardId) {
+    if (!currentBoard) {
       navigate(AppRoutes.PROJECTS);
     }
-  }, [currentBoardId, navigate]);
+  }, [currentBoard, navigate]);
 
   return isLoading ? <Loader /> : (
     <>

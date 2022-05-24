@@ -1,19 +1,11 @@
-import {
-  createAsyncThunk, createSlice, PayloadAction, AsyncThunk, isAsyncThunkAction,
-} from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError, AxiosResponse } from 'axios';
 import BoardService from '../api/boardServise';
-import { Boards, BoardState } from '../types/boards';
+import { Boards, BoardState, BoardType } from '../types/boards';
 import { ValidationErrors } from '../types/response';
 import initialState from '../constants/boards';
 import type { FormData } from '../types/formTypes';
 import { TypedThunkAPI } from '../types/slice';
-import { FULFILED } from '../constants/asyncThunk';
-
-type GenericAsyncThunk = AsyncThunk<Boards, void | FormData,
-TypedThunkAPI>;
-
-type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
 
 export const getBoards = createAsyncThunk<Boards, void, TypedThunkAPI >(
   'board/getBoards',
@@ -31,12 +23,11 @@ export const getBoards = createAsyncThunk<Boards, void, TypedThunkAPI >(
   },
 );
 
-export const addBoard = createAsyncThunk<Boards, FormData, TypedThunkAPI>(
+export const addBoard = createAsyncThunk<BoardType, FormData, TypedThunkAPI>(
   'board/addBoard',
   async (data: FormData, { rejectWithValue }) => {
     try {
-      await BoardService.createBoard({ title: data.title });
-      const response = await BoardService.fetchBoards();
+      const response = await BoardService.createBoard({ title: data.title });
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -48,12 +39,11 @@ export const addBoard = createAsyncThunk<Boards, FormData, TypedThunkAPI>(
   },
 );
 
-export const removeBoard = createAsyncThunk<Boards, void, TypedThunkAPI>(
+export const removeBoard = createAsyncThunk<AxiosResponse, void, TypedThunkAPI>(
   'board/removeBoard',
   async (_, { getState, rejectWithValue }) => {
     try {
-      await BoardService.deleteBoard(getState().boardStore.currentBoardId);
-      const response = await BoardService.fetchBoards();
+      const response = await BoardService.deleteBoard(getState().boardStore.currentBoardId);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -65,12 +55,13 @@ export const removeBoard = createAsyncThunk<Boards, void, TypedThunkAPI>(
   },
 );
 
-export const editBoard = createAsyncThunk<Boards, FormData, TypedThunkAPI>(
+export const editBoard = createAsyncThunk<BoardType, FormData, TypedThunkAPI>(
   'board/editBoard',
   async (data: FormData, { getState, rejectWithValue }) => {
+    const { currentBoardId } = getState().boardStore;
+
     try {
-      await BoardService.editBoard({ id: getState().boardStore.currentBoardId, title: data.title });
-      const response = await BoardService.fetchBoards();
+      const response = await BoardService.editBoard({ id: currentBoardId, title: data.title });
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -81,8 +72,6 @@ export const editBoard = createAsyncThunk<Boards, FormData, TypedThunkAPI>(
     }
   },
 );
-
-const isARequestedAction = isAsyncThunkAction(getBoards, addBoard, editBoard, removeBoard);
 
 const boardSlice = createSlice({
   name: 'board',
@@ -91,20 +80,18 @@ const boardSlice = createSlice({
     setCurrentBoardId: (state, { payload }: PayloadAction<string>) => {
       state.currentBoardId = payload;
     },
+    clearCurrentBoardId: (state) => {
+      state.currentBoardId = '';
+    },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
-      (state, action) => {
-        if (isARequestedAction(action)) {
-          state.boards = action.payload;
-        }
-      },
-    );
+    builder.addCase(getBoards.fulfilled, (state, action) => {
+      state.boards = action.payload;
+    });
   },
 });
 
-export const { setCurrentBoardId } = boardSlice.actions;
+export const { setCurrentBoardId, clearCurrentBoardId } = boardSlice.actions;
 
 export default boardSlice.reducer;
 

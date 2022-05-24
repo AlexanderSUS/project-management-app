@@ -8,7 +8,6 @@ export default class ColumnService {
     return api.get(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}`);
   }
 
-  // TODO check response type
   static createColumn(boardId: string, data: NewColumn): Promise<AxiosResponse<Column>> {
     return api.post(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}`, { order: +data.order, title: data.title });
   }
@@ -17,12 +16,11 @@ export default class ColumnService {
     boardId: string,
     columnId: string,
     data: NewColumn,
-  ): Promise<AxiosResponse<Column[]>> {
+  ): Promise<AxiosResponse<Column>> {
     return api.put(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}`, { order: +data.order, title: data.title });
   }
 
-  // TODO check argument type
-  static deleteColumn(boardId: string, columnId: string): Promise<AxiosResponse<Column[]>> {
+  static deleteColumn(boardId: string, columnId: string): Promise<AxiosResponse> {
     return api.delete(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}`);
   }
 }
