@@ -23,6 +23,24 @@ export const getBoards = createAsyncThunk<Boards, void, TypedThunkAPI >(
   },
 );
 
+export const getBoard = createAsyncThunk<BoardType, void, TypedThunkAPI>(
+  'board/getBoard',
+  async (_, { getState, rejectWithValue }) => {
+    const { currentBoardId } = getState().boardStore;
+
+    try {
+      const response = await BoardService.getBoard(currentBoardId);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
 export const addBoard = createAsyncThunk<BoardType, FormData, TypedThunkAPI>(
   'board/addBoard',
   async (data: FormData, { rejectWithValue }) => {
@@ -88,6 +106,12 @@ const boardSlice = createSlice({
     builder.addCase(getBoards.fulfilled, (state, action) => {
       state.boards = action.payload;
     });
+    // builder.addCase(getBoard.fulfilled, (state, action) => {
+    //   state.board = action.payload;
+    // });
+    // builder.addCase(removeBoard.fulfilled, (state) => {
+    //   state.board = null;
+    // });
   },
 });
 
