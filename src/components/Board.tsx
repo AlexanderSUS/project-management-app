@@ -66,6 +66,7 @@ const Board: React.FC = () => {
           {boardPage.addColunm}
         </Button>
       </ButtonGroup>
+      <Typography>{currentBoard?.description}</Typography>
       <Box>
         {!isLoading && <ListsWrapper /> }
       </Box>

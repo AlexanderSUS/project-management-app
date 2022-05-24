@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
@@ -48,6 +48,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({ board: { id, title, descrip
       <Button variant="contained" onClick={goToBoard}>
         {title}
       </Button>
+      <Typography>{description}</Typography>
       <Button onClick={deleteItem}>
         {boardPage.deleteBtn}
       </Button>
