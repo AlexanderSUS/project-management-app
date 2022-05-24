@@ -27,7 +27,7 @@ export const addBoard = createAsyncThunk<BoardType, FormData, TypedThunkAPI>(
   'board/addBoard',
   async (data: FormData, { rejectWithValue }) => {
     try {
-      const response = await BoardService.createBoard({ title: data.title });
+      const response = await BoardService.createBoard(data);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -61,7 +61,7 @@ export const editBoard = createAsyncThunk<BoardType, FormData, TypedThunkAPI>(
     const { currentBoardId } = getState().boardStore;
 
     try {
-      const response = await BoardService.editBoard({ id: currentBoardId, title: data.title });
+      const response = await BoardService.editBoard(currentBoardId, data);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;

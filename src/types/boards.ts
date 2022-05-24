@@ -5,6 +5,7 @@ export type NewBoard = {
 export type BoardType = {
   id: string;
   title: string;
+  description: string;
 };
 
 export type Boards = BoardType[];

@@ -91,7 +91,15 @@ export const NEW_BOARD: Content = {
     label: 'Board title',
     placeholder: 'Input board title',
     // TODO add translation
-  }],
+  },
+  {
+    registerOptions: { },
+    name: 'description',
+    type: 'input',
+    label: 'description',
+    placeholder: 'Input board description',
+  },
+  ],
 };
 
 // Such way must look your 'content' for modal window with yes/no buttons
