@@ -8,8 +8,10 @@ export const inputRegExps: RegExpPatterns = {
 };
 
 export const DESCRIPTION = 'description';
-export const MULTILINE_ROWS = 6;
+export const MULTILINE_ROWS = 4;
 export const DEFAULT_ROWS = 1;
+
+// TODO refactor all these fields
 
 export const nameAuthInput: FormField = {
   name: 'name',
@@ -113,6 +115,7 @@ export const EDIT_BOARD: Content = {
   action: 'editBoard',
   fields: [
     { ...NEW_BOARD.fields![0], placeholder: 'Input new board title' },
+    { ...NEW_BOARD.fields![1], placeholder: 'Input new board description' },
   ],
 };
 

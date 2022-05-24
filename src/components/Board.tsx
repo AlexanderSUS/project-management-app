@@ -28,7 +28,7 @@ const Board: React.FC = () => {
 
   const editBoard = () => {
     if (currentBoard?.title) {
-      dispatch(setDefaultValues([currentBoard.title]));
+      dispatch(setDefaultValues([currentBoard.title, currentBoard.description]));
     }
     dispatch(openModal(EDIT_BOARD));
   };

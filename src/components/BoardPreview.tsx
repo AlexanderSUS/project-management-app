@@ -23,7 +23,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const BoardPreview: React.FC<BoardPreviewProps> = ({ board: { id, title } }) => {
+const BoardPreview: React.FC<BoardPreviewProps> = ({ board: { id, title, description } }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({ board: { id, title } }) => 
   };
 
   const editItem = () => {
-    dispatch(setDefaultValues([title]));
+    dispatch(setDefaultValues([title, description]));
     dispatch(setCurrentBoardId(id));
     dispatch(openModal(EDIT_BOARD));
   };
