@@ -8,6 +8,7 @@ import { clearDefaultValues, closeModal, modalSelector } from '../store/modalSli
 import { FormData } from '../types/formTypes';
 import { modalText } from '../constants/text';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
+import { DEFAULT_ROWS, DESCRIPTION, MULTILINE_ROWS } from '../constants/formfields';
 
 type BoardFormProps = {
   createOrUpdate: (data: FormData) => void;
@@ -29,7 +30,10 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
   }, [dispatch]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       {fields && fields.map((input, index) => (
         <Controller
           key={input.name}
@@ -47,6 +51,8 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
               onChange={onChange}
               value={value}
               autoComplete="off"
+              multiline={input.name === DESCRIPTION}
+              rows={input.name === DESCRIPTION ? MULTILINE_ROWS : DEFAULT_ROWS}
               error={!!errors[input.name as keyof typeof errors]}
               helperText={errors[input.name as keyof typeof errors]
               && t(`${errors[input.name as keyof typeof errors]?.message}`)}
@@ -59,7 +65,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
         <Button sx={{ ml: 'auto' }} color="primary" type="submit">{modalText.submit}</Button>
         <Button color="primary" onClick={() => { dispatch(closeModal()); }}>{modalText.close}</Button>
       </Box>
-    </form>
+    </Box>
   );
 };
 
