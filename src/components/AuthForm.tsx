@@ -41,7 +41,7 @@ const AuthForm: React.FC<AppFormProps> = ({ fields, action, buttonText }) => {
               label={t(input.label)}
               onChange={onChange}
               value={value}
-              autoComplete={input.autoComplete}
+              autoComplete="off"
               error={!!errors[input.name as keyof typeof errors]}
               helperText={errors[input.name as keyof typeof errors]
               && t(`${errors[input.name as keyof typeof errors]?.message}`)}
