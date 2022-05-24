@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import { openModal } from '../store/modalSlice';
+import { openModal, setDefaultValues } from '../store/modalSlice';
 import { BoardType } from '../types/boards';
 import AppRoutes from '../constants/routes';
 import { setCurrentBoardId } from '../store/boardSlice';
@@ -33,6 +33,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({ board: { id, title } }) => 
   };
 
   const editItem = () => {
+    dispatch(setDefaultValues([title]));
     dispatch(setCurrentBoardId(id));
     dispatch(openModal(EDIT_BOARD));
   };

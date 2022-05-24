@@ -39,4 +39,5 @@ export type ModalState = {
   action: ModalActionKey;
   isOpen: boolean;
   fields?: FormField[];
+  defaultValues: string[];
 };

@@ -5,7 +5,7 @@ import { Column } from '../types/columns';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { setCurrentColumnId, setCurrentColumnOrder } from '../store/columnSlice';
 import { ADD_TASK, EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/formfields';
-import { openModal } from '../store/modalSlice';
+import { openModal, setDefaultValues } from '../store/modalSlice';
 import { Task } from '../types/tasks';
 import TaskCard from './Task';
 import sortItems from '../helpers/sortItems';
@@ -30,6 +30,7 @@ const List: React.FC<ListProps> = ({ column, tasks }) => {
   };
 
   const editColumn = () => {
+    dispatch(setDefaultValues([column.title]));
     setCurrentColumn();
     dispatch(openModal(EDIT_COLUMN_TITLE));
   };

@@ -8,7 +8,7 @@ import { editProfilePageText } from '../constants/text';
 import { authSelector } from '../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { EDIT_LOGIN, EDIT_NAME, REMOVE_USER } from '../constants/formfields';
-import { openModal } from '../store/modalSlice';
+import { openModal, setDefaultValues } from '../store/modalSlice';
 import { notificationSelector } from '../store/notificationSlice';
 
 const EditProfile: React.FC = () => {
@@ -21,10 +21,12 @@ const EditProfile: React.FC = () => {
   };
 
   const editName = () => {
+    dispatch(setDefaultValues([userName]));
     dispatch(openModal(EDIT_NAME));
   };
 
   const editLogin = () => {
+    dispatch(setDefaultValues([login]));
     dispatch(openModal(EDIT_LOGIN));
   };
 

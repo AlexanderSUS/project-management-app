@@ -18,10 +18,18 @@ const modalSlice = createSlice({
       state.fields = NEW_BOARD.fields;
       state.title = NEW_BOARD.modalTitle;
     },
+    setDefaultValues: (state, { payload }: PayloadAction<string[]>) => {
+      state.defaultValues = payload;
+    },
+    clearDefaultValues: (state) => {
+      state.defaultValues = [];
+    },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const {
+  openModal, closeModal, setDefaultValues, clearDefaultValues,
+} = modalSlice.actions;
 
 export default modalSlice.reducer;
 

@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
-import { openModal } from '../store/modalSlice';
+import { openModal, setDefaultValues } from '../store/modalSlice';
 import Loader from './Loader';
 import AppRoutes from '../constants/routes';
 import { boardSelector, setCurrentBoardId } from '../store/boardSlice';
@@ -27,6 +27,9 @@ const Board: React.FC = () => {
   };
 
   const editBoard = () => {
+    if (currentBoard?.title) {
+      dispatch(setDefaultValues([currentBoard.title]));
+    }
     dispatch(openModal(EDIT_BOARD));
   };
 
