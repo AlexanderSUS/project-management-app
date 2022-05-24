@@ -38,16 +38,11 @@ export const addTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
     const columnId = getState().columnStore.currentColumnId;
     const { userId } = getState().authStore;
 
-    // TODO move out this in helpers
-    const orders = getState().taskStore.tasks.map((task) => task.order);
-    const taskOrder = orders.length ? Math.max(...orders) + 1 : 1;
-    // END TODO
-
     try {
       const response = await TaskService.createTask(
         boardId,
         columnId,
-        { ...data, order: taskOrder, userId } as unknown as NewTaskData,
+        { ...data, userId } as unknown as NewTaskData,
       );
       return response.data;
     } catch (err) {

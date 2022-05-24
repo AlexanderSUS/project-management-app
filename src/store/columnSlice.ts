@@ -30,13 +30,8 @@ export const addColumn = createAsyncThunk<Column, FormData, TypedThunkAPI>(
   async (data: FormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.currentBoardId;
 
-    // TODO move out this in helpers
-    const orders = getState().columnStore.columns.map((column) => column.order);
-    const columnOrder = orders.length ? Math.max(...orders) + 1 : 1;
-    // END TODO
-
     try {
-      const response = await ColumnService.createColumn(boardId, { ...data, order: columnOrder });
+      const response = await ColumnService.createColumn(boardId, data);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;

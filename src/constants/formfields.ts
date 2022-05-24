@@ -8,8 +8,10 @@ export const inputRegExps: RegExpPatterns = {
 };
 
 export const DESCRIPTION = 'description';
-export const MULTILINE_ROWS = 6;
+export const MULTILINE_ROWS = 4;
 export const DEFAULT_ROWS = 1;
+
+// TODO refactor all these fields
 
 export const nameAuthInput: FormField = {
   name: 'name',
@@ -91,7 +93,17 @@ export const NEW_BOARD: Content = {
     label: 'Board title',
     placeholder: 'Input board title',
     // TODO add translation
-  }],
+  },
+  {
+    registerOptions: {
+      required: 'This field is required',
+    },
+    name: 'description',
+    type: 'input',
+    label: 'description',
+    placeholder: 'Input board description',
+  },
+  ],
 };
 
 // Such way must look your 'content' for modal window with yes/no buttons
@@ -105,6 +117,7 @@ export const EDIT_BOARD: Content = {
   action: 'editBoard',
   fields: [
     { ...NEW_BOARD.fields![0], placeholder: 'Input new board title' },
+    { ...NEW_BOARD.fields![1], placeholder: 'Input new board description' },
   ],
 };
 
@@ -202,7 +215,9 @@ export const ADD_TASK: Content = {
     placeholder: 'Input task title',
   },
   {
-    registerOptions: { },
+    registerOptions: {
+      required: 'This field is required',
+    },
     name: 'description',
     type: 'input',
     label: 'description',

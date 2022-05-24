@@ -2,7 +2,11 @@ import { AuthState } from '../types/authTypes';
 import { FormField } from '../types/formTypes';
 import { loginAuthInput, passwordAuthInput, nameAuthInput } from './formfields';
 
-export const API_URL = 'https://mighty-headland-55040.herokuapp.com';
+// THIS IS OLD
+// export const API_URL = 'https://mighty-headland-55040.herokuapp.com';
+
+// THIS IS NEW
+export const API_URL = 'https://nameless-fjord-67107.herokuapp.com';
 
 export const TOKEN = 'token';
 
