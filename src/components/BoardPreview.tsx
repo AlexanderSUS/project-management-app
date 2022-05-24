@@ -8,7 +8,7 @@ import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import { BoardType } from '../types/boards';
 import AppRoutes from '../constants/routes';
-import { setCurrentBoardId } from '../store/boardSlice';
+import { getBoard, setCurrentBoardId } from '../store/boardSlice';
 import { boardPage } from '../constants/text';
 
 interface BoardPreviewProps {
@@ -40,7 +40,9 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({ board: { id, title, descrip
 
   const goToBoard = () => {
     dispatch(setCurrentBoardId(id));
-    navigate(`${AppRoutes.PROJECTS}/${id}`);
+    dispatch(getBoard()).then(() => {
+      navigate(`${AppRoutes.PROJECTS}/${id}`);
+    });
   };
 
   return (

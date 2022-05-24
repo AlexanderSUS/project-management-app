@@ -13,8 +13,8 @@ import LangSwitcher from './LangSwitcher';
 import BasicModal from './BasicModal';
 import { NEW_BOARD } from '../constants/formfields';
 import { TOKEN } from '../constants/authorization';
-import { addBoardListener, addColumnListener, addTaskListener } from '../store/middlewareListeners';
-import { startBoardListening, startColumnListening, startTaskListening } from '../store/listenerMiddleware';
+import { addBoardListener, addModalBoardPageActionListener } from '../store/middlewareListeners';
+import { startBoardListening, startColumsAndTasksListening } from '../store/listenerMiddleware';
 
 const Header: React.FC = () => {
   const { userId } = useAppSelector(authSelector);
@@ -40,8 +40,7 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     addBoardListener(startBoardListening);
-    addColumnListener(startColumnListening);
-    addTaskListener(startTaskListening);
+    addModalBoardPageActionListener(startColumsAndTasksListening);
   }, []);
 
   useEffect(() => {}, []);

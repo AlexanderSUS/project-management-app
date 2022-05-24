@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import BoardService from '../api/boardServise';
 import { Boards, BoardState, BoardType } from '../types/boards';
 import { ValidationErrors } from '../types/response';
-import initialState from '../constants/boards';
+import initialState, { DEFAULT_BOARD } from '../constants/boards';
 import type { FormData } from '../types/formTypes';
 import { TypedThunkAPI } from '../types/slice';
 
@@ -12,6 +12,24 @@ export const getBoards = createAsyncThunk<Boards, void, TypedThunkAPI >(
   async (_, { rejectWithValue }) => {
     try {
       const response = await BoardService.fetchBoards();
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const getBoard = createAsyncThunk<BoardType, void, TypedThunkAPI>(
+  'board/getBoard',
+  async (_, { getState, rejectWithValue }) => {
+    const { currentBoardId } = getState().boardStore;
+
+    try {
+      const response = await BoardService.getBoard(currentBoardId);
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -87,6 +105,13 @@ const boardSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getBoards.fulfilled, (state, action) => {
       state.boards = action.payload;
+    });
+    builder.addCase(getBoard.fulfilled, (state, action) => {
+      state.board = action.payload;
+      state.currentBoardId = action.payload.id;
+    });
+    builder.addCase(removeBoard.fulfilled, (state) => {
+      state.board = DEFAULT_BOARD;
     });
   },
 });

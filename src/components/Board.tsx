@@ -8,28 +8,24 @@ import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import Loader from './Loader';
 import AppRoutes from '../constants/routes';
-import { boardSelector, setCurrentBoardId } from '../store/boardSlice';
-import { getColumns } from '../store/columnSlice';
+import { boardSelector } from '../store/boardSlice';
 import ListsWrapper from './ListsWrapper';
-import { getTasks } from '../store/taskSlice';
 import { boardPage } from '../constants/text';
 import { notificationSelector } from '../store/notificationSlice';
+import { DEFALULT_BOARD_ID } from '../constants/boards';
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { currentBoardId, boards } = useAppSelector(boardSelector);
+  const { board: { title, description, id } } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(notificationSelector);
-  const currentBoard = boards.find((board) => board.id === currentBoardId);
 
   const deleteBoard = () => {
     dispatch(openModal(REMOVE_BOARD));
   };
 
   const editBoard = () => {
-    if (currentBoard?.title) {
-      dispatch(setDefaultValues([currentBoard.title, currentBoard.description]));
-    }
+    dispatch(setDefaultValues([title, description]));
     dispatch(openModal(EDIT_BOARD));
   };
 
@@ -38,24 +34,15 @@ const Board: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(setCurrentBoardId(currentBoardId));
-    dispatch(getColumns())
-      .then(() => {
-        dispatch(getTasks());
-      });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!currentBoard) {
+    if (id === DEFALULT_BOARD_ID) {
       navigate(AppRoutes.PROJECTS);
     }
-  }, [currentBoard, navigate]);
+  }, [id, navigate]);
 
   return isLoading ? <Loader /> : (
     <>
       <ButtonGroup>
-        <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>{currentBoard && currentBoard.title}</Typography>
+        <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>{title}</Typography>
         <Button onClick={editBoard}>
           {boardPage.editBtn}
         </Button>
@@ -66,7 +53,7 @@ const Board: React.FC = () => {
           {boardPage.addColunm}
         </Button>
       </ButtonGroup>
-      <Typography>{currentBoard?.description}</Typography>
+      <Typography>{description}</Typography>
       <Box>
         {!isLoading && <ListsWrapper /> }
       </Box>

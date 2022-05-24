@@ -9,6 +9,10 @@ export default class BoardService {
     return api.get(Endpoint.BOARDS);
   }
 
+  static getBoard(boardId: string): Promise<AxiosResponse<BoardType>> {
+    return api.get(`${Endpoint.BOARDS}/${boardId}`);
+  }
+
   static createBoard(data: FormData): Promise<AxiosResponse<BoardType>> {
     return api.post(Endpoint.BOARDS, data);
   }

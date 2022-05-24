@@ -8,7 +8,7 @@ import { ADD_TASK, EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/formfie
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import { Task } from '../types/tasks';
 import TaskCard from './Task';
-import sortItems from '../helpers/sortItems';
+import { sortTask } from '../helpers/sortItems';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
 
 type ListProps = {
@@ -59,7 +59,7 @@ const List: React.FC<ListProps> = ({ column, tasks }) => {
         />
       </Box>
       <Box>
-        {sortItems(tasks).map(
+        {sortTask(tasks).map(
           (task) => <TaskCard key={task.id} task={task} columnId={column.id} />,
         )}
       </Box>
