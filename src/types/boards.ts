@@ -1,5 +1,3 @@
-import { Column } from './columns';
-
 export type NewBoard = {
   title: string
 };
@@ -11,22 +9,7 @@ export type BoardType = {
 
 export type Boards = BoardType[];
 
-export interface NewTask {
-  title: string;
-  order: number;
-  description: string;
-  userId: string;
-}
-
-export interface Task extends NewTask {
-  boardId: BoardType['id'];
-  columnId: Column['id'];
-  userId: string;
-}
-
 export type BoardState = {
   boards: Boards;
-  // pending: boolean;
-  // error: string;
   currentBoardId: string;
 };

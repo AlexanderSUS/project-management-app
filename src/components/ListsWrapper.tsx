@@ -7,6 +7,8 @@ import { authSelector } from '../store/authSlice';
 import { boardPage } from '../constants/text';
 import List from './List';
 import Loader from './Loader';
+import { taskSelector } from '../store/taskSlice';
+import sortItems from '../helpers/sortItems';
 
 const StyledListWrapper = styled(Box)`
   display: flex;
@@ -17,19 +19,22 @@ const StyledListWrapper = styled(Box)`
 const ListsWrapper: React.FC = () => {
   const { columns } = useAppSelector(columnSelector, shallowEqual);
   const { isLoading, error } = useAppSelector(authSelector);
-
-  const sortedColumns = columns.length > 1
-    ? [...columns].sort((a, b) => (a.order - b.order)) : columns;
+  const { tasks } = useAppSelector(taskSelector);
 
   return (
     <StyledListWrapper>
       { isLoading && <Loader /> }
-      {!isLoading && error && <Typography>{error}</Typography>}
+      {error && <Typography>{error}</Typography>}
       {!isLoading && !error && !columns.length && <Typography variant="h6">{boardPage.noLists}</Typography>}
       {!isLoading && !error && columns.length ? (
         <>
-          { sortedColumns.map((column) => (
-            <List key={column.id} column={column} />))}
+          { sortItems(columns).map((column) => (
+            <List
+              key={column.id}
+              column={column}
+              tasks={tasks.filter((task) => task.columnId === column.id)}
+            />
+          ))}
         </>
       ) : null}
     </StyledListWrapper>

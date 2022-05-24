@@ -3,6 +3,7 @@ import authSliceReducer from './authSlice';
 import boardSliceReducer from './boardSlice';
 import modalSliceReducer from './modalSlice';
 import columnSliceReducer from './columnSlice';
+import taskSliceReducer from './taskSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     boardStore: boardSliceReducer,
     modalStore: modalSliceReducer,
     columnStore: columnSliceReducer,
+    taskStore: taskSliceReducer,
   },
 });
 
