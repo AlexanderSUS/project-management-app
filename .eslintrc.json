@@ -26,6 +26,10 @@
                   "arrow-function"
               ]
           }
-      ]
+      ],
+  "react-hooks/exhaustive-deps": "warn",
+  "import/no-cycle": [1, { "maxDepth": 1 }],
+  "react/jsx-props-no-spreading": "off",
+  "no-param-reassign": ["warn", { "props": true, "ignorePropertyModificationsFor": ["state"] }]
   }
 }
