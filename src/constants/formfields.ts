@@ -95,7 +95,9 @@ export const NEW_BOARD: Content = {
     // TODO add translation
   },
   {
-    registerOptions: { },
+    registerOptions: {
+      required: 'This field is required',
+    },
     name: 'description',
     type: 'input',
     label: 'description',
@@ -213,7 +215,9 @@ export const ADD_TASK: Content = {
     placeholder: 'Input task title',
   },
   {
-    registerOptions: { },
+    registerOptions: {
+      required: 'This field is required',
+    },
     name: 'description',
     type: 'input',
     label: 'description',
