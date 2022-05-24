@@ -1,6 +1,6 @@
 import { AppStartListening } from './listenerMiddleware';
 import { RootState } from './store';
-import { isBoardAction, isColumnOrTaskAction } from './utils';
+import { isBoardAction, isModalBoardPageAction } from './utils';
 import { getBoard, getBoards } from './boardSlice';
 
 export const addBoardListener = (startAppListening: AppStartListening) => {
@@ -15,12 +15,12 @@ export const addBoardListener = (startAppListening: AppStartListening) => {
   });
 };
 
-export const addColumnsAndTasksListener = (startAppListening: AppStartListening) => {
+export const addModalBoardPageActionListener = (startAppListening: AppStartListening) => {
   startAppListening({
     predicate: (
       action,
       state: RootState,
-    ) => (isColumnOrTaskAction(action) && !state.notificationStore.isLoading),
+    ) => (isModalBoardPageAction(action) && !state.notificationStore.isLoading),
     effect: (_, listenerApi) => {
       listenerApi.dispatch(getBoard());
     },

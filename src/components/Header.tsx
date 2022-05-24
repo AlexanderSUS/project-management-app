@@ -13,7 +13,7 @@ import LangSwitcher from './LangSwitcher';
 import BasicModal from './BasicModal';
 import { NEW_BOARD } from '../constants/formfields';
 import { TOKEN } from '../constants/authorization';
-import { addBoardListener, addColumnsAndTasksListener } from '../store/middlewareListeners';
+import { addBoardListener, addModalBoardPageActionListener } from '../store/middlewareListeners';
 import { startBoardListening, startColumsAndTasksListening } from '../store/listenerMiddleware';
 
 const Header: React.FC = () => {
@@ -40,7 +40,7 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     addBoardListener(startBoardListening);
-    addColumnsAndTasksListener(startColumsAndTasksListening);
+    addModalBoardPageActionListener(startColumsAndTasksListening);
   }, []);
 
   useEffect(() => {}, []);
