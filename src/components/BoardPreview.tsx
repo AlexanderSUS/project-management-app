@@ -9,7 +9,8 @@ import { openModal, setDefaultValues } from '../store/modalSlice';
 import { IBoardPreview } from '../types/boards';
 import AppRoutes from '../constants/routes';
 import { getBoard, setBoardId } from '../store/boardSlice';
-import { boardPage } from '../constants/text';
+import EditAndDeleteButtons from './EditAndDeleteButtons';
+import muiTheme from '../constants/muiTheme';
 
 interface BoardPreviewProps {
   boardPreview: IBoardPreview;
@@ -23,9 +24,9 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const BoardPreview: React.FC<BoardPreviewProps> = (
-  { boardPreview: { id, title, description } },
-) => {
+const BoardPreview: React.FC<BoardPreviewProps> = ({
+  boardPreview: { id, title, description },
+}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -47,19 +48,45 @@ const BoardPreview: React.FC<BoardPreviewProps> = (
     });
   };
 
+  const { sm } = muiTheme.breakpoints.values;
+
+  const Board = styled(Item)`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    & > button {
+      width: 100%;
+      margin-bottom: 2rem;
+
+      @media screen and (max-width: ${sm}px) {
+        margin-bottom: 1rem;
+      }
+    }
+
+    .MuiGrid-container {
+      margin-top: auto;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      text-align: left;
+    }
+  `;
+
   return (
-    <Item key={id} sx={{ display: 'flex' }}>
+    <Board>
       <Button variant="contained" onClick={goToBoard}>
         {title}
       </Button>
-      <Typography>{description}</Typography>
-      <Button onClick={deleteItem}>
-        {boardPage.deleteBtn}
-      </Button>
-      <Button onClick={editItem}>
-        {boardPage.editBtn}
-      </Button>
-    </Item>
+      <Typography component="p">{description}</Typography>
+      <EditAndDeleteButtons editAction={editItem} deleteAction={deleteItem} />
+    </Board>
   );
 };
 

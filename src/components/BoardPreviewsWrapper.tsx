@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import BoardPreview from './BoardPreview';
 import { boardPage } from '../constants/text';
 import { IBoardPreview } from '../types/boards';
@@ -10,17 +10,19 @@ type Props = {
 
 const BoardPreviewsWrapper: React.FC<Props> = ({ boardsPreview }) => (
   <Box sx={{ width: '100%' }}>
-    {boardsPreview.length
-      ? (
-        <Box sx={{ width: '100%' }}>
-          <Stack spacing={2}>
-            {boardsPreview.map((preview) => (
-              <BoardPreview boardPreview={preview} key={preview.id} />
-            ))}
-          </Stack>
-        </Box>
-      )
-      : <Box>{boardPage.noBoards}</Box>}
+    {boardsPreview.length ? (
+      <Box sx={{ width: '100%' }}>
+        <Grid container spacing={2}>
+          {boardsPreview.map((preview) => (
+            <Grid item xs={6} sm={4} md={2} key={preview.id}>
+              <BoardPreview boardPreview={preview} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    ) : (
+      <Box>{boardPage.noBoards}</Box>
+    )}
   </Box>
 );
 
