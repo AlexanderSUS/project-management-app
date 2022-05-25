@@ -1,20 +1,24 @@
 import type { Column } from './columns';
 
-export type NewBoard = {
+export interface NewBoardData {
   title: string
-};
+}
 
-export type BoardType = {
+export interface IBoardPreview extends NewBoardData {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface IBoard extends IBoardPreview {
   id: string;
   title: string;
   description: string;
   columns: Column[]
-};
-
-export type Boards = BoardType[];
+}
 
 export type BoardState = {
-  boards: Boards;
-  currentBoardId: string;
-  board: BoardType;
+  boards: IBoard[];
+  boardsPreview: IBoardPreview[];
+  board: IBoard;
 };

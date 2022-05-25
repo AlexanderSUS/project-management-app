@@ -1,19 +1,19 @@
 import { AxiosResponse } from 'axios';
 import api from '.';
 import Endpoint from '../constants/endpoints';
-import { Boards, BoardType } from '../types/boards';
+import { IBoardPreview, IBoard } from '../types/boards';
 import { FormData } from '../types/formTypes';
 
 export default class BoardService {
-  static fetchBoards(): Promise<AxiosResponse<Boards>> {
+  static fetchBoards(): Promise<AxiosResponse<IBoardPreview[]>> {
     return api.get(Endpoint.BOARDS);
   }
 
-  static getBoard(boardId: string): Promise<AxiosResponse<BoardType>> {
+  static getBoard(boardId: string): Promise<AxiosResponse<IBoard>> {
     return api.get(`${Endpoint.BOARDS}/${boardId}`);
   }
 
-  static createBoard(data: FormData): Promise<AxiosResponse<BoardType>> {
+  static createBoard(data: FormData): Promise<AxiosResponse<IBoardPreview>> {
     return api.post(Endpoint.BOARDS, data);
   }
 
@@ -21,7 +21,7 @@ export default class BoardService {
     return api.delete(`${Endpoint.BOARDS}/${id}`);
   }
 
-  static editBoard(boardId: string, data: FormData): Promise<AxiosResponse<BoardType>> {
+  static editBoard(boardId: string, data: FormData): Promise<AxiosResponse<IBoard>> {
     return api.put(`${Endpoint.BOARDS}/${boardId}`, data);
   }
 }

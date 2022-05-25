@@ -10,7 +10,7 @@ import {
   isEditNameAction, isUserRemoveAcition, isUserEditAction, isEditLoginAction,
 } from './utils';
 import { FulfilledAction, PendingAction, RejectedAction } from '../types/slice';
-import { BoardType } from '../types/boards';
+import { IBoard } from '../types/boards';
 import { Column } from '../types/columns';
 import { Task } from '../types/tasks';
 import { NewUser, UserData } from '../types/user';
@@ -36,7 +36,7 @@ const notificationSlice = createSlice({
 
         // TODO refactor all this
         if (isAddAction(action)) {
-          const data = action.payload as BoardType | Column | Task;
+          const data = action.payload as IBoard | Column | Task;
 
           if (isBoardAction(action)) {
             state.log.push({ message: `Board "${data.title}" was succesfuly created`, severity });
@@ -49,7 +49,7 @@ const notificationSlice = createSlice({
           }
         }
         if (isEditAction(action)) {
-          const data = action.payload as BoardType | Column | Task;
+          const data = action.payload as IBoard | Column | Task;
 
           if (isBoardAction(action)) {
             state.log.push({ message: `Board "${data.title}" was succesfuly edited`, severity });

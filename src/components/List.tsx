@@ -2,41 +2,41 @@ import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Column } from '../types/columns';
-import { useAppDispatch } from '../hooks/reduxTypedHooks';
-import { setCurrentColumnId, setCurrentColumnOrder } from '../store/columnSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
+import { setColumn } from '../store/columnSlice';
 import { ADD_TASK, EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/formfields';
 import { openModal, setDefaultValues } from '../store/modalSlice';
-import { Task } from '../types/tasks';
 import TaskCard from './Task';
-import { sortTask } from '../helpers/sortItems';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
+import { boardSelector } from '../store/boardSlice';
+import { Task } from '../types/tasks';
 
 type ListProps = {
   column: Column;
-  tasks: Task[];
 };
 
-const List: React.FC<ListProps> = ({ column, tasks }) => {
+const List: React.FC<ListProps> = ({ column }) => {
   const dispatch = useAppDispatch();
+  const { board: { id: boardId } } = useAppSelector(boardSelector);
+  const { tasks: tasksPreview, id: columnId } = column;
 
-  const setCurrentColumn = () => {
-    dispatch(setCurrentColumnId(column.id));
-    dispatch(setCurrentColumnOrder(column.order));
-  };
+  const tasks: Task[] = tasksPreview.length
+    ? tasksPreview.map((preview) => ({ ...preview, columnId, boardId }))
+    : [];
 
   const deleteColumn = () => {
-    setCurrentColumn();
+    dispatch(setColumn(column));
     dispatch(openModal(REMOVE_COLUMN));
   };
 
   const editColumn = () => {
     dispatch(setDefaultValues([column.title]));
-    setCurrentColumn();
+    dispatch(setColumn(column));
     dispatch(openModal(EDIT_COLUMN_TITLE));
   };
 
   const addTask = () => {
-    setCurrentColumn();
+    dispatch(setColumn(column));
     dispatch(openModal(ADD_TASK));
   };
 
@@ -53,15 +53,10 @@ const List: React.FC<ListProps> = ({ column, tasks }) => {
           {/* ******** */}
           {column.title}
         </Typography>
-        <EditAndDeleteButtons
-          editAction={editColumn}
-          deleteAction={deleteColumn}
-        />
+        <EditAndDeleteButtons editAction={editColumn} deleteAction={deleteColumn} />
       </Box>
       <Box>
-        {sortTask(tasks).map(
-          (task) => <TaskCard key={task.id} task={task} columnId={column.id} />,
-        )}
+        {tasks.map((task) => (<TaskCard key={task.id} task={task} />))}
       </Box>
       <Button variant="outlined" onClick={addTask} startIcon={<AddIcon />}>Add task</Button>
     </Box>
