@@ -8,7 +8,6 @@ import { boardSelector, getBoards } from '../store/boardSlice';
 import Loader from '../components/Loader';
 import AppRoutes from '../constants/routes';
 import { notificationSelector } from '../store/notificationSlice';
-import { authSelector } from '../store/authSlice';
 
 const styles = {
   display: 'flex',
@@ -20,14 +19,11 @@ const styles = {
 function Projects(): JSX.Element {
   const dispatch = useAppDispatch();
   const { boards } = useAppSelector(boardSelector);
-  const { userId } = useAppSelector(authSelector);
   const { isLoading } = useAppSelector(notificationSelector);
 
   useEffect(() => {
-    if (userId) {
-      dispatch(getBoards());
-    }
-  }, [dispatch, userId]);
+    dispatch(getBoards());
+  }, [dispatch]);
 
   return (
     <Box component="main" sx={styles}>
