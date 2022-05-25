@@ -4,7 +4,7 @@ import { useAppSelector } from '../hooks/reduxTypedHooks';
 import { boardPage } from '../constants/text';
 import List from './List';
 import { sortColumns } from '../helpers/sortItems';
-import { boardSelector } from '../store/boardSlice';
+import { columnSelector } from '../store/columnSlice';
 
 const StyledListWrapper = styled(Box)`
   display: flex;
@@ -13,29 +13,15 @@ const StyledListWrapper = styled(Box)`
 `;
 
 const ListsWrapper: React.FC = () => {
-  const { board } = useAppSelector(boardSelector);
-  const columns = board?.columns;
+  const { columns } = useAppSelector(columnSelector);
 
-  if (columns && !columns.length) {
-    return <Typography variant="h6">{boardPage.noLists}</Typography>;
-  }
-
-  if (columns && columns.length) {
-    return (
+  return (columns.length
+    ? (
       <StyledListWrapper>
-        { sortColumns(columns).map((column) => (
-          <List
-            key={column.id}
-            column={column}
-            tasks={column.tasks}
-          />
-        ))}
+        {sortColumns(columns).map((column) => (<List key={column.id} column={column} />))}
       </StyledListWrapper>
-
-    );
-  }
-
-  return null;
+    )
+    : <Typography variant="h6">{boardPage.noLists}</Typography>);
 };
 
 export default ListsWrapper;

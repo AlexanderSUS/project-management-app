@@ -5,7 +5,7 @@ import {
 } from './response';
 import { FormData } from './formTypes';
 import { NewUser, User, UserData } from './user';
-import { Boards } from './boards';
+import { IBoard } from './boards';
 
 export type TypedThunkAPI = {
   state: RootState
@@ -13,7 +13,7 @@ export type TypedThunkAPI = {
 };
 
 export type GenericAsyncThunk = AsyncThunk<
-SignInResponse | SignUpResponse | UserData | RemoveUserResponse | Boards,
+SignInResponse | SignUpResponse | UserData | RemoveUserResponse | IBoard[],
 string | User | FormData | void | NewUser,
 TypedThunkAPI>;
 

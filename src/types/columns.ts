@@ -1,17 +1,23 @@
-import type { Task } from './tasks';
+import type { TaskPreview } from './tasks';
 
-export interface NewColumn {
+export interface NewColumnData {
   title: string;
+}
+
+export interface EditColumnData extends NewColumnData {
   order: number;
 }
 
-export interface Column extends NewColumn {
+export interface ColumnPreview extends EditColumnData {
   id: string;
-  tasks: Task[]
+}
+
+export interface Column extends ColumnPreview {
+  tasks: TaskPreview[]
 }
 
 export type ColumnState = {
+  column: Column;
   columns: Column[];
-  currentColumnId: string;
-  currentColumnOrder: number;
+  columnsPreview: ColumnPreview[];
 };

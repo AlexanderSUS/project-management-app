@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import api from '.';
 import Endpoint from '../constants/endpoints';
-import { Task, NewTaskData, UpdateTaskData } from '../types/tasks';
+import { Task, NewTaskData, EditTaskData } from '../types/tasks';
 
 export default class TaskService {
   static fetchTasks(
@@ -27,20 +27,11 @@ export default class TaskService {
     return api.get(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}${Endpoint.TASKS}/${taskId}`);
   }
 
-  static editTask(
-    boardId: string,
-    columnId: string,
-    taskId: string,
-    data: UpdateTaskData,
-  ): Promise<AxiosResponse<Task>> {
-    return api.put(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}${Endpoint.TASKS}/${taskId}`, data);
+  static editTask(taskId: string, data: EditTaskData): Promise<AxiosResponse<Task>> {
+    return api.put(`${Endpoint.BOARDS}/${data.boardId}${Endpoint.COLUMNS}/${data.columnId}${Endpoint.TASKS}/${taskId}`, data);
   }
 
-  static deleteTask(
-    boardId: string,
-    columnId: string,
-    taskId: string,
-  ): Promise<AxiosResponse> {
-    return api.delete(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}${Endpoint.TASKS}/${taskId}`);
+  static deleteTask(task: Task): Promise<AxiosResponse> {
+    return api.delete(`${Endpoint.BOARDS}/${task.boardId}${Endpoint.COLUMNS}/${task.columnId}${Endpoint.TASKS}/${task.id}`);
   }
 }

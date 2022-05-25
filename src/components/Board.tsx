@@ -12,7 +12,7 @@ import { boardSelector } from '../store/boardSlice';
 import ListsWrapper from './ListsWrapper';
 import { boardPage } from '../constants/text';
 import { notificationSelector } from '../store/notificationSlice';
-import { DEFALULT_BOARD_ID } from '../constants/boards';
+import { DEFAULT_BOARD_ID } from '../constants/boards';
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +34,7 @@ const Board: React.FC = () => {
   };
 
   useEffect(() => {
-    if (id === DEFALULT_BOARD_ID) {
+    if (id === DEFAULT_BOARD_ID) {
       navigate(AppRoutes.PROJECTS);
     }
   }, [id, navigate]);

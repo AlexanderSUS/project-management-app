@@ -2,20 +2,20 @@ import React from 'react';
 import { Box, Stack } from '@mui/material';
 import BoardPreview from './BoardPreview';
 import { boardPage } from '../constants/text';
-import { Boards } from '../types/boards';
+import { IBoardPreview } from '../types/boards';
 
 type Props = {
-  boards: Boards;
+  boardsPreview: IBoardPreview[];
 };
 
-const BoardPreviewsWrapper: React.FC<Props> = ({ boards }) => (
+const BoardPreviewsWrapper: React.FC<Props> = ({ boardsPreview }) => (
   <Box sx={{ width: '100%' }}>
-    {boards.length
+    {boardsPreview.length
       ? (
         <Box sx={{ width: '100%' }}>
           <Stack spacing={2}>
-            {boards.map((board) => (
-              <BoardPreview board={board} key={board.id} />
+            {boardsPreview.map((preview) => (
+              <BoardPreview boardPreview={preview} key={preview.id} />
             ))}
           </Stack>
         </Box>

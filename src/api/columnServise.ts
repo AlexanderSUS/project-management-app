@@ -1,12 +1,16 @@
 import { AxiosResponse } from 'axios';
 import api from '.';
 import Endpoint from '../constants/endpoints';
-import { Column, NewColumn } from '../types/columns';
+import { Column, ColumnPreview, EditColumnData } from '../types/columns';
 import { FormData } from '../types/formTypes';
 
 export default class ColumnService {
-  static fetchColumns(boardId: string): Promise<AxiosResponse<Column[]>> {
+  static fetchColumns(boardId: string): Promise<AxiosResponse<ColumnPreview[]>> {
     return api.get(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}`);
+  }
+
+  static getColumn(boardId: string, columnId: string): Promise<AxiosResponse<Column>> {
+    return api.get(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}`);
   }
 
   static createColumn(boardId: string, data: FormData): Promise<AxiosResponse<Column>> {
@@ -16,9 +20,9 @@ export default class ColumnService {
   static editColumn(
     boardId: string,
     columnId: string,
-    data: NewColumn,
+    data: EditColumnData,
   ): Promise<AxiosResponse<Column>> {
-    return api.put(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}`, { order: +data.order, title: data.title });
+    return api.put(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}`, data);
   }
 
   static deleteColumn(boardId: string, columnId: string): Promise<AxiosResponse> {

@@ -18,7 +18,7 @@ const styles = {
 
 function Projects(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { boards } = useAppSelector(boardSelector);
+  const { boardsPreview } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(notificationSelector);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function Projects(): JSX.Element {
             {boardPage.title}
           </Typography>
           {isLoading && <Loader />}
-          {!isLoading && <BoardPreviewsWrapper boards={boards} />}
+          {!isLoading && <BoardPreviewsWrapper boardsPreview={boardsPreview} />}
         </>
       ) : <Outlet />}
     </Box>

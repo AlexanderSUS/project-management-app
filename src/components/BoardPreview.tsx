@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
-import { BoardType } from '../types/boards';
+import { IBoardPreview } from '../types/boards';
 import AppRoutes from '../constants/routes';
-import { getBoard, setCurrentBoardId } from '../store/boardSlice';
+import { getBoard, setBoardId } from '../store/boardSlice';
 import { boardPage } from '../constants/text';
 
 interface BoardPreviewProps {
-  board: BoardType;
+  boardPreview: IBoardPreview;
 }
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -23,23 +23,25 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const BoardPreview: React.FC<BoardPreviewProps> = ({ board: { id, title, description } }) => {
+const BoardPreview: React.FC<BoardPreviewProps> = (
+  { boardPreview: { id, title, description } },
+) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const deleteItem = () => {
-    dispatch(setCurrentBoardId(id));
+    dispatch(setBoardId(id));
     dispatch(openModal(REMOVE_BOARD));
   };
 
   const editItem = () => {
     dispatch(setDefaultValues([title, description]));
-    dispatch(setCurrentBoardId(id));
+    dispatch(setBoardId(id));
     dispatch(openModal(EDIT_BOARD));
   };
 
   const goToBoard = () => {
-    dispatch(setCurrentBoardId(id));
+    dispatch(setBoardId(id));
     dispatch(getBoard()).then(() => {
       navigate(`${AppRoutes.PROJECTS}/${id}`);
     });
