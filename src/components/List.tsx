@@ -10,6 +10,8 @@ import TaskCard from './Task';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { boardSelector } from '../store/boardSlice';
 import { Task } from '../types/tasks';
+import { sortTask } from '../helpers/sortItems';
+import { changeTaskPosition, setTaskColumnId, setTaskOrder } from '../store/taskSlice';
 
 type ListProps = {
   column: Column;
@@ -21,7 +23,7 @@ const List: React.FC<ListProps> = ({ column }) => {
   const { tasks: tasksPreview, id: columnId } = column;
 
   const tasks: Task[] = tasksPreview.length
-    ? tasksPreview.map((preview) => ({ ...preview, columnId, boardId }))
+    ? sortTask(tasksPreview.map((preview) => ({ ...preview, columnId, boardId })))
     : [];
 
   const deleteColumn = () => {
@@ -40,8 +42,29 @@ const List: React.FC<ListProps> = ({ column }) => {
     dispatch(openModal(ADD_TASK));
   };
 
+  // DRAG & DROP
+  const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const dropHandler = (e: React.DragEvent<HTMLDivElement>, newColumnId: string) => {
+    e.preventDefault();
+    if (!tasks.length) {
+      dispatch(setTaskOrder(1));
+      dispatch(setTaskColumnId(newColumnId));
+      dispatch(changeTaskPosition());
+    }
+  };
+
+  // END DRAG & DROP
+
   return (
-    <Box sx={{ display: 'flex', flexFlow: 'column nowrap' }}>
+    <Box
+      sx={{ display: 'flex', flexFlow: 'column nowrap' }}
+      onDragOver={(e: React.DragEvent<HTMLDivElement>) => { dragOverHandler(e); }}
+      draggable
+      onDrop={(e: React.DragEvent<HTMLDivElement>) => (dropHandler(e, columnId))}
+    >
       <Box sx={{
         display: 'flex', flexFlow: 'row nowrap', minWidth: '280px',
       }}
