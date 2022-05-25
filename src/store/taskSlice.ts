@@ -32,26 +32,6 @@ export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   },
 );
 
-// For future use
-// export const getTask = createAsyncThunk<Task, string, TypedThunkAPI >(
-//   'task/getTask',
-//   async (taskId: string, { getState, rejectWithValue }) => {
-//     const boardId = getState().boardStore.board.id;
-//     const columnId = getState().columnStore.column.id;
-
-//     try {
-//       const response = await TaskService.getTask(boardId, columnId, taskId);
-//       return response.data;
-//     } catch (err) {
-//       const error = err as AxiosError<ValidationErrors>;
-//       if (!error.response) {
-//         throw err;
-//       }
-//       return rejectWithValue(error.response?.data);
-//     }
-//   },
-// );
-
 export const addTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
   'task/addTask',
   async (data: FormData, { getState, rejectWithValue }) => {
@@ -102,25 +82,6 @@ export const editTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
   },
 );
 
-// export const changeTaskOrder = createAsyncThunk<Task, void, TypedThunkAPI>(
-//   'task/changeOrder',
-//   async (_, { getState, rejectWithValue }) => {
-//     const { task } = getState().taskStore;
-
-//     try {
-//       // TODO optimze repeated variables
-//       const response = await TaskService.editTask(task);
-//       return response.data;
-//     } catch (err) {
-//       const error = err as AxiosError<ValidationErrors>;
-//       if (!error.response) {
-//         throw err;
-//       }
-//       return rejectWithValue(error.response?.data);
-//     }
-//   },
-// );
-
 export const removeTask = createAsyncThunk<Task, void, TypedThunkAPI>(
   'task/removeTask',
   async (_, { getState, rejectWithValue }) => {
@@ -158,10 +119,6 @@ const taskSlice = createSlice({
     builder.addCase(getTasks.fulfilled, (state, action) => {
       state.tasks = action.payload;
     });
-    // for future use
-    // builder.addCase(getTask.fulfilled, (state, action) => {
-    //   state.task = action.payload;
-    // });
     builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {

@@ -28,26 +28,6 @@ export const getColumns = createAsyncThunk<ColumnPreview[], void, TypedThunkAPI 
   },
 );
 
-// For future use
-// export const getColumn = createAsyncThunk<Column, void, TypedThunkAPI >(
-//   'column/getColumn',
-//   async (_, { getState, rejectWithValue }) => {
-//     const boardId = getState().boardStore.board.id;
-//     const { id } = getState().columnStore.column;
-
-//     try {
-//       const response = await ColumnService.getColumn(boardId, id);
-//       return response.data;
-//     } catch (err) {
-//       const error = err as AxiosError<ValidationErrors>;
-//       if (!error.response) {
-//         throw err;
-//       }
-//       return rejectWithValue(error.response?.data);
-//     }
-//   },
-// );
-
 export const addColumn = createAsyncThunk<Column, FormData, TypedThunkAPI>(
   'column/addColumn',
   async (data: FormData, { getState, rejectWithValue }) => {
@@ -117,10 +97,6 @@ const columnSlice = createSlice({
     builder.addCase(getColumns.fulfilled, (state, action) => {
       state.columnsPreview = action.payload;
     });
-    // For future use
-    // builder.addCase(getColumn.fulfilled, (state, action) => {
-    //   state.column = action.payload;
-    // });
     builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
