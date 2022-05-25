@@ -5,12 +5,10 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-api.interceptors.request.use((config) => {
-  const myConfig = JSON.parse(JSON.stringify(config));
+api.interceptors.request.use((config) => ({
+  ...config,
+  headers: { ...config.headers, Authorization: `Bearer ${localStorage.getItem(TOKEN)}` },
 
-  myConfig.headers!.Authorization = `Bearer ${localStorage.getItem(TOKEN)}`;
-
-  return myConfig;
-});
+}));
 
 export default api;
