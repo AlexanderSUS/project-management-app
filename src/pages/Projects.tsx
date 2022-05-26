@@ -12,6 +12,7 @@ import { notificationSelector } from '../store/notificationSlice';
 const styles = {
   display: 'flex',
   flexDirection: 'column',
+  flexGrow: 1,
   gap: '1rem',
   p: '2rem 0',
 };
@@ -27,19 +28,17 @@ function Projects(): JSX.Element {
 
   return (
     <Box component="main" sx={styles}>
-      <Container>
-        {useMatch(AppRoutes.PROJECTS) ? (
-          <>
-            <Typography component="h1" variant="h3">
-              {boardPage.title}
-            </Typography>
-            {isLoading && <Loader />}
-            {!isLoading && <BoardPreviewsWrapper boardsPreview={boardsPreview} />}
-          </>
-        ) : (
-          <Outlet />
-        )}
-      </Container>
+      {useMatch(AppRoutes.PROJECTS) ? (
+        <Container>
+          <Typography component="h1" variant="h3">
+            {boardPage.title}
+          </Typography>
+          {isLoading && <Loader />}
+          {!isLoading && <BoardPreviewsWrapper boardsPreview={boardsPreview} />}
+        </Container>
+      ) : (
+        <Outlet />
+      )}
     </Box>
   );
 }

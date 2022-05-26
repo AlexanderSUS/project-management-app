@@ -1,5 +1,9 @@
 import {
-  Box, Button, ButtonGroup, Typography,
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  Typography,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +21,9 @@ import { DEFAULT_BOARD_ID } from '../constants/boards';
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { board: { title, description, id } } = useAppSelector(boardSelector);
+  const {
+    board: { title, description, id },
+  } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(notificationSelector);
 
   const deleteBoard = () => {
@@ -39,25 +45,21 @@ const Board: React.FC = () => {
     }
   }, [id, navigate]);
 
-  return isLoading ? <Loader /> : (
-    <>
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <Container>
       <ButtonGroup>
-        <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>{title}</Typography>
-        <Button onClick={editBoard}>
-          {boardPage.editBtn}
-        </Button>
-        <Button onClick={deleteBoard}>
-          {boardPage.deleteBtn}
-        </Button>
-        <Button onClick={addColumn}>
-          {boardPage.addColunm}
-        </Button>
+        <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
+          {title}
+        </Typography>
+        <Button onClick={editBoard}>{boardPage.editBtn}</Button>
+        <Button onClick={deleteBoard}>{boardPage.deleteBtn}</Button>
+        <Button onClick={addColumn}>{boardPage.addColunm}</Button>
       </ButtonGroup>
       <Typography>{description}</Typography>
-      <Box>
-        {!isLoading && <ListsWrapper /> }
-      </Box>
-    </>
+      <Box>{!isLoading && <ListsWrapper />}</Box>
+    </Container>
   );
 };
 
