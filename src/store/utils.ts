@@ -1,5 +1,7 @@
 import { isAnyOf, isAsyncThunkAction } from '@reduxjs/toolkit';
-import { addColumn, editColumn, removeColumn } from './columnSlice';
+import {
+  addColumn, changeColumnOrder, editColumn, removeColumn,
+} from './columnSlice';
 import {
   addTask, changeTaskPosition, editTask, removeTask,
 } from './taskSlice';
@@ -12,7 +14,12 @@ export const isBoardAction = isAsyncThunkAction(addBoard, editBoard, removeBoard
 
 export const isBoardEditOrAddAction = isAsyncThunkAction(editBoard);
 
-export const isColumnAction = isAsyncThunkAction(addColumn, editColumn, removeColumn);
+export const isColumnAction = isAsyncThunkAction(
+  addColumn,
+  editColumn,
+  removeColumn,
+  changeColumnOrder,
+);
 
 export const isTaskAction = isAsyncThunkAction(addTask, editTask, removeTask, changeTaskPosition);
 // TODO add better name
