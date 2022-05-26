@@ -2,10 +2,10 @@ import { TaskState } from '../types/tasks';
 import { DEFAULT_BOARD_ID } from './boards';
 import { DEFAULT_COLUMN_ID } from './columns';
 
-const DEFAULT_TASK_ID = 'default-task';
-const DEFAULT_TASK_ORDER = 1;
+export const DEFAULT_TASK_ID = 'default-task';
+export const DEFAULT_TASK_ORDER = 1;
 
-const DEFAULT_TASK = {
+export const DEFAULT_TASK = {
   id: DEFAULT_TASK_ID,
   title: DEFAULT_TASK_ID,
   order: DEFAULT_TASK_ORDER,
@@ -19,6 +19,7 @@ const DEFAULT_TASK = {
 const initialState: TaskState = {
   task: DEFAULT_TASK,
   tasks: [],
+  users: [],
   tasksPreview: [],
 };
 

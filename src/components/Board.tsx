@@ -17,6 +17,7 @@ import ListsWrapper from './ListsWrapper';
 import { boardPage } from '../constants/text';
 import { notificationSelector } from '../store/notificationSlice';
 import { DEFAULT_BOARD_ID } from '../constants/boards';
+import { getUsers } from '../store/taskSlice';
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -45,9 +46,11 @@ const Board: React.FC = () => {
     }
   }, [id, navigate]);
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
+  return isLoading ? <Loader /> : (
     <Container>
       <ButtonGroup>
         <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>

@@ -1,5 +1,6 @@
 import { Column } from './columns';
 import { IBoard } from './boards';
+import { UserData } from './user';
 
 export interface NewTaskData {
   title: string;
@@ -27,5 +28,6 @@ export interface TaskPreview extends NewTaskData {
 export type TaskState = {
   task: Task;
   tasks: Task[];
+  users: UserData[];
   tasksPreview: TaskPreview[];
 };
