@@ -31,6 +31,14 @@ export default class TaskService {
     return api.put(`${Endpoint.BOARDS}/${data.boardId}${Endpoint.COLUMNS}/${data.columnId}${Endpoint.TASKS}/${taskId}`, data);
   }
 
+  static changeTaskPosition(
+    columnId: string,
+    taskId: string,
+    data: EditTaskData,
+  ): Promise<AxiosResponse<Task>> {
+    return api.put(`${Endpoint.BOARDS}/${data.boardId}${Endpoint.COLUMNS}/${columnId}${Endpoint.TASKS}/${taskId}`, data);
+  }
+
   static deleteTask(task: Task): Promise<AxiosResponse> {
     return api.delete(`${Endpoint.BOARDS}/${task.boardId}${Endpoint.COLUMNS}/${task.columnId}${Endpoint.TASKS}/${task.id}`);
   }
