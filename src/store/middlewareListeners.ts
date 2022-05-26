@@ -2,6 +2,7 @@ import { AppStartListening } from './listenerMiddleware';
 import { RootState } from './store';
 import { isBoardAction, isModalBoardPageAction } from './utils';
 import { getBoard, getBoards } from './boardSlice';
+import { getUsers } from './taskSlice';
 
 export const addBoardListener = (startAppListening: AppStartListening) => {
   startAppListening({
@@ -10,7 +11,10 @@ export const addBoardListener = (startAppListening: AppStartListening) => {
       state: RootState,
     ) => (isBoardAction(action) && !state.notificationStore.isLoading),
     effect: (_, listenerApi) => {
-      listenerApi.dispatch(getBoards());
+      listenerApi.dispatch(getUsers())
+        .then(() => {
+          listenerApi.dispatch(getBoards());
+        });
     },
   });
 };
@@ -22,7 +26,10 @@ export const addModalBoardPageActionListener = (startAppListening: AppStartListe
       state: RootState,
     ) => (isModalBoardPageAction(action) && !state.notificationStore.isLoading),
     effect: (_, listenerApi) => {
-      listenerApi.dispatch(getBoard());
+      listenerApi.dispatch(getUsers())
+        .then(() => {
+          listenerApi.dispatch(getBoard());
+        });
     },
   });
 };
