@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
 import {
-  Typography, TextField, Tooltip, IconButton,
+  Typography, TextField, Tooltip, IconButton, Box,
 } from '@mui/material';
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneSharpIcon from '@mui/icons-material/DoneSharp';
+import { useForm, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Column } from '../types/columns';
 import { editColumn, setColumn } from '../store/columnSlice';
-import { REMOVE_COLUMN } from '../constants/formfields';
+import { REMOVE_COLUMN, EDIT_COLUMN_TITLE } from '../constants/formfields';
 import { openModal } from '../store/modalSlice';
 import { DEFAULT_COLUMN } from '../constants/columns';
 import { boardPage, modalText } from '../constants/text';
 import { AppDispatch } from '../store/store';
+import convertRulesRegExp from '../helpers/convertRulesRegExp';
+import { FormField } from '../types/formTypes';
 
 type ListTitleProps = {
   column: Column;
   dispatch: AppDispatch;
 };
 
+type ListTitleField = {
+  title: string;
+};
+
 const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(column.title);
+  const { fields } = EDIT_COLUMN_TITLE;
+  const [field] = fields as FormField[];
+  const { handleSubmit, control, formState: { errors } } = useForm<ListTitleField>({ mode: 'onChange' });
+  const { t } = useTranslation();
 
   const showInput = () => {
     setIsEdit(true);
@@ -30,9 +41,12 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
     setIsEdit(false);
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-    setTitle(value);
+  const onSubmit = (data: ListTitleField) => {
+    dispatch(setColumn({ ...column, title: data.title }));
+    dispatch(editColumn())
+      .then(() => {
+        dispatch(setColumn(DEFAULT_COLUMN));
+      });
   };
 
   const deleteColumn = () => {
@@ -40,28 +54,35 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
     dispatch(openModal(REMOVE_COLUMN));
   };
 
-  const editColumnTitle = () => {
-    dispatch(setColumn({ ...column, title }));
-    dispatch(editColumn())
-      .then(() => {
-        dispatch(setColumn(DEFAULT_COLUMN));
-      });
-  };
-
   if (isEdit) {
     return (
       <>
-        {/* TODO MOVE OUT lable TITLE */}
-        <TextField
-          id="column-title"
-          label="Edit column title"
-          variant="standard"
-          value={title}
-          onChange={handleInput}
-        />
-        {/* TODO MOVE OUT TEXT */}
-        <Tooltip title={modalText.close}>
-          <IconButton onClick={editColumnTitle}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} id="column-title-form">
+          <Controller
+            key={field.name}
+            name={field.name as keyof ListTitleField}
+            control={control}
+            rules={convertRulesRegExp(field.registerOptions)}
+            defaultValue={column.title}
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                variant="standard"
+                type={field.type}
+                placeholder={field.placeholder}
+                fullWidth
+                label={t(field.label)}
+                onChange={onChange}
+                value={value}
+                autoComplete="off"
+                error={!!errors[field.name as keyof typeof errors]}
+                helperText={errors[field.name as keyof typeof errors]
+              && t(`${errors[field.name as keyof typeof errors]?.message}`)}
+              />
+            )}
+          />
+        </Box>
+        <Tooltip title={modalText.submit}>
+          <IconButton type="submit" form="column-title-form">
             <DoneSharpIcon color="success" />
           </IconButton>
         </Tooltip>
