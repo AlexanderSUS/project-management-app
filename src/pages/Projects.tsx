@@ -22,6 +22,7 @@ function Projects(): JSX.Element {
   const { isLoading } = useAppSelector(notificationSelector);
 
   useEffect(() => {
+    // TODO add rerender when user return from board page
     dispatch(getBoards());
   }, [dispatch]);
 

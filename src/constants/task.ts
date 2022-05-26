@@ -19,6 +19,7 @@ export const DEFAULT_TASK = {
 const initialState: TaskState = {
   task: DEFAULT_TASK,
   tasks: [],
+  users: [],
   tasksPreview: [],
 };
 

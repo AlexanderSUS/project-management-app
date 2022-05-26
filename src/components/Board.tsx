@@ -13,6 +13,7 @@ import ListsWrapper from './ListsWrapper';
 import { boardPage } from '../constants/text';
 import { notificationSelector } from '../store/notificationSlice';
 import { DEFAULT_BOARD_ID } from '../constants/boards';
+import { getUsers } from '../store/taskSlice';
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,10 @@ const Board: React.FC = () => {
       navigate(AppRoutes.PROJECTS);
     }
   }, [id, navigate]);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
 
   return isLoading ? <Loader /> : (
     <>
