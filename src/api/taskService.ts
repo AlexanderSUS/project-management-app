@@ -31,7 +31,7 @@ export default class TaskService {
     return api.put(`${Endpoint.BOARDS}/${data.boardId}${Endpoint.COLUMNS}/${data.columnId}${Endpoint.TASKS}/${taskId}`, data);
   }
 
-  static chanteTaskPosition(
+  static changeTaskPosition(
     columnId: string,
     taskId: string,
     data: EditTaskData,

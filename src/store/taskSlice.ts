@@ -92,7 +92,7 @@ export const changeTaskPosition = createAsyncThunk<Task, void, TypedThunkAPI>(
     delete copyTask.files;
 
     try {
-      const response = await TaskService.chanteTaskPosition(
+      const response = await TaskService.changeTaskPosition(
         columnId,
         task.id,
         copyTask as EditTaskData,
