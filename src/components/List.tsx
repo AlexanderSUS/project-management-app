@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   styled,
   Box,
@@ -22,11 +23,24 @@ type ListProps = {
   column: Column;
 };
 
+export const ColumnStyled = styled(Box)`
+  display: flex;
+  flex-flow: column nowrap;
+  min-width: 272px;
+  max-width: 272px;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 1rem;
+  background: ${muiTheme.palette.divider};
+`;
+
 const List: React.FC<ListProps> = ({ column }) => {
   const dispatch = useAppDispatch();
   const {
     board: { id: boardId },
   } = useAppSelector(boardSelector);
+  const { t } = useTranslation();
+
   const { tasks: tasksPreview, id: columnId } = column;
 
   const tasks: Task[] = tasksPreview.length
@@ -48,17 +62,6 @@ const List: React.FC<ListProps> = ({ column }) => {
     dispatch(setColumn(column));
     dispatch(openModal(ADD_TASK));
   };
-
-  const ColumnStyled = styled(Box)`
-    display: flex;
-    flex-flow: column nowrap;
-    min-width: 272px;
-    max-width: 272px;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    background: ${muiTheme.palette.divider};
-    padding: 1rem;
-  `;
 
   const ColumnBody = styled(Box)`
     flex-grow: 1;
@@ -89,8 +92,8 @@ const List: React.FC<ListProps> = ({ column }) => {
           <TaskCard key={task.id} task={task} />
         ))}
       </ColumnBody>
-      <Button variant="outlined" onClick={addTask} startIcon={<AddIcon />}>
-        Add task
+      <Button variant="contained" onClick={addTask} startIcon={<AddIcon />}>
+        {t('navText.newTask')}
       </Button>
     </ColumnStyled>
   );

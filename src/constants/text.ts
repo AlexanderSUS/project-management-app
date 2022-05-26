@@ -3,6 +3,8 @@ export const navTextEn = {
   projects: 'Boards',
   editProfile: 'Profile',
   newBoard: 'Add board',
+  newList: 'Add list',
+  newTask: 'Add Task',
 };
 
 export const navTextRu = {
@@ -10,6 +12,8 @@ export const navTextRu = {
   projects: 'Проекты',
   editProfile: 'Профиль',
   newBoard: 'Добавить доску',
+  newList: 'Добавить список',
+  newTask: 'Добавить здадачу',
 };
 
 export const registrationTextEn = {
