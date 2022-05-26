@@ -85,7 +85,7 @@ export const editTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
 );
 
 // TODO ADD CASE FOR NOTIFICATION
-export const reasingTask = createAsyncThunk<Task, void, TypedThunkAPI>(
+export const reasignTask = createAsyncThunk<Task, void, TypedThunkAPI>(
   'task/reasignTask',
   async (_, { getState, rejectWithValue }) => {
     const { task } = getState().taskStore;

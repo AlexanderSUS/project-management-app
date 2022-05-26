@@ -11,10 +11,7 @@ export const addBoardListener = (startAppListening: AppStartListening) => {
       state: RootState,
     ) => (isBoardAction(action) && !state.notificationStore.isLoading),
     effect: (_, listenerApi) => {
-      listenerApi.dispatch(getUsers())
-        .then(() => {
-          listenerApi.dispatch(getBoards());
-        });
+      listenerApi.dispatch(getBoards());
     },
   });
 };
