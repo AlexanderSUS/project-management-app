@@ -151,13 +151,6 @@ export const REMOVE_COLUMN: Content = {
   action: 'removeColumn',
 };
 
-export const EDIT_COLUMN_TITLE: Content = {
-  modalTitle: 'Edit list title',
-  action: 'editColumn',
-  fields: [{ ...ADD_COLUMN.fields![0], placeholder: 'Input new list title' },
-  ],
-};
-
 export const EDIT_NAME: Content = {
   modalTitle: 'Edit user name',
   action: 'editName',
