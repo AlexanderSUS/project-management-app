@@ -11,6 +11,8 @@ import { FormData } from '../types/formTypes';
 import { FULFILED } from '../constants/asyncThunk';
 import isGetBoardAction from './isGetBoardAction';
 import { IBoard } from '../types/boards';
+import { UserData } from '../types/user';
+import UserService from '../api/userServise';
 
 export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   'task/getTasks',
@@ -82,6 +84,30 @@ export const editTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
   },
 );
 
+// TODO ADD CASE FOR NOTIFICATION
+export const reasingTask = createAsyncThunk<Task, void, TypedThunkAPI>(
+  'task/reasignTask',
+  async (_, { getState, rejectWithValue }) => {
+    const { task } = getState().taskStore;
+    const { id: boardId } = getState().boardStore.board;
+    const coppyTask: Partial<Task> = { ...task, boardId };
+
+    delete coppyTask.id;
+    delete coppyTask.files;
+
+    try {
+      const response = await TaskService.editTask(task.id, coppyTask as EditTaskData);
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
 export const removeTask = createAsyncThunk<Task, void, TypedThunkAPI>(
   'task/removeTask',
   async (_, { getState, rejectWithValue }) => {
@@ -90,6 +116,22 @@ export const removeTask = createAsyncThunk<Task, void, TypedThunkAPI>(
 
     try {
       const response = await TaskService.deleteTask({ ...task, boardId });
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const getUsers = createAsyncThunk<UserData[], void, TypedThunkAPI >(
+  'task/getUsers',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await UserService.fetchUsers();
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
@@ -114,10 +156,16 @@ const taskSlice = createSlice({
     setTaskOrder: (state, { payload }: PayloadAction<number>) => {
       state.task.order = payload;
     },
+    setTaskUserId: (state, { payload } : PayloadAction<string>) => {
+      state.task.userId = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getTasks.fulfilled, (state, action) => {
       state.tasks = action.payload;
+    });
+    builder.addCase(getUsers.fulfilled, (state, action) => {
+      state.users = action.payload;
     });
     builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith(FULFILED),
@@ -132,7 +180,9 @@ const taskSlice = createSlice({
   },
 });
 
-export const { setTaskId, setTaskOrder, setTask } = taskSlice.actions;
+export const {
+  setTaskId, setTaskOrder, setTask, setTaskUserId,
+} = taskSlice.actions;
 
 export default taskSlice.reducer;
 
