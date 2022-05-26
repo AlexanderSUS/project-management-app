@@ -5,6 +5,7 @@ import {
   Container,
   Typography,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
@@ -45,21 +46,37 @@ const Board: React.FC = () => {
     }
   }, [id, navigate]);
 
+  const BoardWrapper = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  `;
+
+  const BoardContainer = styled(Container)`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  `;
+
   return isLoading ? (
     <Loader />
   ) : (
-    <Container>
-      <ButtonGroup>
-        <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
-          {title}
-        </Typography>
-        <Button onClick={editBoard}>{boardPage.editBtn}</Button>
-        <Button onClick={deleteBoard}>{boardPage.deleteBtn}</Button>
-        <Button onClick={addColumn}>{boardPage.addColunm}</Button>
-      </ButtonGroup>
-      <Typography>{description}</Typography>
-      <Box>{!isLoading && <ListsWrapper />}</Box>
-    </Container>
+    <BoardWrapper>
+      <BoardContainer>
+        <Box sx={{ mb: '1rem' }}>
+          <ButtonGroup>
+            <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
+              {title}
+            </Typography>
+            <Button onClick={editBoard}>{boardPage.editBtn}</Button>
+            <Button onClick={deleteBoard}>{boardPage.deleteBtn}</Button>
+            <Button onClick={addColumn}>{boardPage.addColunm}</Button>
+          </ButtonGroup>
+          <Typography>{description}</Typography>
+        </Box>
+        <Box sx={{ position: 'relative', flexGrow: 1 }}>{!isLoading && <ListsWrapper />}</Box>
+      </BoardContainer>
+    </BoardWrapper>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { styled } from '@mui/material/styles';
 import { Box, Container, Typography } from '@mui/material';
 import { Outlet, useMatch } from 'react-router-dom';
 import { boardPage } from '../constants/text';
@@ -9,13 +10,13 @@ import Loader from '../components/Loader';
 import AppRoutes from '../constants/routes';
 import { notificationSelector } from '../store/notificationSlice';
 
-const styles = {
-  display: 'flex',
-  flexDirection: 'column',
-  flexGrow: 1,
-  gap: '1rem',
-  p: '2rem 0',
-};
+const StyledMain = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 1rem;
+  padding: 2rem 0;
+`;
 
 function Projects(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ function Projects(): JSX.Element {
   }, [dispatch]);
 
   return (
-    <Box component="main" sx={styles}>
+    <StyledMain component="main">
       {useMatch(AppRoutes.PROJECTS) ? (
         <Container>
           <Typography component="h1" variant="h3">
@@ -39,7 +40,7 @@ function Projects(): JSX.Element {
       ) : (
         <Outlet />
       )}
-    </Box>
+    </StyledMain>
   );
 }
 
