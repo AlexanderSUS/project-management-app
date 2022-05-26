@@ -62,16 +62,42 @@ export const editTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
   'task/editTask',
   async (data: FormData, { getState, rejectWithValue }) => {
     const { task } = getState().taskStore;
-    const { id: boardId } = getState().boardStore.board;
-    const coppyTask: Partial<Task> = { ...task, boardId };
+    const copyTask: Partial<Task> = { ...task };
 
-    delete coppyTask.id;
-    delete coppyTask.files;
+    delete copyTask.id;
+    delete copyTask.files;
 
     try {
       const response = await TaskService.editTask(
         task.id,
-        { ...coppyTask, ...data } as EditTaskData,
+        { ...copyTask, ...data } as EditTaskData,
+      );
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const changeTaskPosition = createAsyncThunk<Task, void, TypedThunkAPI>(
+  'task/changeOrder',
+  async (_, { getState, rejectWithValue }) => {
+    const { task } = getState().taskStore;
+    const { id: columnId } = getState().columnStore.column;
+    const copyTask: Partial<Task> = { ...task };
+
+    delete copyTask.id;
+    delete copyTask.files;
+
+    try {
+      const response = await TaskService.changeTaskPosition(
+        columnId,
+        task.id,
+        copyTask as EditTaskData,
       );
       return response.data;
     } catch (err) {
@@ -150,14 +176,14 @@ const taskSlice = createSlice({
     setTask: (state, { payload }: PayloadAction<Task>) => {
       state.task = payload;
     },
-    setTaskId: (state, { payload }: PayloadAction<string>) => {
-      state.task.id = payload;
-    },
     setTaskOrder: (state, { payload }: PayloadAction<number>) => {
       state.task.order = payload;
     },
     setTaskUserId: (state, { payload } : PayloadAction<string>) => {
       state.task.userId = payload;
+    },
+    setTaskColumnId: (state, { payload }: PayloadAction<string>) => {
+      state.task.columnId = payload;
     },
   },
   extraReducers: (builder) => {
@@ -181,7 +207,7 @@ const taskSlice = createSlice({
 });
 
 export const {
-  setTaskId, setTaskOrder, setTask, setTaskUserId,
+  setTaskOrder, setTask, setTaskUserId, setTaskColumnId,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;
