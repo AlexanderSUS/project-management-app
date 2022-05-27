@@ -76,7 +76,7 @@ export const modalText = {
   close: 'Close',
 };
 
-export const editProfilePageText = {
+export const editProfilePageTextEn = {
   title: 'Profile',
   successSignUp: 'was successfuly updated',
   edit: 'Edit',
@@ -84,6 +84,22 @@ export const editProfilePageText = {
   name: 'Name: ',
   login: 'Login: ',
   id: 'ID: ',
+  yourTasks: 'Your tasks',
+  toBoard: 'To board',
+  list: 'List: ',
+};
+
+export const editProfilePageTextRu = {
+  title: 'Профиль',
+  successSignUp: 'был успешно обновлён',
+  edit: 'Редактировать',
+  deleteAccount: 'Удалить учетную запись',
+  name: 'Имя: ',
+  login: 'Логин: ',
+  id: 'ID: ',
+  yourTasks: 'Ваши задачи',
+  toBoard: 'К доске',
+  list: 'Список: ',
 };
 
 export const welcomePageEn = {
