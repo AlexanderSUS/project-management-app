@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { styled, Box, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Column } from '../types/columns';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -11,6 +12,8 @@ import { openModal } from '../store/modalSlice';
 import TaskCard from './Task';
 import { boardSelector } from '../store/boardSlice';
 import { Task } from '../types/tasks';
+import muiTheme from '../constants/muiTheme';
+// import scrollStyles from '../constants/scrollStyles';
 import { sortTask } from '../helpers/sortItems';
 import {
   changeTaskPosition, setTask, setTaskColumnId, setTaskOrder, taskSelector,
@@ -23,11 +26,25 @@ type ListProps = {
   column: Column;
 };
 
+export const ColumnStyled = styled(Box)`
+  display: flex;
+  flex-flow: column nowrap;
+  min-width: 272px;
+  max-width: 272px;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 1rem;
+  background: ${muiTheme.palette.divider};
+`;
+
 const List: React.FC<ListProps> = ({ column }) => {
   const dispatch = useAppDispatch();
+  const {
+    board: { id: boardId },
+  } = useAppSelector(boardSelector);
+  const { t } = useTranslation();
   const { task: setedTask } = useAppSelector(taskSelector);
   const { column: setedColunm } = useAppSelector(columnSelector);
-  const { board: { id: boardId } } = useAppSelector(boardSelector);
   const { tasks: tasksPreview, id: columnId } = column;
 
   const tasks: Task[] = tasksPreview.length
@@ -38,6 +55,13 @@ const List: React.FC<ListProps> = ({ column }) => {
     dispatch(setColumn(column));
     dispatch(openModal(ADD_TASK));
   };
+
+  // const ColumnBody = styled(Box)`
+  //   flex-grow: 1;
+  //   overflow: hidden auto;
+  //   margin: 1rem 0;
+  //   ${scrollStyles}
+  // `;
 
   // *** DRAG & DROP ***
   const dragStartHandler = () => {
@@ -74,19 +98,29 @@ const List: React.FC<ListProps> = ({ column }) => {
   // *** END DRAG & DROP ***
 
   return (
-    <Box
+    <ColumnStyled
       sx={{ display: 'flex', flexFlow: 'column nowrap' }}
       draggable
       onDragStart={dragStartHandler}
       onDragOver={dragOverHandler}
       onDrop={dropHandler}
     >
-      <Box sx={{ display: 'flex', flexFlow: 'row nowrap', width: '280px' }}>
+      <Box sx={{
+        display: 'flex',
+        flexFlow: 'row nowrap',
+      }}
+      >
         <ListTitle column={column} dispatch={dispatch} />
       </Box>
-      {tasks.map((tsk) => (<TaskCard key={tsk.id} task={tsk} />))}
-      <Button variant="outlined" onClick={addTask} startIcon={<AddIcon />}>Add task</Button>
-    </Box>
+      {/* <ColumnBody> */}
+      <>
+        {tasks.map((tsk) => (<TaskCard key={tsk.id} task={tsk} />))}
+      </>
+      {/* </ColumnBody> */}
+      <Button variant="contained" onClick={addTask} startIcon={<AddIcon />}>
+        {t('navText.newTask')}
+      </Button>
+    </ColumnStyled>
   );
 };
 

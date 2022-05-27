@@ -26,7 +26,7 @@ const Registration: React.FC = () => {
         <Typography component="h1" variant="h5">
           {t('registrationPageText.title')}
         </Typography>
-        {isLoading && <Loader /> }
+        <Loader isOpen={isLoading} />
         {!isLoading && (
         <AuthForm
           action={registration}
