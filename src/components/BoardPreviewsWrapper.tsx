@@ -7,21 +7,20 @@ import { IBoardPreview } from '../types/boards';
 import { openModal } from '../store/modalSlice';
 import { NEW_BOARD } from '../constants/formfields';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
-// import muiTheme from '../constants/muiTheme';
+import cardWidth from '../constants/styles';
 
 const wrapperStyles = {
   display: 'flex',
   flexFlow: 'row wrap',
-  gap: '1.5rem',
+  gap: '2rem',
   justifyContent: 'center',
+  alignItems: 'stretch',
 };
 
 const buttonStyle = {
-  width: '288px',
-  height: '200px',
-  fontSize: '2rem',
-  // color: muiTheme.palette.primary.dark,
-  // bgcolor: 'white',
+  width: cardWidth,
+  minHeight: '186px',
+  fontSize: '1.8rem',
 };
 
 type Props = {
@@ -38,7 +37,6 @@ const BoardPreviewsWrapper: React.FC<Props> = ({ boardsPreview }) => {
       <Button
         variant="contained"
         sx={buttonStyle}
-        // startIcon={}
         onClick={() => {
           dispatch(openModal(NEW_BOARD));
         }}
