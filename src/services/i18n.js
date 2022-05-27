@@ -14,6 +14,8 @@ import {
   welcomePageEn,
   editProfilePageTextEn,
   editProfilePageTextRu,
+  boardPageEn,
+  boardPageRu,
 } from '../constants/text';
 import { AuthTextEn, AuthTextRu } from '../constants/authorization';
 
@@ -50,6 +52,7 @@ i18n
           },
           welcomePage: welcomePageEn,
           profilePage: editProfilePageTextEn,
+          boardPage: boardPageEn,
         },
       },
       ru: {
@@ -75,6 +78,7 @@ i18n
           },
           welcomePage: welcomePageRu,
           profilePage: editProfilePageTextRu,
+          boardPage: boardPageRu,
         },
       },
     },

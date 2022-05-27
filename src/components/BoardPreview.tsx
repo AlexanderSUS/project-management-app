@@ -1,6 +1,9 @@
-import { Button, Typography } from '@mui/material';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Button, Typography, Paper, Card,
+  CardContent,
+} from '@mui/material';
 import React from 'react';
-import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
@@ -15,14 +18,14 @@ interface BoardPreviewProps {
   boardPreview: IBoardPreview;
 }
 
-export const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  height: '100%',
-  color: theme.palette.text.secondary,
-}));
+// export const Item = styled(Paper)(({ theme }) => ({
+//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+//   ...theme.typography.body2,
+//   padding: theme.spacing(1),
+//   textAlign: 'center',
+//   height: '100%',
+//   color: theme.palette.text.secondary,
+// }));
 
 const BoardPreview: React.FC<BoardPreviewProps> = ({
   boardPreview: { id, title, description },
@@ -48,39 +51,42 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
     });
   };
 
-  const Board = styled(Item)`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  // const Board = styled(Item)`
+  //   display: flex;
+  //   flex-direction: column;
+  //   height: 100%;
 
-    & > button {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
+  //   & > button {
+  //     width: 100%;
+  //     margin-bottom: 1rem;
+  //   }
 
-    .MuiGrid-container {
-      margin-top: auto;
-    }
+  //   .MuiGrid-container {
+  //     margin-top: auto;
+  //   }
 
-    p {
-      margin-bottom: 1rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      text-align: left;
-    }
-  `;
+  //   p {
+  //     margin-bottom: 1rem;
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //     display: -webkit-box;
+  //     -webkit-box-orient: vertical;
+  //     -webkit-line-clamp: 2;
+  //     text-align: left;
+  //   }
+  // `;
 
   return (
-    <Board>
-      <Button variant="contained" onClick={goToBoard}>
-        {title}
-      </Button>
-      <Typography component="p">{description}</Typography>
-      <EditAndDeleteButtons editAction={editItem} deleteAction={deleteItem} />
-    </Board>
+    <Card sx={{ width: '288px' }}>
+      <CardContent>
+        <Button variant="text" onClick={goToBoard}>
+          {title}
+        </Button>
+        <Typography component="p">{description}</Typography>
+        <EditAndDeleteButtons editAction={editItem} deleteAction={deleteItem} />
+      </CardContent>
+
+    </Card>
   );
 };
 

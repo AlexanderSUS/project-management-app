@@ -8,6 +8,7 @@ import {
 import { styled } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
@@ -15,7 +16,6 @@ import Loader from './Loader';
 import AppRoutes from '../constants/routes';
 import { boardSelector } from '../store/boardSlice';
 import ListsWrapper from './ListsWrapper';
-import { boardPage } from '../constants/text';
 import { notificationSelector } from '../store/notificationSlice';
 import { DEFAULT_BOARD_ID } from '../constants/boards';
 import { getUsers } from '../store/taskSlice';
@@ -35,6 +35,7 @@ const BoardContainer = styled(Container)`
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     board: { title, description, id },
   } = useAppSelector(boardSelector);
@@ -73,9 +74,9 @@ const Board: React.FC = () => {
               <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
                 {title}
               </Typography>
-              <Button onClick={editBoard}>{boardPage.editBtn}</Button>
-              <Button onClick={deleteBoard}>{boardPage.deleteBtn}</Button>
-              <Button onClick={addColumn}>{boardPage.addColunm}</Button>
+              <Button onClick={editBoard}>{t('boardPage.editBtn')}</Button>
+              <Button onClick={deleteBoard}>{t('boardPage.deleteBtn')}</Button>
+              <Button onClick={addColumn}>{t('boardPage.addColunm')}</Button>
             </ButtonGroup>
             <Typography>{description}</Typography>
           </Box>
