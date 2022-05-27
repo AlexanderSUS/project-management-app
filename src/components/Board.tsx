@@ -44,8 +44,9 @@ const Board: React.FC = () => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  return isLoading ? <Loader /> : (
+  return (
     <>
+      <Loader isOpen={isLoading} />
       <ButtonGroup>
         <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>{title}</Typography>
         <Button onClick={editBoard}>

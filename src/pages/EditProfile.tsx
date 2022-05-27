@@ -33,7 +33,7 @@ const EditProfile: React.FC = () => {
   return (
     <Container component="main" maxWidth="md">
       <Typography variant="h2" component="h1" gutterBottom>{editProfilePageText.title}</Typography>
-      {isLoading && <Loader />}
+      <Loader isOpen={isLoading} />
       {!isLoading && (
         <>
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>

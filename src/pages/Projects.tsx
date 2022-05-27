@@ -33,7 +33,7 @@ function Projects(): JSX.Element {
           <Typography component="h1" variant="h3">
             {boardPage.title}
           </Typography>
-          {isLoading && <Loader />}
+          <Loader isOpen={isLoading} />
           {!isLoading && <BoardPreviewsWrapper boardsPreview={boardsPreview} />}
         </>
       ) : <Outlet />}
