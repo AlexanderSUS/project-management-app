@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Box, Container, Typography, Button,
+  Container, Typography, Button, Card, CardContent, Box,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import Loader from '../components/Loader';
@@ -12,6 +12,10 @@ import { openModal, setDefaultValues } from '../store/modalSlice';
 import { notificationSelector } from '../store/notificationSlice';
 import UserTasks from '../components/UserTasks';
 import { getBoards, getBoardsById } from '../store/boardSlice';
+
+const lineStyle = {
+  display: 'flex',
+};
 
 const EditProfile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -40,47 +44,39 @@ const EditProfile: React.FC = () => {
       });
   }, [dispatch]);
 
-  return (
-    <Container component="main" maxWidth="md">
-      <Typography variant="h2" component="h1" gutterBottom>{t('profilePage.title')}</Typography>
-      {isLoading && <Loader />}
-      {!isLoading && (
-        <>
-          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-            <Box>
-              <Typography variant="h5">
-                {t('profilePage.name')}
-                {userName}
-              </Typography>
-              <Typography variant="h5" gutterBottom>
-                {t('profilePage.login')}
-                {' '}
-                {login}
-              </Typography>
-              <Typography variant="subtitle2" gutterBottom>
-                {t('profilePage.id')}
-                {userId}
-              </Typography>
-            </Box>
-            <Box>
-              <Box>
-                <Button onClick={editName}>
-                  {t('profilePage.edit')}
-                </Button>
-              </Box>
-              <Box>
-                <Button onClick={editLogin}>
-                  {t('profilePage.edit')}
-                </Button>
-              </Box>
-            </Box>
+  return isLoading ? <Loader /> : (
+    <Container component="main" maxWidth="md" sx={{ pb: '1rem' }}>
+      <Card sx={{ m: '2rem 0', pl: '2rem' }}>
+        <CardContent>
+          <Typography variant="h3" component="h1" gutterBottom>{t('profilePage.title')}</Typography>
+          <Box sx={lineStyle}>
+            <Typography variant="h5">
+              {t('profilePage.name')}
+              {userName}
+            </Typography>
+            <Button onClick={editName}>
+              {t('profilePage.edit')}
+            </Button>
           </Box>
+          <Box sx={lineStyle}>
+            <Typography variant="h5" gutterBottom>
+              {t('profilePage.login')}
+              {login}
+            </Typography>
+            <Button onClick={editLogin}>
+              {t('profilePage.edit')}
+            </Button>
+          </Box>
+          <Typography variant="h5" color="GrayText" gutterBottom>
+            {t('profilePage.id')}
+            {userId}
+          </Typography>
           <Button variant="outlined" color="warning" onClick={deleteAccount}>
             {t('profilePage.deleteAccount')}
           </Button>
-          <UserTasks userId={userId} />
-        </>
-      )}
+        </CardContent>
+      </Card>
+      <UserTasks userId={userId} />
     </Container>
   );
 };
