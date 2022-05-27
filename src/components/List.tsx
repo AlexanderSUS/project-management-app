@@ -50,7 +50,6 @@ const List: React.FC<ListProps> = ({ column }) => {
   const { t } = useTranslation();
   const { task: setedTask } = useAppSelector(taskSelector);
   const { column: setedColunm } = useAppSelector(columnSelector);
-  const { board: { id: boardId } } = useAppSelector(boardSelector);
   const { tasks: tasksPreview, id: columnId } = column;
 
   const tasks: Task[] = tasksPreview.length
@@ -72,14 +71,14 @@ const List: React.FC<ListProps> = ({ column }) => {
     dispatch(setColumn(column));
     dispatch(openModal(ADD_TASK));
   };
-  
+
   const ColumnBody = styled(Box)`
     flex-grow: 1;
     overflow: hidden auto;
     margin: 1rem 0;
     ${scrollStyles}
   `;
-  
+
   // *** DRAG & DROP ***
   const dragStartHandler = () => {
     dispatch(setColumn(column));

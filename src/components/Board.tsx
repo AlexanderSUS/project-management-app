@@ -46,7 +46,7 @@ const Board: React.FC = () => {
       navigate(AppRoutes.PROJECTS);
     }
   }, [id, navigate]);
-  
+
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
