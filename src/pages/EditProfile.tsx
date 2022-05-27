@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import {
   Box, Container, Typography, Button,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import Loader from '../components/Loader';
-import { editProfilePageText } from '../constants/text';
 import { authSelector } from '../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { EDIT_LOGIN, EDIT_NAME, REMOVE_USER } from '../constants/formfields';
@@ -17,6 +17,7 @@ const EditProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const { userId, userName, login } = useSelector(authSelector);
   const { isLoading } = useAppSelector(notificationSelector);
+  const { t } = useTranslation();
 
   const deleteAccount = () => {
     dispatch(openModal(REMOVE_USER));
@@ -41,41 +42,41 @@ const EditProfile: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="md">
-      <Typography variant="h2" component="h1" gutterBottom>{editProfilePageText.title}</Typography>
+      <Typography variant="h2" component="h1" gutterBottom>{t('profilePage.title')}</Typography>
       {isLoading && <Loader />}
       {!isLoading && (
         <>
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Box>
               <Typography variant="h5">
-                {editProfilePageText.name}
+                {t('profilePage.name')}
                 {userName}
               </Typography>
               <Typography variant="h5" gutterBottom>
-                {editProfilePageText.login}
+                {t('profilePage.login')}
                 {' '}
                 {login}
               </Typography>
               <Typography variant="subtitle2" gutterBottom>
-                {editProfilePageText.id}
+                {t('profilePage.id')}
                 {userId}
               </Typography>
             </Box>
             <Box>
               <Box>
                 <Button onClick={editName}>
-                  {editProfilePageText.edit}
+                  {t('profilePage.edit')}
                 </Button>
               </Box>
               <Box>
                 <Button onClick={editLogin}>
-                  {editProfilePageText.edit}
+                  {t('profilePage.edit')}
                 </Button>
               </Box>
             </Box>
           </Box>
           <Button variant="outlined" color="warning" onClick={deleteAccount}>
-            {editProfilePageText.deleteAccount}
+            {t('profilePage.deleteAccount')}
           </Button>
           <UserTasks userId={userId} />
         </>

@@ -3,6 +3,7 @@ import {
   Box, Typography, Tooltip, Button,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { taskSelector } from '../store/taskSlice';
 import { boardSelector, getBoard, setBoardId } from '../store/boardSlice';
@@ -30,6 +31,7 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
   const { columns } = useAppSelector(columnSelector);
   const usersTasks = tasks.filter((task) => task.userId === userId);
   const userBoards = boards.filter((board) => tasks.filter((task) => board.id === task.boardId));
+  const { t } = useTranslation();
 
   const dataArray = userBoards.map((board) => ({
     boardId: board.id,
@@ -47,31 +49,28 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
 
   return (
     <Box sx={{ mt: '2rem' }}>
-      <Typography variant="h4">Your Tasks: </Typography>
+      <Typography variant="h4">{t('profilePage.yourTasks')}</Typography>
       {dataArray.map((data) => (data.tasks.length ? (
         <Box key={data.boardId} sx={{ border: '1px solid blue', m: '1rem' }}>
-          <Typography variant="h5" sx={{ display: 'inline' }}>
-            Board:
-            {data.boardTitle}
-          </Typography>
-          <Tooltip title="Go to board">
-            <Button variant="outlined" onClick={() => goToBoard(data.boardId)}>To board</Button>
+          <Tooltip title={t('profilePage.toBoard')} placement="right">
+            <Button
+              variant="outlined"
+              onClick={() => goToBoard(data.boardId)}
+            >
+              {data.boardTitle}
+            </Button>
           </Tooltip>
           <Box sx={taskWrapperStyles}>
             {data.tasks.map(((task) => (
               <Box key={task.id} sx={{ border: '1px solid red' }}>
                 <Typography variant="h6">
-                  Title:
-                  {' '}
                   {task.title}
                 </Typography>
                 <Typography>
-                  Description:
-                  {' '}
                   {task.description}
                 </Typography>
                 <Typography variant="subtitle2">
-                  List:
+                  {t('profilePage.list')}
                   {columns.find((column) => column.id === task.columnId)?.title}
                 </Typography>
               </Box>
