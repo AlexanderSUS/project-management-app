@@ -1,6 +1,11 @@
 import {
-  Box, Button, ButtonGroup, Typography,
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  Typography,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
@@ -18,7 +23,9 @@ import { getUsers } from '../store/taskSlice';
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { board: { title, description, id } } = useAppSelector(boardSelector);
+  const {
+    board: { title, description, id },
+  } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(notificationSelector);
 
   const deleteBoard = () => {
@@ -44,25 +51,37 @@ const Board: React.FC = () => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  return isLoading ? <Loader /> : (
-    <>
-      <ButtonGroup>
-        <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>{title}</Typography>
-        <Button onClick={editBoard}>
-          {boardPage.editBtn}
-        </Button>
-        <Button onClick={deleteBoard}>
-          {boardPage.deleteBtn}
-        </Button>
-        <Button onClick={addColumn}>
-          {boardPage.addColunm}
-        </Button>
-      </ButtonGroup>
-      <Typography>{description}</Typography>
-      <Box>
-        {!isLoading && <ListsWrapper /> }
-      </Box>
-    </>
+  const BoardWrapper = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  `;
+
+  const BoardContainer = styled(Container)`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  `;
+
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <BoardWrapper>
+      <BoardContainer>
+        <Box sx={{ mb: '1rem' }}>
+          <ButtonGroup>
+            <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
+              {title}
+            </Typography>
+            <Button onClick={editBoard}>{boardPage.editBtn}</Button>
+            <Button onClick={deleteBoard}>{boardPage.deleteBtn}</Button>
+            <Button onClick={addColumn}>{boardPage.addColunm}</Button>
+          </ButtonGroup>
+          <Typography>{description}</Typography>
+        </Box>
+        <Box sx={{ position: 'relative', flexGrow: 1 }}>{!isLoading && <ListsWrapper />}</Box>
+      </BoardContainer>
+    </BoardWrapper>
   );
 };
 
