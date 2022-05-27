@@ -11,6 +11,7 @@ import { FulfilledAction, TypedThunkAPI } from '../types/slice';
 import { FULFILED } from '../constants/asyncThunk';
 import isGetBoardAction from './isGetBoardAction';
 import { IBoard } from '../types/boards';
+import { isGetBoardsByIdAction } from './utils';
 
 export const getColumns = createAsyncThunk<ColumnPreview[], void, TypedThunkAPI >(
   'column/getColumns',
@@ -138,6 +139,15 @@ const columnSlice = createSlice({
         if (isGetBoardAction(action)) {
           const boards = action.payload as IBoard;
           state.columns = boards.columns;
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
+      (state, action) => {
+        if (isGetBoardsByIdAction(action)) {
+          const boards = action.payload as IBoard[];
+          state.columns = boards.map((board) => board.columns).flat();
         }
       },
     );

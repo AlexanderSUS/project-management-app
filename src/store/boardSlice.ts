@@ -5,7 +5,9 @@ import { IBoardPreview, BoardState, IBoard } from '../types/boards';
 import { ValidationErrors } from '../types/response';
 import initialState, { DEFAULT_BOARD } from '../constants/boards';
 import type { FormData } from '../types/formTypes';
-import { TypedThunkAPI } from '../types/slice';
+import { FulfilledAction, TypedThunkAPI } from '../types/slice';
+import { isGetBoardsByIdAction } from './utils';
+import { FULFILED } from '../constants/asyncThunk';
 
 export const getBoards = createAsyncThunk<IBoardPreview[], void, TypedThunkAPI >(
   'board/getBoards',
@@ -13,6 +15,28 @@ export const getBoards = createAsyncThunk<IBoardPreview[], void, TypedThunkAPI >
     try {
       const response = await BoardService.fetchBoards();
       return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const getBoardsById = createAsyncThunk<IBoard[], void, TypedThunkAPI >(
+  'board/getBoardsById',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { boardsPreview } = getState().boardStore;
+      const allBoardIds = boardsPreview.map((prev) => prev.id);
+
+      const allBoardsRequest = allBoardIds.map((boardId) => BoardService.getBoard(boardId));
+      const allBoardsResponse = await Promise.all(allBoardsRequest);
+      const allBoards = allBoardsResponse.map((res) => res.data);
+
+      return allBoards;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {
@@ -114,6 +138,15 @@ const boardSlice = createSlice({
     builder.addCase(removeBoard.fulfilled, (state) => {
       state.board = DEFAULT_BOARD;
     });
+    builder.addMatcher(
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
+      (state, action) => {
+        if (isGetBoardsByIdAction(action)) {
+          const boards = action.payload as IBoard[];
+          state.boards = boards;
+        }
+      },
+    );
   },
 });
 

@@ -13,6 +13,8 @@ import isGetBoardAction from './isGetBoardAction';
 import { IBoard } from '../types/boards';
 import { UserData } from '../types/user';
 import UserService from '../api/userServise';
+import { isGetBoardsByIdAction } from './utils';
+import extractTasks from '../helpers/dataExtractors';
 
 export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   'task/getTasks',
@@ -200,6 +202,15 @@ const taskSlice = createSlice({
           const board = action.payload as IBoard;
           const tasksPreview = board.columns.map((column) => column.tasks).flat();
           state.tasksPreview = tasksPreview;
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
+      (state, action) => {
+        if (isGetBoardsByIdAction(action)) {
+          const boards = action.payload as IBoard[];
+          state.tasks = extractTasks(boards);
         }
       },
     );
