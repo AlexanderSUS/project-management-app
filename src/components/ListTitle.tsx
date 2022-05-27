@@ -16,6 +16,7 @@ import { boardPage, modalText } from '../constants/text';
 import { AppDispatch } from '../store/store';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
 import { FormField } from '../types/formTypes';
+import muiTheme from '../constants/muiTheme';
 
 type ListTitleProps = {
   column: Column;
@@ -30,7 +31,11 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const { fields } = EDIT_COLUMN_TITLE;
   const [field] = fields as FormField[];
-  const { handleSubmit, control, formState: { errors } } = useForm<ListTitleField>({ mode: 'onChange' });
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<ListTitleField>({ mode: 'onChange' });
   const { t } = useTranslation();
 
   const showInput = () => {
@@ -43,10 +48,9 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
 
   const onSubmit = (data: ListTitleField) => {
     dispatch(setColumn({ ...column, title: data.title }));
-    dispatch(editColumn())
-      .then(() => {
-        dispatch(setColumn(DEFAULT_COLUMN));
-      });
+    dispatch(editColumn()).then(() => {
+      dispatch(setColumn(DEFAULT_COLUMN));
+    });
   };
 
   const deleteColumn = () => {
@@ -57,7 +61,12 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
   if (isEdit) {
     return (
       <>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} id="column-title-form">
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          id="column-title-form"
+          sx={{ flexGrow: '1' }}
+        >
           <Controller
             key={field.name}
             name={field.name as keyof ListTitleField}
@@ -75,8 +84,10 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
                 value={value}
                 autoComplete="off"
                 error={!!errors[field.name as keyof typeof errors]}
-                helperText={errors[field.name as keyof typeof errors]
-              && t(`${errors[field.name as keyof typeof errors]?.message}`)}
+                helperText={
+                  errors[field.name as keyof typeof errors]
+                  && t(`${errors[field.name as keyof typeof errors]?.message}`)
+                }
               />
             )}
           />
@@ -86,7 +97,6 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
             <DoneSharpIcon color="success" />
           </IconButton>
         </Tooltip>
-
         <Tooltip title={modalText.close}>
           <IconButton onClick={hideInput}>
             <CloseSharpIcon color="action" />
@@ -97,18 +107,35 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
   }
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        borderBottom: `1px solid ${muiTheme.palette.divider}`,
+      }}
+    >
       <Tooltip title={boardPage.editBtn} placement="right">
-        <Typography onClick={showInput} variant="h5" sx={{ mr: 'auto', ml: 'auto' }}>
+        <Typography
+          onClick={showInput}
+          variant="h6"
+          sx={{
+            mr: 'auto',
+            ml: 'auto',
+            textTransform: 'uppercase',
+            fontSize: '1rem',
+          }}
+        >
           {column.title}
         </Typography>
       </Tooltip>
       <Tooltip title={boardPage.deleteBtn} placement="right">
-        <IconButton color="primary" onClick={deleteColumn}>
+        <IconButton color="error" onClick={deleteColumn}>
           <DeleteIcon />
         </IconButton>
       </Tooltip>
-    </>
+    </Box>
   );
 };
 
