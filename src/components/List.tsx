@@ -1,21 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  styled,
-  Box,
-  Typography,
-  Button,
-} from '@mui/material';
+import { styled, Box, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Column } from '../types/columns';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import {
   changeColumnOrder, columnSelector, setColumn, setColumnOrder,
 } from '../store/columnSlice';
-import { ADD_TASK, EDIT_COLUMN_TITLE, REMOVE_COLUMN } from '../constants/formfields';
-import { openModal, setDefaultValues } from '../store/modalSlice';
+import { ADD_TASK } from '../constants/formfields';
+import { openModal } from '../store/modalSlice';
 import TaskCard from './Task';
-import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { boardSelector } from '../store/boardSlice';
 import { Task } from '../types/tasks';
 import muiTheme from '../constants/muiTheme';
@@ -26,6 +20,7 @@ import {
 } from '../store/taskSlice';
 import { DEFAULT_TASK, DEFAULT_TASK_ID, DEFAULT_TASK_ORDER } from '../constants/task';
 import { DEFAULT_COLUMN } from '../constants/columns';
+import ListTitle from './ListTitle';
 
 type ListProps = {
   column: Column;
@@ -55,17 +50,6 @@ const List: React.FC<ListProps> = ({ column }) => {
   const tasks: Task[] = tasksPreview.length
     ? sortTask(tasksPreview.map((preview) => ({ ...preview, columnId, boardId })))
     : [];
-
-  const deleteColumn = () => {
-    dispatch(setColumn(column));
-    dispatch(openModal(REMOVE_COLUMN));
-  };
-
-  const editColumn = () => {
-    dispatch(setDefaultValues([column.title]));
-    dispatch(setColumn(column));
-    dispatch(openModal(EDIT_COLUMN_TITLE));
-  };
 
   const addTask = () => {
     dispatch(setColumn(column));
@@ -126,10 +110,7 @@ const List: React.FC<ListProps> = ({ column }) => {
         flexFlow: 'row nowrap',
       }}
       >
-        <Typography variant="h5" sx={{ mr: 'auto', ml: 'auto' }}>
-          {column.title}
-        </Typography>
-        <EditAndDeleteButtons editAction={editColumn} deleteAction={deleteColumn} />
+        <ListTitle column={column} dispatch={dispatch} />
       </Box>
       {/* <ColumnBody> */}
       <>

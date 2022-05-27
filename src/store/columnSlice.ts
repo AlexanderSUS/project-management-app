@@ -48,15 +48,23 @@ export const addColumn = createAsyncThunk<Column, FormData, TypedThunkAPI>(
   },
 );
 
-export const editColumn = createAsyncThunk<Column, FormData, TypedThunkAPI>(
+export const editColumn = createAsyncThunk<Column, void, TypedThunkAPI>(
   'column/editColumn',
-  async (data: FormData, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.board.id;
-    const { id, order } = getState().columnStore.column;
-    const { title } = data;
+    const { column } = getState().columnStore;
+    const copyColumn: Partial<Column> = { ...column };
+
+    delete copyColumn.tasks;
+    delete copyColumn.id;
 
     try {
-      const response = await ColumnService.editColumn(boardId, id, { title, order });
+      const response = await ColumnService.editColumn(
+        boardId,
+        column.id,
+        copyColumn as EditColumnData,
+      );
+
       return response.data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;

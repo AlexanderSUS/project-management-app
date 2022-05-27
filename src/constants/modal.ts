@@ -2,7 +2,7 @@ import {
   ModalState, ModalConfirmAction, ModalFormAction,
 } from '../types/modal';
 import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
-import { addColumn, editColumn, removeColumn } from '../store/columnSlice';
+import { addColumn, removeColumn } from '../store/columnSlice';
 import { editLogin, editName, removeUser } from '../store/authSlice';
 import { addTask, editTask, removeTask } from '../store/taskSlice';
 
@@ -11,7 +11,6 @@ export const modalFormAction: ModalFormAction = {
   addBoard,
   editBoard,
   addColumn,
-  editColumn,
   editLogin,
   editName,
   addTask,
