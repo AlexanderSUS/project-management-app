@@ -19,7 +19,7 @@ import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { boardSelector } from '../store/boardSlice';
 import { Task } from '../types/tasks';
 import muiTheme from '../constants/muiTheme';
-import scrollStyles from '../constants/scrollStyles';
+// import scrollStyles from '../constants/scrollStyles';
 import { sortTask } from '../helpers/sortItems';
 import {
   changeTaskPosition, setTask, setTaskColumnId, setTaskOrder, taskSelector,
@@ -72,12 +72,12 @@ const List: React.FC<ListProps> = ({ column }) => {
     dispatch(openModal(ADD_TASK));
   };
 
-  const ColumnBody = styled(Box)`
-    flex-grow: 1;
-    overflow: hidden auto;
-    margin: 1rem 0;
-    ${scrollStyles}
-  `;
+  // const ColumnBody = styled(Box)`
+  //   flex-grow: 1;
+  //   overflow: hidden auto;
+  //   margin: 1rem 0;
+  //   ${scrollStyles}
+  // `;
 
   // *** DRAG & DROP ***
   const dragStartHandler = () => {
@@ -131,9 +131,11 @@ const List: React.FC<ListProps> = ({ column }) => {
         </Typography>
         <EditAndDeleteButtons editAction={editColumn} deleteAction={deleteColumn} />
       </Box>
-      <ColumnBody>
+      {/* <ColumnBody> */}
+      <>
         {tasks.map((tsk) => (<TaskCard key={tsk.id} task={tsk} />))}
-      </ColumnBody>
+      </>
+      {/* </ColumnBody> */}
       <Button variant="contained" onClick={addTask} startIcon={<AddIcon />}>
         {t('navText.newTask')}
       </Button>

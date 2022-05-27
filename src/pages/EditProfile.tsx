@@ -44,40 +44,43 @@ const EditProfile: React.FC = () => {
       });
   }, [dispatch]);
 
-  return isLoading ? <Loader /> : (
-    <Container component="main" maxWidth="md" sx={{ pb: '1rem' }}>
-      <Card sx={{ m: '2rem 0', pl: '2rem' }}>
-        <CardContent>
-          <Typography variant="h3" component="h1" gutterBottom>{t('profilePage.title')}</Typography>
-          <Box sx={lineStyle}>
-            <Typography variant="h5">
-              {t('profilePage.name')}
-              {userName}
+  return (
+    <>
+      <Loader isOpen={isLoading} />
+      <Container component="main" maxWidth="md" sx={{ pb: '1rem' }}>
+        <Card sx={{ m: '2rem 0', pl: '2rem' }}>
+          <CardContent>
+            <Typography variant="h3" component="h1" gutterBottom>{t('profilePage.title')}</Typography>
+            <Box sx={lineStyle}>
+              <Typography variant="h5">
+                {t('profilePage.name')}
+                {userName}
+              </Typography>
+              <Button onClick={editName}>
+                {t('profilePage.edit')}
+              </Button>
+            </Box>
+            <Box sx={lineStyle}>
+              <Typography variant="h5" gutterBottom>
+                {t('profilePage.login')}
+                {login}
+              </Typography>
+              <Button onClick={editLogin}>
+                {t('profilePage.edit')}
+              </Button>
+            </Box>
+            <Typography variant="h5" color="GrayText" gutterBottom>
+              {t('profilePage.id')}
+              {userId}
             </Typography>
-            <Button onClick={editName}>
-              {t('profilePage.edit')}
+            <Button variant="outlined" color="warning" onClick={deleteAccount}>
+              {t('profilePage.deleteAccount')}
             </Button>
-          </Box>
-          <Box sx={lineStyle}>
-            <Typography variant="h5" gutterBottom>
-              {t('profilePage.login')}
-              {login}
-            </Typography>
-            <Button onClick={editLogin}>
-              {t('profilePage.edit')}
-            </Button>
-          </Box>
-          <Typography variant="h5" color="GrayText" gutterBottom>
-            {t('profilePage.id')}
-            {userId}
-          </Typography>
-          <Button variant="outlined" color="warning" onClick={deleteAccount}>
-            {t('profilePage.deleteAccount')}
-          </Button>
-        </CardContent>
-      </Card>
-      <UserTasks userId={userId} />
-    </Container>
+          </CardContent>
+        </Card>
+        <UserTasks userId={userId} />
+      </Container>
+    </>
   );
 };
 

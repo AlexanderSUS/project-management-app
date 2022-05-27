@@ -20,6 +20,18 @@ import { notificationSelector } from '../store/notificationSlice';
 import { DEFAULT_BOARD_ID } from '../constants/boards';
 import { getUsers } from '../store/taskSlice';
 
+const BoardWrapper = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  `;
+
+const BoardContainer = styled(Container)`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  `;
+
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -51,37 +63,26 @@ const Board: React.FC = () => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const BoardWrapper = styled(Box)`
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  `;
-
-  const BoardContainer = styled(Container)`
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  `;
-
-  return isLoading ? (
-    <Loader />
-  ) : (
-    <BoardWrapper>
-      <BoardContainer>
-        <Box sx={{ mb: '1rem' }}>
-          <ButtonGroup>
-            <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
-              {title}
-            </Typography>
-            <Button onClick={editBoard}>{boardPage.editBtn}</Button>
-            <Button onClick={deleteBoard}>{boardPage.deleteBtn}</Button>
-            <Button onClick={addColumn}>{boardPage.addColunm}</Button>
-          </ButtonGroup>
-          <Typography>{description}</Typography>
-        </Box>
-        <Box sx={{ position: 'relative', flexGrow: 1 }}>{!isLoading && <ListsWrapper />}</Box>
-      </BoardContainer>
-    </BoardWrapper>
+  return (
+    <>
+      <Loader isOpen={isLoading} />
+      <BoardWrapper>
+        <BoardContainer>
+          <Box sx={{ mb: '1rem' }}>
+            <ButtonGroup>
+              <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
+                {title}
+              </Typography>
+              <Button onClick={editBoard}>{boardPage.editBtn}</Button>
+              <Button onClick={deleteBoard}>{boardPage.deleteBtn}</Button>
+              <Button onClick={addColumn}>{boardPage.addColunm}</Button>
+            </ButtonGroup>
+            <Typography>{description}</Typography>
+          </Box>
+          <Box sx={{ position: 'relative', flexGrow: 1 }}>{!isLoading && <ListsWrapper />}</Box>
+        </BoardContainer>
+      </BoardWrapper>
+    </>
   );
 };
 
