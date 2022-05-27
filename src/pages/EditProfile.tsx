@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Box, Container, Typography, Button,
@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { EDIT_LOGIN, EDIT_NAME, REMOVE_USER } from '../constants/formfields';
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import { notificationSelector } from '../store/notificationSlice';
+import UserTasks from '../components/UserTasks';
+import { getBoards, getBoardsById } from '../store/boardSlice';
 
 const EditProfile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +31,13 @@ const EditProfile: React.FC = () => {
     dispatch(setDefaultValues([login]));
     dispatch(openModal(EDIT_LOGIN));
   };
+
+  useEffect(() => {
+    dispatch(getBoards())
+      .then(() => {
+        dispatch(getBoardsById());
+      });
+  }, [dispatch]);
 
   return (
     <Container component="main" maxWidth="md">
@@ -68,6 +77,7 @@ const EditProfile: React.FC = () => {
           <Button variant="outlined" color="warning" onClick={deleteAccount}>
             {editProfilePageText.deleteAccount}
           </Button>
+          <UserTasks userId={userId} />
         </>
       )}
     </Container>
