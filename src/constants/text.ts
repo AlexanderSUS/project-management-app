@@ -1,3 +1,7 @@
+export const LANG_EN = 'en';
+
+export const LANG_RU = 'ru';
+
 export const navTextEn = {
   home: 'Home',
   projects: 'Boards',
@@ -49,8 +53,13 @@ export const loginPageRu = {
 };
 
 export const langButton = {
-  ru: 'ru',
-  en: 'en',
+  ru: 'Язык',
+  en: 'Language',
+};
+
+export const langMenuItem = {
+  ru: 'Русский',
+  en: 'English',
 };
 
 export const boardPage = {
