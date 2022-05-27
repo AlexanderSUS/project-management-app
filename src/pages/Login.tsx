@@ -27,7 +27,7 @@ const Login: React.FC = () => {
         <Typography component="h1" variant="h5">
           {t('loginPage.title')}
         </Typography>
-        {isLoading && <Loader />}
+        <Loader isOpen={isLoading} />
         {!isLoading && <AuthForm action={logIn} fields={SIGNIN_INPUTS} buttonText={t('loginPage.title')} />}
       </Box>
     </Container>

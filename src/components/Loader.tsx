@@ -1,11 +1,18 @@
 import * as React from 'react';
+import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 
-export default function Loader() {
-  return (
-    <Box sx={{ display: 'flex', margin: '2rem' }}>
-      <CircularProgress size="5rem" />
-    </Box>
-  );
-}
+type Props = {
+  isOpen: boolean;
+};
+
+const Loader: React.FC<Props> = ({ isOpen }) => (
+  <Backdrop
+    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    open={isOpen}
+  >
+    <CircularProgress color="inherit" size={100} />
+  </Backdrop>
+);
+
+export default Loader;

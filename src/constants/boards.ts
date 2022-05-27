@@ -1,18 +1,18 @@
-import { BoardState, BoardType } from '../types/boards';
+import { BoardState, IBoard } from '../types/boards';
 
-export const DEFALULT_BOARD_ID = 'defalut';
+export const DEFAULT_BOARD_ID: string = 'defalut-bord';
 
-export const DEFAULT_BOARD: BoardType = {
-  id: DEFALULT_BOARD_ID,
-  title: DEFALULT_BOARD_ID,
-  description: DEFALULT_BOARD_ID,
+export const DEFAULT_BOARD: IBoard = {
+  id: DEFAULT_BOARD_ID,
+  title: DEFAULT_BOARD_ID,
+  description: DEFAULT_BOARD_ID,
   columns: [],
 };
 
 const initialState: BoardState = {
-  boards: [],
-  currentBoardId: '',
   board: DEFAULT_BOARD,
+  boardsPreview: [],
+  boards: [],
 };
 
 export default initialState;

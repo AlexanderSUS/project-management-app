@@ -1,8 +1,14 @@
+export const LANG_EN = 'en';
+
+export const LANG_RU = 'ru';
+
 export const navTextEn = {
   home: 'Home',
   projects: 'Boards',
   editProfile: 'Profile',
   newBoard: 'Add board',
+  newList: 'Add list',
+  newTask: 'Add Task',
 };
 
 export const navTextRu = {
@@ -10,6 +16,8 @@ export const navTextRu = {
   projects: 'Проекты',
   editProfile: 'Профиль',
   newBoard: 'Добавить доску',
+  newList: 'Добавить список',
+  newTask: 'Добавить здадачу',
 };
 
 export const registrationTextEn = {
@@ -45,8 +53,13 @@ export const loginPageRu = {
 };
 
 export const langButton = {
-  ru: 'ru',
-  en: 'en',
+  ru: 'Язык',
+  en: 'Language',
+};
+
+export const langMenuItem = {
+  ru: 'Русский',
+  en: 'English',
 };
 
 export const boardPage = {
@@ -63,7 +76,7 @@ export const modalText = {
   close: 'Close',
 };
 
-export const editProfilePageText = {
+export const editProfilePageTextEn = {
   title: 'Profile',
   successSignUp: 'was successfuly updated',
   edit: 'Edit',
@@ -71,6 +84,22 @@ export const editProfilePageText = {
   name: 'Name: ',
   login: 'Login: ',
   id: 'ID: ',
+  yourTasks: 'Your tasks',
+  toBoard: 'To board',
+  list: 'List: ',
+};
+
+export const editProfilePageTextRu = {
+  title: 'Профиль',
+  successSignUp: 'был успешно обновлён',
+  edit: 'Редактировать',
+  deleteAccount: 'Удалить учетную запись',
+  name: 'Имя: ',
+  login: 'Логин: ',
+  id: 'ID: ',
+  yourTasks: 'Ваши задачи',
+  toBoard: 'К доске',
+  list: 'Список: ',
 };
 
 export const welcomePageEn = {

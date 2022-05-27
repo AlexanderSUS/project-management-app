@@ -6,58 +6,81 @@ import { useNavigate } from 'react-router-dom';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
-import { BoardType } from '../types/boards';
+import { IBoardPreview } from '../types/boards';
 import AppRoutes from '../constants/routes';
-import { getBoard, setCurrentBoardId } from '../store/boardSlice';
-import { boardPage } from '../constants/text';
+import { getBoard, setBoardId } from '../store/boardSlice';
+import EditAndDeleteButtons from './EditAndDeleteButtons';
 
 interface BoardPreviewProps {
-  board: BoardType;
+  boardPreview: IBoardPreview;
 }
 
-const Item = styled(Paper)(({ theme }) => ({
+export const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
+  height: '100%',
   color: theme.palette.text.secondary,
 }));
 
-const BoardPreview: React.FC<BoardPreviewProps> = ({ board: { id, title, description } }) => {
+const BoardPreview: React.FC<BoardPreviewProps> = ({
+  boardPreview: { id, title, description },
+}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const deleteItem = () => {
-    dispatch(setCurrentBoardId(id));
+    dispatch(setBoardId(id));
     dispatch(openModal(REMOVE_BOARD));
   };
 
   const editItem = () => {
     dispatch(setDefaultValues([title, description]));
-    dispatch(setCurrentBoardId(id));
+    dispatch(setBoardId(id));
     dispatch(openModal(EDIT_BOARD));
   };
 
   const goToBoard = () => {
-    dispatch(setCurrentBoardId(id));
+    dispatch(setBoardId(id));
     dispatch(getBoard()).then(() => {
       navigate(`${AppRoutes.PROJECTS}/${id}`);
     });
   };
 
+  const Board = styled(Item)`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    & > button {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .MuiGrid-container {
+      margin-top: auto;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      text-align: left;
+    }
+  `;
+
   return (
-    <Item key={id} sx={{ display: 'flex' }}>
+    <Board>
       <Button variant="contained" onClick={goToBoard}>
         {title}
       </Button>
-      <Typography>{description}</Typography>
-      <Button onClick={deleteItem}>
-        {boardPage.deleteBtn}
-      </Button>
-      <Button onClick={editItem}>
-        {boardPage.editBtn}
-      </Button>
-    </Item>
+      <Typography component="p">{description}</Typography>
+      <EditAndDeleteButtons editAction={editItem} deleteAction={deleteItem} />
+    </Board>
   );
 };
 

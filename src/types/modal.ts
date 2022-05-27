@@ -1,6 +1,6 @@
 import { editLogin, editName, removeUser } from '../store/authSlice';
 import { addBoard, editBoard, removeBoard } from '../store/boardSlice';
-import { addColumn, editColumn, removeColumn } from '../store/columnSlice';
+import { addColumn, removeColumn } from '../store/columnSlice';
 import { addTask, editTask, removeTask } from '../store/taskSlice';
 import { FormField } from './formTypes';
 
@@ -17,7 +17,6 @@ export type ModalFormAction = {
   addBoard: typeof addBoard;
   editBoard: typeof editBoard;
   addColumn: typeof addColumn;
-  editColumn: typeof editColumn;
   editLogin: typeof editLogin;
   editName: typeof editName;
   addTask: typeof addTask;

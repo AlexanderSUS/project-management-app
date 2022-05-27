@@ -7,8 +7,11 @@ import AppRoutes from '../constants/routes';
 import Title from './Home/Title';
 import { ReactComponent as PmaSvg } from '../assets/pma.svg';
 import muiTheme from '../constants/muiTheme';
+import { useAppSelector } from '../hooks/reduxTypedHooks';
+import { authSelector } from '../store/authSlice';
 
 const MainBannerContent: React.FC = () => {
+  const { userId } = useAppSelector(authSelector);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -19,18 +22,24 @@ const MainBannerContent: React.FC = () => {
       <Typography component="p" variant="h5">
         {t('welcomePage.desc')}
       </Typography>
-      <Grid container justifyContent="center" spacing={2}>
-        <Grid item>
-          <Button variant="contained" size="large" onClick={() => navigate(AppRoutes.LOGIN)}>
-            {t('AuthText.LOG_IN')}
-          </Button>
+      {!userId && (
+        <Grid container justifyContent="center" spacing={2}>
+          <Grid item>
+            <Button variant="contained" size="large" onClick={() => navigate(AppRoutes.LOGIN)}>
+              {t('AuthText.LOG_IN')}
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => navigate(AppRoutes.REGISTRATION)}
+            >
+              {t('AuthText.SIGN_UP')}
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Button variant="contained" size="large" onClick={() => navigate(AppRoutes.REGISTRATION)}>
-            {t('AuthText.SIGN_UP')}
-          </Button>
-        </Grid>
-      </Grid>
+      )}
     </>
   );
 };
