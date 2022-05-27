@@ -1,5 +1,11 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import {
+  styled,
+  Box,
+  Typography,
+  Button,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Column } from '../types/columns';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -12,6 +18,8 @@ import TaskCard from './Task';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { boardSelector } from '../store/boardSlice';
 import { Task } from '../types/tasks';
+import muiTheme from '../constants/muiTheme';
+import scrollStyles from '../constants/scrollStyles';
 import { sortTask } from '../helpers/sortItems';
 import {
   changeTaskPosition, setTask, setTaskColumnId, setTaskOrder, taskSelector,
@@ -23,11 +31,25 @@ type ListProps = {
   column: Column;
 };
 
+export const ColumnStyled = styled(Box)`
+  display: flex;
+  flex-flow: column nowrap;
+  min-width: 272px;
+  max-width: 272px;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  padding: 1rem;
+  background: ${muiTheme.palette.divider};
+`;
+
 const List: React.FC<ListProps> = ({ column }) => {
   const dispatch = useAppDispatch();
+  const {
+    board: { id: boardId },
+  } = useAppSelector(boardSelector);
+  const { t } = useTranslation();
   const { task: setedTask } = useAppSelector(taskSelector);
   const { column: setedColunm } = useAppSelector(columnSelector);
-  const { board: { id: boardId } } = useAppSelector(boardSelector);
   const { tasks: tasksPreview, id: columnId } = column;
 
   const tasks: Task[] = tasksPreview.length
@@ -49,6 +71,13 @@ const List: React.FC<ListProps> = ({ column }) => {
     dispatch(setColumn(column));
     dispatch(openModal(ADD_TASK));
   };
+
+  const ColumnBody = styled(Box)`
+    flex-grow: 1;
+    overflow: hidden auto;
+    margin: 1rem 0;
+    ${scrollStyles}
+  `;
 
   // *** DRAG & DROP ***
   const dragStartHandler = () => {
@@ -85,7 +114,7 @@ const List: React.FC<ListProps> = ({ column }) => {
   // *** END DRAG & DROP ***
 
   return (
-    <Box
+    <ColumnStyled
       sx={{ display: 'flex', flexFlow: 'column nowrap' }}
       draggable
       onDragStart={dragStartHandler}
@@ -93,7 +122,8 @@ const List: React.FC<ListProps> = ({ column }) => {
       onDrop={dropHandler}
     >
       <Box sx={{
-        display: 'flex', flexFlow: 'row nowrap', width: '280px',
+        display: 'flex',
+        flexFlow: 'row nowrap',
       }}
       >
         <Typography variant="h5" sx={{ mr: 'auto', ml: 'auto' }}>
@@ -101,11 +131,13 @@ const List: React.FC<ListProps> = ({ column }) => {
         </Typography>
         <EditAndDeleteButtons editAction={editColumn} deleteAction={deleteColumn} />
       </Box>
-      <Box>
+      <ColumnBody>
         {tasks.map((tsk) => (<TaskCard key={tsk.id} task={tsk} />))}
-      </Box>
-      <Button variant="outlined" onClick={addTask} startIcon={<AddIcon />}>Add task</Button>
-    </Box>
+      </ColumnBody>
+      <Button variant="contained" onClick={addTask} startIcon={<AddIcon />}>
+        {t('navText.newTask')}
+      </Button>
+    </ColumnStyled>
   );
 };
 

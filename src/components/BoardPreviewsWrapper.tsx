@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Container,
-  Button,
-  Grid,
-} from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +24,7 @@ const BoardPreviewsWrapper: React.FC<Props> = ({ boardsPreview }) => {
   const { t } = useTranslation();
 
   return (
-    <Container>
+    <Box>
       {boardsPreview.length ? (
         <Box sx={{ width: '100%' }}>
           <Grid container spacing={2}>
@@ -54,7 +49,7 @@ const BoardPreviewsWrapper: React.FC<Props> = ({ boardsPreview }) => {
       ) : (
         <Box>{boardPage.noBoards}</Box>
       )}
-    </Container>
+    </Box>
   );
 };
 export default BoardPreviewsWrapper;
