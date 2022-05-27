@@ -9,9 +9,8 @@ import { ValidationErrors } from '../types/response';
 import initialState from '../constants/columns';
 import { FulfilledAction, TypedThunkAPI } from '../types/slice';
 import { FULFILED } from '../constants/asyncThunk';
-import isGetBoardAction from './isGetBoardAction';
+import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
 import { IBoard } from '../types/boards';
-import { isGetBoardsByIdAction } from './utils';
 
 export const getColumns = createAsyncThunk<ColumnPreview[], void, TypedThunkAPI >(
   'column/getColumns',

@@ -1,4 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk, createSlice, isAsyncThunkAction, PayloadAction,
+} from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
 import BoardService from '../api/boardServise';
 import { IBoardPreview, BoardState, IBoard } from '../types/boards';
@@ -6,7 +8,6 @@ import { ValidationErrors } from '../types/response';
 import initialState, { DEFAULT_BOARD } from '../constants/boards';
 import type { FormData } from '../types/formTypes';
 import { FulfilledAction, TypedThunkAPI } from '../types/slice';
-import { isGetBoardsByIdAction } from './utils';
 import { FULFILED } from '../constants/asyncThunk';
 
 export const getBoards = createAsyncThunk<IBoardPreview[], void, TypedThunkAPI >(
@@ -116,6 +117,9 @@ export const editBoard = createAsyncThunk<IBoard, FormData, TypedThunkAPI>(
     }
   },
 );
+
+export const isGetBoardAction = isAsyncThunkAction(getBoard);
+export const isGetBoardsByIdAction = isAsyncThunkAction(getBoardsById);
 
 const boardSlice = createSlice({
   name: 'board',

@@ -9,11 +9,10 @@ import {
 import initialState from '../constants/task';
 import { FormData } from '../types/formTypes';
 import { FULFILED } from '../constants/asyncThunk';
-import isGetBoardAction from './isGetBoardAction';
 import { IBoard } from '../types/boards';
 import { UserData } from '../types/user';
 import UserService from '../api/userServise';
-import { isGetBoardsByIdAction } from './utils';
+import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
 import extractTasks from '../helpers/dataExtractors';
 
 export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(

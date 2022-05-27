@@ -5,10 +5,7 @@ import {
 import {
   addTask, editTask, reasignTask, removeTask, changeTaskPosition,
 } from './taskSlice';
-
-import {
-  addBoard, editBoard, getBoardsById, removeBoard,
-} from './boardSlice';
+import { addBoard, editBoard, removeBoard } from './boardSlice';
 import {
   editLogin, editName, logIn, registration, removeUser,
 } from './authSlice';
@@ -17,8 +14,6 @@ export const isBoardAction = isAsyncThunkAction(addBoard, editBoard, removeBoard
 
 // TODO FIX NAME
 export const isBoardEditOrAddAction = isAsyncThunkAction(editBoard);
-
-export const isGetBoardsByIdAction = isAsyncThunkAction(getBoardsById);
 
 export const isColumnAction = isAsyncThunkAction(
   addColumn,
