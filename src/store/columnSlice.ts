@@ -9,7 +9,7 @@ import { ValidationErrors } from '../types/response';
 import initialState from '../constants/columns';
 import { FulfilledAction, TypedThunkAPI } from '../types/slice';
 import { FULFILED } from '../constants/asyncThunk';
-import isGetBoardAction from './isGetBoardAction';
+import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
 import { IBoard } from '../types/boards';
 
 export const getColumns = createAsyncThunk<ColumnPreview[], void, TypedThunkAPI >(
@@ -138,6 +138,15 @@ const columnSlice = createSlice({
         if (isGetBoardAction(action)) {
           const boards = action.payload as IBoard;
           state.columns = boards.columns;
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
+      (state, action) => {
+        if (isGetBoardsByIdAction(action)) {
+          const boards = action.payload as IBoard[];
+          state.columns = boards.map((board) => board.columns).flat();
         }
       },
     );

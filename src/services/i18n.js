@@ -12,6 +12,8 @@ import {
   registrationTextRu,
   welcomePageRu,
   welcomePageEn,
+  editProfilePageTextEn,
+  editProfilePageTextRu,
 } from '../constants/text';
 import { AuthTextEn, AuthTextRu } from '../constants/authorization';
 
@@ -47,6 +49,7 @@ i18n
             pattern: 'Minimum eight characters, at least one letter and one number',
           },
           welcomePage: welcomePageEn,
+          profilePage: editProfilePageTextEn,
         },
       },
       ru: {
@@ -71,6 +74,7 @@ i18n
             pattern: 'Минимум 8 символов, одна буква и одна цифра',
           },
           welcomePage: welcomePageRu,
+          profilePage: editProfilePageTextRu,
         },
       },
     },
