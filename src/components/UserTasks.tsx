@@ -70,10 +70,8 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
                   {' '}
                   {task.description}
                 </Typography>
-                <Typography>
-                  <b>
-                    List:
-                  </b>
+                <Typography variant="subtitle2">
+                  List:
                   {columns.find((column) => column.id === task.columnId)?.title}
                 </Typography>
               </Box>
