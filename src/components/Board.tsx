@@ -1,9 +1,12 @@
 import {
-  Box, ButtonGroup, Container, Typography,
+  Box, Button, ButtonGroup, Container, Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
@@ -14,7 +17,7 @@ import ListsWrapper from './ListsWrapper';
 import { notificationSelector } from '../store/notificationSlice';
 import { DEFAULT_BOARD_ID } from '../constants/boards';
 import { getUsers } from '../store/taskSlice';
-import EditAndDeleteButtons from './EditAndDeleteButtons';
+import muiTheme from '../constants/muiTheme';
 
 const BoardWrapper = styled(Box)`
   display: flex;
@@ -31,6 +34,8 @@ const BoardContainer = styled(Container)`
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const {
     board: { title, description, id },
   } = useAppSelector(boardSelector);
@@ -58,18 +63,21 @@ const Board: React.FC = () => {
   return (
     <>
       <Loader isOpen={isLoading} />
-      <BoardWrapper>
+      <BoardWrapper sx={{ bgcolor: muiTheme.palette.primary.light }}>
         <BoardContainer>
-          <Box sx={{ mb: '1rem' }}>
-            <ButtonGroup sx={{ mb: '1rem' }}>
-              <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
-                {title}
-              </Typography>
-              <EditAndDeleteButtons editAction={editBoard} deleteAction={deleteBoard} />
+          <Box sx={{ dispaly: 'flex', m: '1rem 0' }}>
+            <Typography component="h1" variant="h2" color="white" sx={{ fontWeight: '500' }}>
+              {title}
+            </Typography>
+            <ButtonGroup sx={{ display: 'inline' }}>
+              <Button variant="contained" startIcon={<EditIcon />} color="warning" onClick={editBoard}>{t('boardPage.editBtn')}</Button>
+              <Button variant="contained" startIcon={<DeleteIcon />} color="warning" onClick={deleteBoard}>{t('boardPage.deleteBtn')}</Button>
             </ButtonGroup>
-            <Typography>{description}</Typography>
+            <Typography variant="h5" component="p" color="white" gutterBottom>{description}</Typography>
           </Box>
-          <Box sx={{ position: 'relative', flexGrow: 1 }}>{!isLoading && <ListsWrapper />}</Box>
+          <Box sx={{ position: 'relative', flexGrow: 1 }}>
+            <ListsWrapper />
+          </Box>
         </BoardContainer>
       </BoardWrapper>
     </>

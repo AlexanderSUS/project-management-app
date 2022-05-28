@@ -9,6 +9,8 @@ import {
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
@@ -64,6 +66,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           <Typography
             variant="h5"
             gutterBottom
+            fontWeight="bold"
             sx={{ color: muiTheme.palette.primary.dark }}
           >
             {title}
@@ -72,8 +75,8 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         <Typography variant="body2" color="text.secondary" gutterBottom>{description}</Typography>
         <Divider variant="middle" sx={{ m: '1rem' }} />
         <CardActions>
-          <Button variant="outlined" onClick={editItem}>{t('boardPage.editBtn')}</Button>
-          <Button variant="outlined" onClick={deleteItem}>{t('boardPage.deleteBtn')}</Button>
+          <Button variant="contained" size="small" startIcon={<EditIcon />} color="warning" onClick={editItem}>{t('boardPage.editBtn')}</Button>
+          <Button variant="contained" size="small" startIcon={<DeleteIcon />} color="warning" onClick={deleteItem}>{t('boardPage.deleteBtn')}</Button>
         </CardActions>
       </CardContent>
     </Card>

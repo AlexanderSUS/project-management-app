@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DoneSharpIcon from '@mui/icons-material/DoneSharp';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Column } from '../types/columns';
 import { editColumn, setColumn } from '../store/columnSlice';
 import { REMOVE_COLUMN, EDIT_COLUMN_TITLE } from '../constants/formfields';
@@ -17,6 +18,23 @@ import { AppDispatch } from '../store/store';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
 import { FormField } from '../types/formTypes';
 import muiTheme from '../constants/muiTheme';
+
+const listTilteWrapperStyles = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  borderRadius: '5px',
+  backgroundColor: muiTheme.palette.secondary.light,
+};
+
+const listTitleStyle = {
+  ml: 'auto',
+  pl: '40px',
+  textTransform: 'uppercase',
+  fontWeight: 'bold',
+  color: 'white',
+};
 
 type ListTitleProps = {
   column: Column;
@@ -47,6 +65,7 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
   };
 
   const onSubmit = (data: ListTitleField) => {
+    hideInput();
     dispatch(setColumn({ ...column, title: data.title }));
     dispatch(editColumn()).then(() => {
       dispatch(setColumn(DEFAULT_COLUMN));
@@ -65,7 +84,7 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
           component="form"
           onSubmit={handleSubmit(onSubmit)}
           id="column-title-form"
-          sx={{ flexGrow: '1' }}
+          sx={{ bgcolor: 'white', borderRadius: '5px', p: '0.2rem 1rem' }}
         >
           <Controller
             key={field.name}
@@ -79,7 +98,6 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
                 type={field.type}
                 placeholder={field.placeholder}
                 fullWidth
-                label={t(field.label)}
                 onChange={onChange}
                 value={value}
                 autoComplete="off"
@@ -107,31 +125,23 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
-        borderBottom: `1px solid ${muiTheme.palette.divider}`,
-      }}
-    >
+    <Box sx={listTilteWrapperStyles}>
       <Tooltip title={t('boardPage.editBtn')} placement="right">
         <Typography
           onClick={showInput}
           variant="h6"
-          sx={{
-            mr: 'auto',
-            ml: 'auto',
-            textTransform: 'uppercase',
-            fontSize: '1rem',
-          }}
+          sx={listTitleStyle}
         >
           {column.title}
         </Typography>
       </Tooltip>
-      <Tooltip title={t('boardPage.deleteBtn')} placement="right">
-        <IconButton color="error" onClick={deleteColumn}>
+      <MoreVertIcon
+        onClick={showInput}
+        color="action"
+        sx={{ ml: '0.5rem', mr: 'auto' }}
+      />
+      <Tooltip title={t('boardPage.deleteBtn')} placement="right" sx={{ justifySelf: 'flex-end' }}>
+        <IconButton onClick={deleteColumn}>
           <DeleteIcon />
         </IconButton>
       </Tooltip>

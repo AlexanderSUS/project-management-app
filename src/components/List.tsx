@@ -28,6 +28,7 @@ import {
 import { DEFAULT_TASK, DEFAULT_TASK_ID, DEFAULT_TASK_ORDER } from '../constants/task';
 import { DEFAULT_COLUMN } from '../constants/columns';
 import ListTitle from './ListTitle';
+import { transparentLayer } from '../constants/styles';
 
 type ListProps = {
   column: Column;
@@ -41,7 +42,7 @@ export const ColumnStyled = styled(Box)`
   margin-bottom: 1rem;
   border-radius: 5px;
   padding: 1rem;
-  background: ${muiTheme.palette.grey[200]};
+  background: ${transparentLayer};
   box-shadow: ${muiTheme.shadows[4]};
 `;
 
