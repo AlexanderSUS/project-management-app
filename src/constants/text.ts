@@ -114,6 +114,34 @@ export const editProfilePageTextRu = {
   list: 'Список: ',
 };
 
+export const infoAcitonsEn = {
+  board: 'Board ',
+  list: 'List ',
+  task: 'Task ',
+  account: 'Acount ',
+  successCreate: ' was successfully created',
+  successEdit: ' was successfully edited',
+  successDelete: ' was successfully deleted',
+  editLogin: 'Your login was successfully edited. New login: ',
+  editName: 'Your name was successfully edited. New name: ',
+  newUser: 'New user ',
+  greeting: 'Hello ',
+};
+
+export const infoAcitonsRu = {
+  board: 'Доска ',
+  list: 'Спиcок ',
+  task: 'Задача ',
+  account: 'Учетная запись ',
+  successCreate: ' создан(a) успешно',
+  successEdit: ' успешно отредактирован(а)',
+  successDelete: ' успешно удален(a)',
+  editLogin: 'Ваш логин успешно отредактирован. Новый логин: ',
+  editName: 'Ваше имя успешно отредактировано. Новое имя: ',
+  newUser: 'Новый пользователь ',
+  greeting: 'Привет ',
+};
+
 export const welcomePageEn = {
   title:
     'Are you looking for a convenient application that will be convenient to manage the process of setting and completing tasks?',
@@ -201,10 +229,4 @@ export const technology = [
     link: 'https://react-hook-form.com/',
     name: 'React Hook Form',
   },
-  // {
-  //   id: 'id-1652984108573',
-  //   icon: '',
-  //   link: '',
-  //   name: 'Drag-and-Drop',
-  // },
 ];

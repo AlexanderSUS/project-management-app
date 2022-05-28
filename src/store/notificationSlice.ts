@@ -37,62 +37,76 @@ const notificationSlice = createSlice({
         // TODO refactor all this
         if (isAddAction(action)) {
           const data = action.payload as IBoard | Column | Task;
+          const log = { severity, message: 'info.successCreate', dataText: data.title };
 
           if (isBoardAction(action)) {
-            state.log.push({ message: `Board "${data.title}" was succesfuly created`, severity });
+            state.log.push({ ...log, head: 'info.board' });
           }
           if (isColumnAction(action)) {
-            state.log.push({ message: `List "${data.title}" was succesfuly created`, severity });
+            state.log.push({ ...log, head: 'info.list' });
           }
           if (isTaskAction(action)) {
-            state.log.push({ message: `Task "${data.title}" was succesfuly created`, severity });
+            state.log.push({ ...log, head: 'info.task' });
           }
         }
         if (isEditAction(action)) {
           const data = action.payload as IBoard | Column | Task;
+          const log = { severity, message: 'info.successEdit', dataText: data.title };
 
           if (isBoardAction(action)) {
-            state.log.push({ message: `Board "${data.title}" was succesfuly edited`, severity });
+            state.log.push({ ...log, head: 'info.board' });
           }
           if (isColumnAction(action)) {
-            state.log.push({ message: `List "${data.title}" was succesfuly edited`, severity });
+            state.log.push({ ...log, head: 'info.list' });
           }
           if (isTaskAction(action)) {
-            state.log.push({ message: `Task "${data.title}" was succesfuly edited`, severity });
+            state.log.push({ ...log, head: 'info.task' });
           }
         }
         if (isDeleteAction(action)) {
+          const log = { severity, message: 'info.successDelete' };
+
           if (isBoardAction(action)) {
-            state.log.push({ message: 'Board was removed', severity });
+            state.log.push({ ...log, head: 'info.board' });
           }
           if (isColumnAction(action)) {
-            state.log.push({ message: 'Column was removed', severity });
+            state.log.push({ ...log, head: 'info.list' });
           }
           if (isTaskAction(action)) {
-            state.log.push({ message: 'Task was removed', severity });
+            state.log.push({ ...log, head: 'info.task' });
           }
           if (isUserRemoveAcition(action)) {
-            state.log.push({ message: 'Your account was removed', severity });
+            state.log.push({ ...log, head: 'info.account' });
           }
         }
         if (isUserEditAction(action)) {
           const user = action.payload as UserData;
+
           if (isEditLoginAction(action)) {
-            state.log.push({ message: `Your login was succesfuly edited. New login: "${user.login}" `, severity });
+            state.log.push({
+              severity, head: 'info.editLogin', message: '', dataText: user.login,
+            });
           }
           if (isEditNameAction(action)) {
-            state.log.push({ message: `Your name was succesfuly edited. New name: "${user.name}"`, severity });
+            state.log.push({
+              severity, head: 'info.editName', message: '', dataText: user.name,
+            });
           }
         }
         if (isRegistrationAction(action)) {
           const user = action.payload as NewUser;
 
-          state.log.push({ message: `New user ${user.login} was succesfuly created`, severity });
+          state.log.push({
+            severity, head: 'info.newUser', dataText: user.login, message: 'info.successCreate',
+          });
         }
         if (isLogInAction(action)) {
           const { token } = action.payload as SignInResponse;
           const { login } = jwtDecode<JwtData>(token);
-          state.log.push({ message: `Hello ${login}!`, severity });
+
+          state.log.push({
+            head: 'info.greeting', dataText: `${login}!`, message: '', severity,
+          });
         }
       },
     );
