@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Container, Typography, Button, Card, CardContent, Box,
+  Container, Typography, Button, Card, CardContent, Box, Tooltip, IconButton,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import EditIcon from '@mui/icons-material/Edit';
 import Loader from '../components/Loader';
 import { authSelector } from '../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -12,6 +13,7 @@ import { openModal, setDefaultValues } from '../store/modalSlice';
 import { notificationSelector } from '../store/notificationSlice';
 import UserTasks from '../components/UserTasks';
 import { getBoards, getBoardsById } from '../store/boardSlice';
+import muiTheme from '../constants/muiTheme';
 
 const lineStyle = {
   display: 'flex',
@@ -45,42 +47,48 @@ const EditProfile: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <Box component="main" sx={{ bgcolor: muiTheme.palette.primary.light, flex: '1', pb: '1rem' }}>
       <Loader isOpen={isLoading} />
-      <Container component="main" maxWidth="md" sx={{ pb: '1rem' }}>
-        <Card sx={{ m: '2rem 0', pl: '2rem' }}>
+      <Container maxWidth="md" sx={{ pb: '1rem' }}>
+        <Typography component="h2" variant="h2" color="white" sx={{ m: '1rem 0', fontWeight: '500' }}>
+          {t('profilePage.title')}
+        </Typography>
+        <Card sx={{ m: '2rem 0', pl: '2rem', boxShadow: 5 }}>
           <CardContent>
-            <Typography variant="h3" component="h1" gutterBottom>{t('profilePage.title')}</Typography>
             <Box sx={lineStyle}>
-              <Typography variant="h5">
+              <Typography variant="h5" gutterBottom>
                 {t('profilePage.name')}
                 {userName}
               </Typography>
-              <Button onClick={editName}>
-                {t('profilePage.edit')}
-              </Button>
+              <Tooltip title={t('profilePage.edit')}>
+                <IconButton onClick={editName}>
+                  <EditIcon color="warning" />
+                </IconButton>
+              </Tooltip>
             </Box>
             <Box sx={lineStyle}>
               <Typography variant="h5" gutterBottom>
                 {t('profilePage.login')}
                 {login}
               </Typography>
-              <Button onClick={editLogin}>
-                {t('profilePage.edit')}
-              </Button>
+              <Tooltip title={t('profilePage.edit')}>
+                <IconButton onClick={editLogin}>
+                  <EditIcon color="warning" />
+                </IconButton>
+              </Tooltip>
             </Box>
-            <Typography variant="h5" color="GrayText" gutterBottom>
+            <Typography variant="h5" color="pallete.secondary.light" gutterBottom>
               {t('profilePage.id')}
               {userId}
             </Typography>
-            <Button variant="outlined" color="warning" onClick={deleteAccount}>
+            <Button variant="contained" color="warning" onClick={deleteAccount}>
               {t('profilePage.deleteAccount')}
             </Button>
           </CardContent>
         </Card>
         <UserTasks userId={userId} />
       </Container>
-    </>
+    </Box>
   );
 };
 
