@@ -11,11 +11,12 @@ type Props = {
 
 const EditAndDeleteButtons: React.FC<Props> = ({ editAction, deleteAction }) => {
   const { t } = useTranslation();
+
   return (
-    <Grid container>
+    <Grid container textAlign="center" width="auto">
       <Grid item xs={6}>
         <Tooltip title={t('boardPage.editBtn')}>
-          <IconButton color="success" onClick={editAction}>
+          <IconButton color="primary" onClick={editAction}>
             <EditIcon />
           </IconButton>
         </Tooltip>
