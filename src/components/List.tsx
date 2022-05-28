@@ -28,6 +28,8 @@ import {
 import { DEFAULT_TASK, DEFAULT_TASK_ID, DEFAULT_TASK_ORDER } from '../constants/task';
 import { DEFAULT_COLUMN } from '../constants/columns';
 import ListTitle from './ListTitle';
+import { break700, transparentLayer } from '../constants/styles';
+import useWindowWidth from '../hooks/useWindowWidth';
 
 type ListProps = {
   column: Column;
@@ -36,12 +38,11 @@ type ListProps = {
 export const ColumnStyled = styled(Box)`
   display: flex;
   flex-flow: column nowrap;
-  min-width: 350px;
-  max-width: 350px;
+  min-width: 320px;
+  max-width: 320px;
   margin-bottom: 1rem;
   border-radius: 5px;
-  padding: 1rem;
-  background: ${muiTheme.palette.grey[200]};
+  background: ${transparentLayer};
   box-shadow: ${muiTheme.shadows[4]};
 `;
 
@@ -54,6 +55,7 @@ const List: React.FC<ListProps> = ({ column }) => {
   const { task: setedTask } = useAppSelector(taskSelector);
   const { column: setedColunm } = useAppSelector(columnSelector);
   const { tasks: tasksPreview, id: columnId } = column;
+  const width = useWindowWidth();
 
   const tasks: Task[] = tasksPreview.length
     ? sortTask(tasksPreview.map((preview) => ({ ...preview, columnId, boardId })))
@@ -106,7 +108,7 @@ const List: React.FC<ListProps> = ({ column }) => {
 
   return (
     <ColumnStyled
-      sx={{ display: 'flex', flexFlow: 'column nowrap' }}
+      sx={{ p: width > break700 ? '1rem' : '0.3rem' }}
       draggable
       onDragStart={dragStartHandler}
       onDragOver={dragOverHandler}
