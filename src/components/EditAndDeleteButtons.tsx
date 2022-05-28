@@ -10,10 +10,10 @@ type Props = {
 };
 
 const EditAndDeleteButtons: React.FC<Props> = ({ editAction, deleteAction }) => (
-  <Grid container>
+  <Grid container textAlign="center" width="auto">
     <Grid item xs={6}>
       <Tooltip title={boardPage.editBtn}>
-        <IconButton color="success" onClick={editAction}>
+        <IconButton color="primary" onClick={editAction}>
           <EditIcon />
         </IconButton>
       </Tooltip>
