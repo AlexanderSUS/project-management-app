@@ -5,6 +5,8 @@ import { ReactComponent as GithubSVG } from '../assets/github.svg';
 import { TeamMate } from '../types/teammate';
 import muiTheme from '../constants/muiTheme';
 
+const { sm } = muiTheme.breakpoints.values;
+
 const CustomizedGithubSVG = styled(GithubSVG)`
   display: inline-block;
   width: 25px;
@@ -14,29 +16,40 @@ const CustomizedGithubSVG = styled(GithubSVG)`
 
 const CustomizedLink = styled(Link)`
   position: relative;
+  display: inline-block;
   min-width: 150px;
   color: ${muiTheme.palette.primary.contrastText};
-  display: inline-block;
   transition: all 0.3s;
   text-align: center;
+  
+  @media screen and (max-width: ${sm}px) {
+    min-width: unset;
+  }
 
   span {
     display: inline-block;
     transition: inherit;
 
     &.hover {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) scale(0.5);
-      opacity: 0;
       white-space: nowrap;
+      
+      @media screen and (min-width: ${sm + 1}px) {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+      }
 
       svg {
         display: inline-block;
         margin-right: 10px;
         width: 25px;
         height: auto;
+
+        @media screen and (max-width: ${sm}px) {
+          display: none;
+        }
       }
     }
   }
@@ -56,16 +69,10 @@ const CustomizedLink = styled(Link)`
     }
   }
 
-  @media screen and (max-width: ${muiTheme.breakpoints.values.sm}px) {
+  @media screen and (max-width: ${sm}px) {
     span {
       &:not(.hover) {
-        transform: scale(0.5);
-        opacity: 0;
-      }
-
-      &.hover {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
+        display: none;
       }
     }
   }

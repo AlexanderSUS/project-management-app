@@ -1,40 +1,44 @@
 import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  Typography,
+  Box, Button, ButtonGroup, Container, Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
+import { useTranslation } from 'react-i18next';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import Loader from './Loader';
 import AppRoutes from '../constants/routes';
 import { boardSelector } from '../store/boardSlice';
 import ListsWrapper from './ListsWrapper';
-import { boardPage } from '../constants/text';
 import { notificationSelector } from '../store/notificationSlice';
 import { DEFAULT_BOARD_ID } from '../constants/boards';
 import { getUsers } from '../store/taskSlice';
+import muiTheme from '../constants/muiTheme';
+import useWindowWidth from '../hooks/useWindowWidth';
+import { break360, break700 } from '../constants/styles';
 
 const BoardWrapper = styled(Box)`
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  `;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`;
 
 const BoardContainer = styled(Container)`
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  `;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`;
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const width = useWindowWidth();
+  const { t } = useTranslation();
+
   const {
     board: { title, description, id },
   } = useAppSelector(boardSelector);
@@ -47,10 +51,6 @@ const Board: React.FC = () => {
   const editBoard = () => {
     dispatch(setDefaultValues([title, description]));
     dispatch(openModal(EDIT_BOARD));
-  };
-
-  const addColumn = () => {
-    dispatch(openModal(ADD_COLUMN));
   };
 
   useEffect(() => {
@@ -66,20 +66,24 @@ const Board: React.FC = () => {
   return (
     <>
       <Loader isOpen={isLoading} />
-      <BoardWrapper>
-        <BoardContainer>
-          <Box sx={{ mb: '1rem' }}>
+      <BoardWrapper sx={{ bgcolor: muiTheme.palette.primary.light }}>
+        <BoardContainer sx={{ p: width > break360 ? '0 1rem' : '0 0.1rem' }}>
+          <Box sx={{
+            display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.2rem', alignItems: 'center', mt: '1rem',
+          }}
+          >
+            <Typography component="h1" variant={width > break700 ? 'h2' : 'h4'} color="white" sx={{ fontWeight: '500', lineHeight: '1' }}>
+              {title}
+            </Typography>
             <ButtonGroup>
-              <Typography variant="h4" component="h1" sx={{ mr: '2rem' }}>
-                {title}
-              </Typography>
-              <Button onClick={editBoard}>{boardPage.editBtn}</Button>
-              <Button onClick={deleteBoard}>{boardPage.deleteBtn}</Button>
-              <Button onClick={addColumn}>{boardPage.addColunm}</Button>
+              <Button variant="contained" startIcon={<EditIcon />} color="warning" onClick={editBoard}>{t('boardPage.editBtn')}</Button>
+              <Button variant="contained" startIcon={<DeleteIcon />} color="warning" onClick={deleteBoard}>{t('boardPage.deleteBtn')}</Button>
             </ButtonGroup>
-            <Typography>{description}</Typography>
           </Box>
-          <Box sx={{ position: 'relative', flexGrow: 1 }}>{!isLoading && <ListsWrapper />}</Box>
+          <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{description}</Typography>
+          <Box sx={{ position: 'relative', flexGrow: 1 }}>
+            <ListsWrapper />
+          </Box>
         </BoardContainer>
       </BoardWrapper>
     </>

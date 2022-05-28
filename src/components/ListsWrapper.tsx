@@ -8,7 +8,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
-import { boardPage } from '../constants/text';
 import List, { ColumnStyled } from './List';
 import { sortColumns } from '../helpers/sortItems';
 import { columnSelector } from '../store/columnSlice';
@@ -50,7 +49,7 @@ const ListsWrapper: React.FC = () => {
       </ColumnStyled>
     </StyledListWrapper>
   ) : (
-    <Typography variant="h6">{boardPage.noLists}</Typography>
+    <Typography variant="h6">{t('boardPage.noLists')}</Typography>
   );
 };
 

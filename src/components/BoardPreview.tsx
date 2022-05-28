@@ -1,41 +1,52 @@
-import { Button, Typography } from '@mui/material';
+import {
+  Typography, Card,
+  CardContent,
+  Divider,
+  Button,
+  CardActions,
+  Tooltip,
+} from '@mui/material';
 import React from 'react';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import { IBoardPreview } from '../types/boards';
 import AppRoutes from '../constants/routes';
 import { getBoard, setBoardId } from '../store/boardSlice';
-import EditAndDeleteButtons from './EditAndDeleteButtons';
+import muiTheme from '../constants/muiTheme';
+import cardWidth from '../constants/styles';
+
+const cardStyle = {
+  width: cardWidth,
+  boxShadow: 12,
+  '& :hover': {
+    cursor: 'pointer',
+  },
+};
 
 interface BoardPreviewProps {
   boardPreview: IBoardPreview;
 }
-
-export const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  height: '100%',
-  color: theme.palette.text.secondary,
-}));
 
 const BoardPreview: React.FC<BoardPreviewProps> = ({
   boardPreview: { id, title, description },
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const deleteItem = () => {
+  const deleteItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     dispatch(setBoardId(id));
     dispatch(openModal(REMOVE_BOARD));
   };
 
-  const editItem = () => {
+  const editItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     dispatch(setDefaultValues([title, description]));
     dispatch(setBoardId(id));
     dispatch(openModal(EDIT_BOARD));
@@ -48,39 +59,28 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
     });
   };
 
-  const Board = styled(Item)`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-
-    & > button {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-
-    .MuiGrid-container {
-      margin-top: auto;
-    }
-
-    p {
-      margin-bottom: 1rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      text-align: left;
-    }
-  `;
-
   return (
-    <Board>
-      <Button variant="contained" onClick={goToBoard}>
-        {title}
-      </Button>
-      <Typography component="p">{description}</Typography>
-      <EditAndDeleteButtons editAction={editItem} deleteAction={deleteItem} />
-    </Board>
+    <Card sx={cardStyle} onClick={goToBoard}>
+      <CardContent>
+        <Tooltip title={t('profilePage.toBoard')}>
+          <Typography
+            variant="h5"
+            gutterBottom
+            fontWeight="bold"
+            sx={{ color: muiTheme.palette.primary.dark }}
+          >
+            {title}
+          </Typography>
+        </Tooltip>
+        <Typography variant="body2" color="text.secondary" gutterBottom>{description}</Typography>
+        <Divider variant="middle" sx={{ m: '1rem' }} />
+        <CardActions>
+          <Button variant="contained" size="small" startIcon={<EditIcon />} color="warning" onClick={editItem}>{t('boardPage.editBtn')}</Button>
+          <Button variant="contained" size="small" startIcon={<DeleteIcon />} color="warning" onClick={deleteItem}>{t('boardPage.deleteBtn')}</Button>
+        </CardActions>
+      </CardContent>
+    </Card>
+
   );
 };
 

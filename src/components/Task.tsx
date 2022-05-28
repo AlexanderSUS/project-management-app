@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography,
-} from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { Task } from '../types/tasks';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -14,9 +12,22 @@ import { EDIT_TASK, REMOVE_TASK } from '../constants/formfields';
 import { setColumn } from '../store/columnSlice';
 import { DEFAULT_COLUMN } from '../constants/columns';
 import { DEFAULT_TASK } from '../constants/task';
+import muiTheme from '../constants/muiTheme';
+import UserSelect from './UserSelect';
 
 type TaskProps = {
   task: Task;
+};
+
+const taskStyles = {
+  padding: '0.5rem',
+  borderRadius: '5px',
+  background: `${muiTheme.palette.background.paper}`,
+  border: `1px solid ${muiTheme.palette.divider}`,
+  boxShadow: muiTheme.shadows[1],
+  '&:not(:last-child)': {
+    marginBottom: '1rem',
+  },
 };
 
 const TaskCard: React.FC<TaskProps> = ({ task }) => {
@@ -36,10 +47,9 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
     dispatch(openModal(EDIT_TASK));
   };
 
-  const reasignUser = (e: SelectChangeEvent<string>) => {
-    const { value } = e.target;
+  const reasignUser = (id: string) => {
     dispatch(setTask(task));
-    dispatch(setTaskUserId(value));
+    dispatch(setTaskUserId(id));
     dispatch(reasignTask());
   };
 
@@ -51,10 +61,6 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
   const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
-  // FOR DND STYLING
-  // const dragLeaveHandler = (e: DragEvent) => {};
-  // const dragStartHandler = (e: DragEvent) => {};
-  // const dragEndHandler = (e: DragEvenet) => {};
 
   const dropHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -75,38 +81,30 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
         });
     }
   };
-
   // END DRAG & DROP
 
   return (
     <Box
-      component="div"
       draggable
       onDragStart={dragStartHandler}
       onDragOver={dragOverHandler}
-      // onDragLeave={dragLeaveHandler}
-      // onDragEnd={dragEndHandler}
       onDrop={dropHandler}
+      sx={taskStyles}
     >
       <Typography variant="h6">{task.title}</Typography>
-      <Typography variant="body2">{task.description}</Typography>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        {/* TODO move out                         this text */}
-        <InputLabel id="select-label">Responsible</InputLabel>
-        <Select
-          labelId="select-label"
-          value={taskUser?.id}
-          // TODO MOVE OUT IT to const
-          label="Responsible"
-          onChange={reasignUser}
-        >
-          {users.map((user) => <MenuItem key={user.id} value={user.id}>{`${user.name} (${user.login})`}</MenuItem>)}
-        </Select>
-      </FormControl>
-      <EditAndDeleteButtons
-        editAction={editTaks}
-        deleteAction={deleteTaks}
-      />
+      <Typography variant="body2" sx={{ m: '0.5rem 0' }}>{task.description}</Typography>
+      <Grid container alignItems="flex-end">
+        <Grid item flexGrow="1" sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography>{`${taskUser?.name} (${taskUser?.login})`}</Typography>
+          <UserSelect userId={taskUser?.id as string} users={users} reasignUser={reasignUser} />
+        </Grid>
+        <Grid item display="flex" justifyContent="flex-end">
+          <EditAndDeleteButtons
+            editAction={editTaks}
+            deleteAction={deleteTaks}
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 };
