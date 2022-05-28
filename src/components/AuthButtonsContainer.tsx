@@ -1,4 +1,7 @@
 import React from 'react';
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+import AirplayIcon from '@mui/icons-material/Airplay';
 import { Grid } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -24,23 +27,41 @@ const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ userId }) =
 
   if (location.pathname === AppRoutes.LOGIN) {
     return (
-      <HeaderButton onClick={() => navigate(AppRoutes.REGISTRATION)} text={t('AuthText.SIGN_UP')} />
+      <HeaderButton
+        Icon={AirplayIcon}
+        text={t('AuthText.SIGN_UP')}
+        onClick={() => navigate(AppRoutes.REGISTRATION)}
+      />
     );
   }
 
   if (location.pathname === AppRoutes.REGISTRATION) {
-    return <HeaderButton onClick={() => navigate(AppRoutes.LOGIN)} text={t('AuthText.LOG_IN')} />;
+    return (
+      <HeaderButton
+        text={t('AuthText.LOG_IN')}
+        Icon={LoginIcon}
+        onClick={() => navigate(AppRoutes.LOGIN)}
+      />
+    );
   }
 
   return userId ? (
-    <HeaderButton onClick={logOutUser} text={t('AuthText.LOG_OUT')} />
+    <HeaderButton Icon={LogoutIcon} onClick={logOutUser} text={t('AuthText.LOG_OUT')} />
   ) : (
     <Grid container spacing={2}>
       <Grid item>
-        <HeaderButton onClick={() => navigate(AppRoutes.LOGIN)} text={t('AuthText.LOG_IN')} />
+        <HeaderButton
+          text={t('AuthText.LOG_IN')}
+          Icon={LogoutIcon}
+          onClick={() => navigate(AppRoutes.LOGIN)}
+        />
       </Grid>
       <Grid item>
-        <HeaderButton onClick={() => navigate(AppRoutes.REGISTRATION)} text={t('AuthText.SIGN_UP')} />
+        <HeaderButton
+          text={t('AuthText.SIGN_UP')}
+          Icon={AirplayIcon}
+          onClick={() => navigate(AppRoutes.REGISTRATION)}
+        />
       </Grid>
     </Grid>
   );

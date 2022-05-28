@@ -1,14 +1,22 @@
-import { Button, Menu, MenuItem } from '@mui/material';
+import LanguageIcon from '@mui/icons-material/Language';
+import { styled } from '@mui/material/styles';
+import {
+  Button, Menu, MenuItem, Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  langButton, langMenuItem, LANG_EN, LANG_RU,
-} from '../constants/text';
+import { langMenuItem, LANG_EN, LANG_RU } from '../constants/text';
+
+const LangActiveText = styled(Typography)(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8125rem',
+  },
+}));
 
 const LangSwitcher = () => {
   const { i18n } = useTranslation();
   const [lang, setLang] = useState<string>(
-    i18n.resolvedLanguage === LANG_RU ? langButton.ru : langButton.en,
+    i18n.resolvedLanguage === LANG_RU ? langMenuItem.ru : langMenuItem.en,
   );
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -41,9 +49,10 @@ const LangSwitcher = () => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         color="inherit"
+        startIcon={<LanguageIcon />}
         onClick={handleClick}
       >
-        {lang}
+        <LangActiveText>{lang}</LangActiveText>
       </Button>
       <Menu
         id="basic-menu"
