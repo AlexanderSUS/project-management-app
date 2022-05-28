@@ -62,13 +62,20 @@ export const langMenuItem = {
   en: 'English',
 };
 
-export const boardPage = {
-  title: 'Your boarads',
-  noBoards: 'You have no any boards',
+export const boardPageEn = {
+  title: 'Boards',
   noLists: 'You have no any lists',
   addColunm: 'Add list',
   editBtn: 'Edit',
   deleteBtn: 'Delete',
+};
+
+export const boardPageRu = {
+  title: 'Доски',
+  noLists: 'У вас пока ещё нет списков',
+  addColunm: 'Добавить список',
+  editBtn: 'Изменить',
+  deleteBtn: 'Удалить',
 };
 
 export const modalText = {

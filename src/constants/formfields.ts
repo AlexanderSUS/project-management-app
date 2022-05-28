@@ -78,8 +78,7 @@ export const NEW_BOARD: Content = {
     registerOptions: {
       required: 'This field is required',
       maxLength: {
-        value: 40,
-        // TODO ADD translation for '40' value
+        value: 20,
         message: 'nameErrors.maxLength',
       },
       minLength: {

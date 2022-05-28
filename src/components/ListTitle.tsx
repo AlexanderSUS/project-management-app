@@ -12,7 +12,7 @@ import { editColumn, setColumn } from '../store/columnSlice';
 import { REMOVE_COLUMN, EDIT_COLUMN_TITLE } from '../constants/formfields';
 import { openModal } from '../store/modalSlice';
 import { DEFAULT_COLUMN } from '../constants/columns';
-import { boardPage, modalText } from '../constants/text';
+import { modalText } from '../constants/text';
 import { AppDispatch } from '../store/store';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
 import { FormField } from '../types/formTypes';
@@ -116,7 +116,7 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
         borderBottom: `1px solid ${muiTheme.palette.divider}`,
       }}
     >
-      <Tooltip title={boardPage.editBtn} placement="right">
+      <Tooltip title={t('boardPage.editBtn')} placement="right">
         <Typography
           onClick={showInput}
           variant="h6"
@@ -130,7 +130,7 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
           {column.title}
         </Typography>
       </Tooltip>
-      <Tooltip title={boardPage.deleteBtn} placement="right">
+      <Tooltip title={t('boardPage.deleteBtn')} placement="right">
         <IconButton color="error" onClick={deleteColumn}>
           <DeleteIcon />
         </IconButton>
