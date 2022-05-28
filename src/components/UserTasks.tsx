@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Box, Typography, Tooltip, Button, Card, CardContent, Divider, Stack, Paper, styled,
+  Box, Typography, Tooltip, Button, Card, CardContent, Divider,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -9,21 +9,14 @@ import { taskSelector } from '../store/taskSlice';
 import { boardSelector, getBoard, setBoardId } from '../store/boardSlice';
 import { columnSelector } from '../store/columnSlice';
 import AppRoutes from '../constants/routes';
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  backgroundColor: theme.palette.grey[100],
-}));
+import { cardPreviewWidth, transparentLayer } from '../constants/styles';
 
 const taskWrapperStyles = {
   display: 'flex',
   flexFlow: 'row wrap',
-  gap: '1rem',
+  gap: '2rem',
   justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'stretch',
   p: '1rem',
 };
 
@@ -57,21 +50,29 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
 
   return (
     <>
-      <Typography variant="h3" gutterBottom sx={{ ml: '2rem' }}>{t('profilePage.yourTasks')}</Typography>
-      <Stack spacing={2}>
+      <Typography component="h2" variant="h2" color="white" align="center" sx={{ m: '1rem 0', fontWeight: '500' }}>
+        {t('profilePage.yourTasks')}
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         {dataArray.map((data) => (data.tasks.length ? (
-          <Item key={data.boardId}>
+          <Box
+            key={data.boardId}
+            sx={{ backgroundColor: transparentLayer, p: '1rem', boxShadow: 5 }}
+          >
             <Tooltip title={t('profilePage.toBoard')} placement="right">
               <Button
-                variant="text"
+                size="large"
+                variant="contained"
+                fullWidth
                 onClick={() => goToBoard(data.boardId)}
               >
                 {data.boardTitle}
               </Button>
             </Tooltip>
+            <br />
             <Box sx={taskWrapperStyles}>
               {data.tasks.map(((task) => (
-                <Card key={task.id} sx={{ minWidth: '280px' }}>
+                <Card key={task.id} sx={{ width: cardPreviewWidth }}>
                   <CardContent>
                     <Typography variant="h6">
                       {task.title}
@@ -88,9 +89,9 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
                 </Card>
               )))}
             </Box>
-          </Item>
+          </Box>
         ) : null)) }
-      </Stack>
+      </Box>
     </>
   );
 };
