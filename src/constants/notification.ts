@@ -15,3 +15,7 @@ const initialState: NotificationState = {
 };
 
 export default initialState;
+
+export const ERROR_401 = 401;
+export const ERROR_403 = 403;
+export const ERROR_409 = 409;

@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
-import initialState, { Severity } from '../constants/notification';
+import initialState, {
+  ERROR_401, ERROR_403, ERROR_409, Severity,
+} from '../constants/notification';
 import { NotificationState } from '../types/notification';
 import { ErrorResponseData, SignInResponse } from '../types/response';
-import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
+import { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
 import {
   isAddAction, isEditAction, isDeleteAction, isRegistrationAction,
   isLogInAction, isBoardAction, isColumnAction, isTaskAction,
@@ -117,23 +119,23 @@ const notificationSlice = createSlice({
         state.isLoading = false;
         if ((action.payload)) {
           const error = action.payload as ErrorResponseData;
-          // TODO move out status codes
-          if (error.statusCode === 401) {
+
+          if (error.statusCode === ERROR_401) {
             state.log.push({ message: 'info.unauthorized', severity });
             return;
           }
-          if (error.statusCode === 403) {
+          if (error.statusCode === ERROR_403) {
             state.log.push({ message: 'info.userNotFounded', severity });
             return;
           }
-          if (error.statusCode === 409) {
+          if (error.statusCode === ERROR_409) {
             state.log.push({ message: 'info.alreadyExist', severity });
             return;
           }
-          state.log.push({ message: error.message || ThunkError.unknownError, severity });
+          state.log.push({ message: error.message || 'info.unknown', severity });
           return;
         }
-        state.log.push({ message: action.error.message || ThunkError.unknownError, severity });
+        state.log.push({ message: action.error.message || 'info.unknown', severity });
       },
     );
   },

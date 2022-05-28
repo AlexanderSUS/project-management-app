@@ -129,6 +129,7 @@ export const infoAcitonsEn = {
   unauthorized: 'Your session has expired. Please log in',
   userNotFounded: 'User was not founded! Check your input.',
   alreadyExist: 'User login already exists!',
+  unknown: 'Unknown server error',
 };
 
 export const infoAcitonsRu = {
@@ -146,6 +147,7 @@ export const infoAcitonsRu = {
   unauthorized: 'Ваша сессия устарела. Пожалуйста, войдтите в учетную запись',
   userNotFounded: 'Такого пользователя не существует! Проверьте вводимые данные.',
   alreadyExist: 'Пользователь с таким логином уже существует',
+  unknown: 'Неизвестная ошибка сервера',
 };
 
 export const welcomePageEn = {
