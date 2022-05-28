@@ -18,6 +18,8 @@ import { notificationSelector } from '../store/notificationSlice';
 import { DEFAULT_BOARD_ID } from '../constants/boards';
 import { getUsers } from '../store/taskSlice';
 import muiTheme from '../constants/muiTheme';
+import useWindowWidth from '../hooks/useWindowWidth';
+import { break700 } from '../constants/styles';
 
 const BoardWrapper = styled(Box)`
   display: flex;
@@ -34,6 +36,7 @@ const BoardContainer = styled(Container)`
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const width = useWindowWidth();
   const { t } = useTranslation();
 
   const {
@@ -65,16 +68,19 @@ const Board: React.FC = () => {
       <Loader isOpen={isLoading} />
       <BoardWrapper sx={{ bgcolor: muiTheme.palette.primary.light }}>
         <BoardContainer>
-          <Box sx={{ dispaly: 'flex', m: '1rem 0' }}>
-            <Typography component="h1" variant="h2" color="white" sx={{ fontWeight: '500' }}>
+          <Box sx={{
+            display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.5rem', alignItems: 'center', mt: '1rem',
+          }}
+          >
+            <Typography component="h1" variant={width > break700 ? 'h2' : 'h4'} color="white" sx={{ fontWeight: '500', lineHeight: '1' }}>
               {title}
             </Typography>
-            <ButtonGroup sx={{ display: 'inline' }}>
+            <ButtonGroup>
               <Button variant="contained" startIcon={<EditIcon />} color="warning" onClick={editBoard}>{t('boardPage.editBtn')}</Button>
               <Button variant="contained" startIcon={<DeleteIcon />} color="warning" onClick={deleteBoard}>{t('boardPage.deleteBtn')}</Button>
             </ButtonGroup>
-            <Typography variant="h5" component="p" color="white" gutterBottom>{description}</Typography>
           </Box>
+          <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{description}</Typography>
           <Box sx={{ position: 'relative', flexGrow: 1 }}>
             <ListsWrapper />
           </Box>
