@@ -58,8 +58,8 @@ export const langButton = {
 };
 
 export const langMenuItem = {
-  ru: 'Русский',
-  en: 'English',
+  ru: 'RU',
+  en: 'EN',
 };
 
 export const boardPageEn = {
@@ -78,9 +78,14 @@ export const boardPageRu = {
   deleteBtn: 'Удалить',
 };
 
-export const modalText = {
+export const modalTextEn = {
   submit: 'Submit',
   close: 'Close',
+};
+
+export const modalTextRu = {
+  submit: 'Подтведить',
+  close: 'Закрыть',
 };
 
 export const editProfilePageTextEn = {

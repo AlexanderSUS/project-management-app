@@ -4,7 +4,7 @@ enum AppRoutes {
   LOGIN = '/login',
   PROJECTS = '/boards',
   ERROR_404 = '/error-404',
-  EDIT_PROFILE = '/edit-profile',
+  EDIT_PROFILE = '/profile',
   BOARD_ID = ':boardId',
 }
 

@@ -13,7 +13,6 @@ import { editColumn, setColumn } from '../store/columnSlice';
 import { REMOVE_COLUMN, EDIT_COLUMN_TITLE } from '../constants/formfields';
 import { openModal } from '../store/modalSlice';
 import { DEFAULT_COLUMN } from '../constants/columns';
-import { modalText } from '../constants/text';
 import { AppDispatch } from '../store/store';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
 import { FormField } from '../types/formTypes';
@@ -112,12 +111,12 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
             )}
           />
         </Box>
-        <Tooltip title={modalText.submit}>
+        <Tooltip title={t('modal.submit')}>
           <IconButton type="submit" form="column-title-form">
             <DoneSharpIcon color="success" />
           </IconButton>
         </Tooltip>
-        <Tooltip title={modalText.close}>
+        <Tooltip title={t('modal.colose')}>
           <IconButton onClick={hideInput}>
             <CloseSharpIcon color="action" />
           </IconButton>
