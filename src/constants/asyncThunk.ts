@@ -1,5 +1,4 @@
 enum ThunkError {
-  notAuthorized = 'Your session has expired. Please log in',
   unknownError = 'Server Error',
 }
 

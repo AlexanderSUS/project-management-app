@@ -119,8 +119,7 @@ const notificationSlice = createSlice({
           const error = action.payload as ErrorResponseData;
           // TODO move out status codes
           if (error.statusCode === 401) {
-            // TODO add translation to THunkError
-            state.log.push({ message: ThunkError.notAuthorized, severity });
+            state.log.push({ message: 'info.unauthorized', severity });
             return;
           }
           if (error.statusCode === 403) {

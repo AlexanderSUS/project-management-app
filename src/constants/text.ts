@@ -126,6 +126,7 @@ export const infoAcitonsEn = {
   editName: 'Your name was successfully edited. New name: ',
   newUser: 'New user ',
   greeting: 'Hello ',
+  unauthorized: 'Your session has expired. Please log in',
 };
 
 export const infoAcitonsRu = {
@@ -140,6 +141,7 @@ export const infoAcitonsRu = {
   editName: 'Ваше имя успешно отредактировано. Новое имя: ',
   newUser: 'Новый пользователь ',
   greeting: 'Привет ',
+  unauthorized: 'Ваша сессия устарела. Пожалуйста, войдтите в учетную запись',
 };
 
 export const welcomePageEn = {
