@@ -29,11 +29,13 @@ const listTilteWrapperStyles = {
 };
 
 const listTitleStyle = {
+  maxWidth: '210px',
   ml: 'auto',
   pl: '40px',
   textTransform: 'uppercase',
   fontWeight: 'bold',
   color: 'white',
+  wordWrap: 'break-word',
 };
 
 type ListTitleProps = {

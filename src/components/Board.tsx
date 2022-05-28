@@ -19,7 +19,7 @@ import { DEFAULT_BOARD_ID } from '../constants/boards';
 import { getUsers } from '../store/taskSlice';
 import muiTheme from '../constants/muiTheme';
 import useWindowWidth from '../hooks/useWindowWidth';
-import { break700 } from '../constants/styles';
+import { break360, break700 } from '../constants/styles';
 
 const BoardWrapper = styled(Box)`
   display: flex;
@@ -67,7 +67,7 @@ const Board: React.FC = () => {
     <>
       <Loader isOpen={isLoading} />
       <BoardWrapper sx={{ bgcolor: muiTheme.palette.primary.light }}>
-        <BoardContainer>
+        <BoardContainer sx={{ p: width > break360 ? '0 1rem' : '0 0.1rem' }}>
           <Box sx={{
             display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.5rem', alignItems: 'center', mt: '1rem',
           }}
