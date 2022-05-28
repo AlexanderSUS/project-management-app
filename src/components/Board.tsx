@@ -69,7 +69,7 @@ const Board: React.FC = () => {
       <BoardWrapper sx={{ bgcolor: muiTheme.palette.primary.light }}>
         <BoardContainer sx={{ p: width > break360 ? '0 1rem' : '0 0.1rem' }}>
           <Box sx={{
-            display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.5rem', alignItems: 'center', mt: '1rem',
+            display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.2rem', alignItems: 'center', mt: '1rem',
           }}
           >
             <Typography component="h1" variant={width > break700 ? 'h2' : 'h4'} color="white" sx={{ fontWeight: '500', lineHeight: '1' }}>
