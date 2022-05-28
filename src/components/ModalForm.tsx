@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { clearDefaultValues, closeModal, modalSelector } from '../store/modalSlice';
 import { FormData } from '../types/formTypes';
-import { modalText } from '../constants/text';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
 import { DEFAULT_ROWS, DESCRIPTION, MULTILINE_ROWS } from '../constants/formfields';
 
@@ -62,8 +61,8 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
         />
       ))}
       <Box sx={{ display: 'flex' }}>
-        <Button sx={{ ml: 'auto' }} color="primary" type="submit">{modalText.submit}</Button>
-        <Button color="primary" onClick={() => { dispatch(closeModal()); }}>{modalText.close}</Button>
+        <Button sx={{ ml: 'auto' }} color="success" type="submit">{t('modal.submit')}</Button>
+        <Button color="warning" onClick={() => { dispatch(closeModal()); }}>{t('modal.close')}</Button>
       </Box>
     </Box>
   );

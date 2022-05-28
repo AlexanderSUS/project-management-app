@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
+import AddIcon from '@mui/icons-material/Add';
+import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import Loader from './Loader';
@@ -40,7 +41,9 @@ const Board: React.FC = () => {
   const { t } = useTranslation();
 
   const {
-    board: { title, description, id },
+    board: {
+      title, description, id, columns,
+    },
   } = useAppSelector(boardSelector);
   const { isLoading } = useAppSelector(notificationSelector);
 
@@ -51,6 +54,10 @@ const Board: React.FC = () => {
   const editBoard = () => {
     dispatch(setDefaultValues([title, description]));
     dispatch(openModal(EDIT_BOARD));
+  };
+
+  const addColumn = () => {
+    dispatch(openModal(ADD_COLUMN));
   };
 
   useEffect(() => {
@@ -79,6 +86,12 @@ const Board: React.FC = () => {
               <Button variant="contained" startIcon={<EditIcon />} color="warning" onClick={editBoard}>{t('boardPage.editBtn')}</Button>
               <Button variant="contained" startIcon={<DeleteIcon />} color="warning" onClick={deleteBoard}>{t('boardPage.deleteBtn')}</Button>
             </ButtonGroup>
+            {!columns.length
+            && (
+            <Button variant="contained" startIcon={<AddIcon />} color="warning" onClick={addColumn}>
+              {t('navText.newList')}
+            </Button>
+            )}
           </Box>
           <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{description}</Typography>
           <Box sx={{ position: 'relative', flexGrow: 1 }}>

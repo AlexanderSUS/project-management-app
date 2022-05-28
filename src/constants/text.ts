@@ -78,9 +78,14 @@ export const boardPageRu = {
   deleteBtn: 'Удалить',
 };
 
-export const modalText = {
+export const modalTextEn = {
   submit: 'Submit',
   close: 'Close',
+};
+
+export const modalTextRu = {
+  submit: 'Подтведить',
+  close: 'Закрыть',
 };
 
 export const editProfilePageTextEn = {
