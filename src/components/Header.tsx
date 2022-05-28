@@ -1,6 +1,10 @@
 import {
-  AppBar, Grid, Slide, useScrollTrigger,
+  AppBar, Container, Grid, Slide, useScrollTrigger,
 } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
+import PersonIcon from '@mui/icons-material/Person';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +13,6 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { authSelector, getUserData } from '../store/authSlice';
 import { openModal } from '../store/modalSlice';
 import AuthButtonsContainer from './AuthButtonsContainer';
-import GridFlexGrow from './GridFlexGrow';
 import HeaderButton from './HeaderButton';
 import LangSwitcher from './LangSwitcher';
 import BasicModal from './BasicModal';
@@ -60,40 +63,48 @@ const Header: React.FC = () => {
     addModalBoardPageActionListener(startColumsAndTasksListening);
   }, []);
 
-  useEffect(() => {}, []);
   return (
     <HideOnScroll>
-      <AppBar position="sticky" sx={{ padding: '15px' }}>
-        <Grid container spacing={2}>
-          <GridFlexGrow item>
-            <HeaderButton onClick={() => navigate(AppRoutes.WELCOME)} text={t('navText.home')} />
-          </GridFlexGrow>
-          {userId && (
+      <AppBar position="sticky" sx={{ padding: '15px 0' }}>
+        <Container>
+          <Grid container spacing={1}>
             <Grid item>
               <HeaderButton
-                onClick={() => navigate(AppRoutes.PROJECTS)}
-                text={t('navText.projects')}
-              />
-              <HeaderButton
-                onClick={() => navigate(AppRoutes.EDIT_PROFILE)}
-                text={t('navText.editProfile')}
-              />
-              <HeaderButton
-                text={t('navText.newBoard')}
-                onClick={() => {
-                  dispatch(openModal(NEW_BOARD));
-                }}
+                text={t('navText.home')}
+                Icon={HomeIcon}
+                onClick={() => navigate(AppRoutes.WELCOME)}
               />
             </Grid>
-          )}
-          <Grid item>
-            <LangSwitcher />
+            {userId && (
+              <Grid item sx={{ margin: '0 auto' }}>
+                <HeaderButton
+                  text={t('navText.projects')}
+                  Icon={DashboardIcon}
+                  onClick={() => navigate(AppRoutes.PROJECTS)}
+                />
+                <HeaderButton
+                  text={t('navText.newBoard')}
+                  Icon={DashboardCustomizeIcon}
+                  onClick={() => {
+                    dispatch(openModal(NEW_BOARD));
+                  }}
+                />
+                <HeaderButton
+                  text={t('navText.editProfile')}
+                  Icon={PersonIcon}
+                  onClick={() => navigate(AppRoutes.EDIT_PROFILE)}
+                />
+              </Grid>
+            )}
+            <Grid item>
+              <LangSwitcher />
+            </Grid>
+            <Grid item>
+              <AuthButtonsContainer userId={userId} />
+            </Grid>
           </Grid>
-          <Grid item>
-            <AuthButtonsContainer userId={userId} />
-          </Grid>
-        </Grid>
-        <BasicModal />
+          <BasicModal />
+        </Container>
       </AppBar>
     </HideOnScroll>
   );

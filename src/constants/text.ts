@@ -58,8 +58,8 @@ export const langButton = {
 };
 
 export const langMenuItem = {
-  ru: 'Русский',
-  en: 'English',
+  ru: 'RU',
+  en: 'EN',
 };
 
 export const boardPageEn = {
