@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { AppBar, Grid } from '@mui/material';
+import { AppBar, Container, Grid } from '@mui/material';
 import team from '../constants/teammate';
 import RSSchoolLogo from './RSSchoolLogo';
 import TeammateLink from './TeammateLink';
@@ -36,21 +36,23 @@ const Copyright = styled(Grid)`
 function Footer(): JSX.Element {
   return (
     <AppBar position="static" sx={{ padding: '15px', mt: 'auto' }} component="footer">
-      <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-        <Logo item>
-          <RSSchoolLogo />
-        </Logo>
-        <Links item>
-          <Grid container spacing={1} justifyContent="center" alignItems="center">
-            {team.map((item) => (
-              <Grid item key={item.id}>
-                <TeammateLink {...item} />
-              </Grid>
-            ))}
-          </Grid>
-        </Links>
-        <Copyright item>{COPYRIGHT}</Copyright>
-      </Grid>
+      <Container>
+        <Grid container spacing={2} alignItems="center" justifyContent="space-between">
+          <Logo item>
+            <RSSchoolLogo />
+          </Logo>
+          <Links item>
+            <Grid container spacing={1} justifyContent="center" alignItems="center">
+              {team.map((item) => (
+                <Grid item key={item.id}>
+                  <TeammateLink {...item} />
+                </Grid>
+              ))}
+            </Grid>
+          </Links>
+          <Copyright item>{COPYRIGHT}</Copyright>
+        </Grid>
+      </Container>
     </AppBar>
   );
 }
