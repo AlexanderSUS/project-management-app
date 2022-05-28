@@ -123,16 +123,11 @@ const notificationSlice = createSlice({
             return;
           }
           if (error.statusCode === 403) {
-            // TODO serverer reply 'User was not founded!'
-            // but it occuours also when password invalid
-            // add translation
-            state.log.push({ message: error.message, severity });
+            state.log.push({ message: 'info.userNotFounded', severity });
             return;
           }
           if (error.statusCode === 409) {
-            // TODO add translation
-            // "message":"User login already exists!"
-            state.log.push({ message: error.message, severity });
+            state.log.push({ message: 'info.alreadyExist', severity });
             return;
           }
           state.log.push({ message: error.message || ThunkError.unknownError, severity });

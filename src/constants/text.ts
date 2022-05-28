@@ -127,6 +127,8 @@ export const infoAcitonsEn = {
   newUser: 'New user ',
   greeting: 'Hello ',
   unauthorized: 'Your session has expired. Please log in',
+  userNotFounded: 'User was not founded! Check your input.',
+  alreadyExist: 'User login already exists!',
 };
 
 export const infoAcitonsRu = {
@@ -142,6 +144,8 @@ export const infoAcitonsRu = {
   newUser: 'Новый пользователь ',
   greeting: 'Привет ',
   unauthorized: 'Ваша сессия устарела. Пожалуйста, войдтите в учетную запись',
+  userNotFounded: 'Такого пользователя не существует! Проверьте вводимые данные.',
+  alreadyExist: 'Пользователь с таким логином уже существует',
 };
 
 export const welcomePageEn = {
