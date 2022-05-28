@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../store/modalSlice';
 import BoardForm from './ModalForm';
@@ -29,6 +30,7 @@ const BasicModal: React.FC = () => {
     isOpen, title, action,
   } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const closeWindow = () => {
     dispatch(closeModal());
@@ -60,7 +62,7 @@ const BasicModal: React.FC = () => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography variant={isConfirmAction(action) ? 'h6' : 'h4'} align="center">{title}</Typography>
+        <Typography variant={isConfirmAction(action) ? 'h6' : 'h4'} align="center">{t(title)}</Typography>
         {content}
       </Box>
     </Modal>

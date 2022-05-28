@@ -49,7 +49,7 @@ const ListsWrapper: React.FC = () => {
       </ColumnStyled>
     </StyledListWrapper>
   ) : (
-    <Typography variant="h6">{t('boardPage.noLists')}</Typography>
+    <Typography variant="h4" color="white">{t('boardPage.noLists')}</Typography>
   );
 };
 

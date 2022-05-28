@@ -16,6 +16,8 @@ import {
   editProfilePageTextRu,
   boardPageEn,
   boardPageRu,
+  modalTextEn,
+  modalTextRu,
 } from '../constants/text';
 import { AuthTextEn, AuthTextRu } from '../constants/authorization';
 
@@ -53,6 +55,7 @@ i18n
           welcomePage: welcomePageEn,
           profilePage: editProfilePageTextEn,
           boardPage: boardPageEn,
+          modal: modalTextEn,
         },
       },
       ru: {
@@ -79,6 +82,7 @@ i18n
           welcomePage: welcomePageRu,
           profilePage: editProfilePageTextRu,
           boardPage: boardPageRu,
+          modal: modalTextRu,
         },
       },
     },
