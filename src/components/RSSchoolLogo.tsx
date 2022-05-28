@@ -5,8 +5,12 @@ import { ReactComponent as RSSchoolSVG } from '../assets/rs-school-js.svg';
 
 const CustomizedLink = styled(Link)`
   display: block;
-  width: 100px;
+  max-width: 100px;
   transition: opacity 0.3s;
+
+  svg {
+    width: 100%;
+  }
 
   :hover {
     opacity: 0.75;
