@@ -1,6 +1,6 @@
 import muiTheme from './muiTheme';
 
-const { light, main } = muiTheme.palette.primary;
+const { light, main } = muiTheme.palette.warning;
 const scrollStyles = {
   '::-webkit-scrollbar': {
     width: '0.25rem',
