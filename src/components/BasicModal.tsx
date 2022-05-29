@@ -18,10 +18,23 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
+  maxHeight: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+};
+
+const overflowWrap = 'break-word';
+const overflowY = 'scroll';
+const maxHeight = '200px';
+
+const showCaseTitleStyle = {
+  overflowWrap,
+};
+
+const showCaseDescripitonStyle = {
+  overflowWrap, overflowY, maxHeight,
 };
 
 const BasicModal: React.FC = () => {
@@ -61,7 +74,7 @@ const BasicModal: React.FC = () => {
 
     if (isShowAction(action) && defaultValues?.length) {
       return defaultValues.map((value, index) => (
-        <Typography variant={!index ? 'h5' : 'body2'} sx={{ overflowWrap: 'break-word' }}>{value}</Typography>
+        <Typography variant={!index ? 'h5' : 'body2'} sx={!index ? showCaseTitleStyle : showCaseDescripitonStyle}>{value}</Typography>
       ));
     }
 
