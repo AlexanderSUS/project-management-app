@@ -234,3 +234,13 @@ export const REMOVE_TASK: Content = {
   modalTitle: 'TaskModalText.TASK_TITLE_DELITE',
   action: 'removeTask',
 };
+
+export const SHOW_TASK: Content = {
+  modalTitle: 'info.task',
+  action: 'noAction',
+};
+
+export const SHOW_BOARD: Content = {
+  modalTitle: 'info.board',
+  action: 'noAction',
+};

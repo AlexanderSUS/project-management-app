@@ -2,6 +2,12 @@ export const LANG_EN = 'en';
 
 export const LANG_RU = 'ru';
 
+export const SLICE_START = 0;
+
+export const SLICE_END = 60;
+
+export const ELIPSIS = '...';
+
 export const navTextEn = {
   home: 'Home',
   projects: 'Boards',
@@ -68,6 +74,8 @@ export const boardPageEn = {
   addColunm: 'Add list',
   editBtn: 'Edit',
   deleteBtn: 'Delete',
+  showDescription: 'Show detaitls',
+  description: 'Description',
 };
 
 export const boardPageRu = {
@@ -76,6 +84,8 @@ export const boardPageRu = {
   addColunm: 'Добавить список',
   editBtn: 'Изменить',
   deleteBtn: 'Удалить',
+  showDescription: 'Просмотреть описание',
+  description: 'Описание',
 };
 
 export const modalTextEn = {

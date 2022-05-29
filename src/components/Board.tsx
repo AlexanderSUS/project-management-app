@@ -8,7 +8,10 @@ import { useTranslation } from 'react-i18next';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
+import PageviewIcon from '@mui/icons-material/Pageview';
+import {
+  ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD, SHOW_BOARD,
+} from '../constants/formfields';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import Loader from './Loader';
@@ -21,6 +24,7 @@ import { getUsers } from '../store/taskSlice';
 import muiTheme from '../constants/muiTheme';
 import useWindowWidth from '../hooks/useWindowWidth';
 import { break360, break700 } from '../constants/styles';
+import restrictText from '../helpers/restrictText';
 
 const BoardWrapper = styled(Box)`
   display: flex;
@@ -60,6 +64,11 @@ const Board: React.FC = () => {
     dispatch(openModal(ADD_COLUMN));
   };
 
+  const showBoardDescription = () => {
+    dispatch(setDefaultValues([title, description]));
+    dispatch(openModal(SHOW_BOARD));
+  };
+
   useEffect(() => {
     if (id === DEFAULT_BOARD_ID) {
       navigate(AppRoutes.PROJECTS);
@@ -82,6 +91,9 @@ const Board: React.FC = () => {
             <Typography component="h1" variant={width > break700 ? 'h2' : 'h4'} color="white" sx={{ fontWeight: '500', lineHeight: '1' }}>
               {title}
             </Typography>
+            <Button variant="contained" onClick={showBoardDescription} startIcon={<PageviewIcon />} color="warning">
+              {t('boardPage.description')}
+            </Button>
             <ButtonGroup>
               <Button variant="contained" startIcon={<EditIcon />} color="warning" onClick={editBoard}>{t('boardPage.editBtn')}</Button>
               <Button variant="contained" startIcon={<DeleteIcon />} color="warning" onClick={deleteBoard}>{t('boardPage.deleteBtn')}</Button>
@@ -93,7 +105,7 @@ const Board: React.FC = () => {
             </Button>
             )}
           </Box>
-          <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{description}</Typography>
+          <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{restrictText(description)}</Typography>
           <Box sx={{ position: 'relative', flexGrow: 1 }}>
             <ListsWrapper />
           </Box>
