@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Box, Grid, IconButton, Typography,
-} from '@mui/material';
-import PageviewIcon from '@mui/icons-material/Pageview';
+import { Box, Grid, Typography } from '@mui/material';
 import { Task } from '../types/tasks';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -18,6 +15,7 @@ import { DEFAULT_TASK } from '../constants/task';
 import muiTheme from '../constants/muiTheme';
 import UserSelect from './UserSelect';
 import { ELIPSIS, SLICE_END, SLICE_START } from '../constants/text';
+import ShowCaseButton from './ShowCaseButton';
 
 type TaskProps = {
   task: Task;
@@ -102,9 +100,7 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
       sx={taskStyles}
     >
       <Typography variant="h6" sx={{ display: 'inline', overflowWrap: 'break-word', lineSize: '280px' }}>{task.title}</Typography>
-      <IconButton onClick={showTask}>
-        <PageviewIcon fontSize="inherit" color="warning" />
-      </IconButton>
+      <ShowCaseButton onClick={showTask} />
       <Typography variant="body2" sx={{ m: '0.5rem 0', overflowWrap: 'break-word', lineSize: '280px' }}>
         {task.description.length > SLICE_END
           ? task.description.slice(SLICE_START, SLICE_END).concat(ELIPSIS)
