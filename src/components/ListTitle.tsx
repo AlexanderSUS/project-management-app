@@ -116,7 +116,7 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
             <DoneSharpIcon color="success" />
           </IconButton>
         </Tooltip>
-        <Tooltip title={t('modal.colose')}>
+        <Tooltip title={t('modal.close')}>
           <IconButton onClick={hideInput}>
             <CloseSharpIcon color="action" />
           </IconButton>
