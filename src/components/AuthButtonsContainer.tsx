@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import AppRoutes from '../constants/routes';
 import { logOut } from '../store/authSlice';
-import { TOKEN } from '../constants/authorization';
 import HeaderButton from './HeaderButton';
 
 type AuthButtonsContainerProps = {
@@ -20,10 +19,6 @@ const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ userId }) =
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const logOutUser = () => {
-    localStorage.removeItem(TOKEN);
-    dispatch(logOut());
-  };
 
   if (location.pathname === AppRoutes.LOGIN) {
     return (
@@ -46,7 +41,7 @@ const AuthButtonsContainer: React.FC<AuthButtonsContainerProps> = ({ userId }) =
   }
 
   return userId ? (
-    <HeaderButton Icon={LogoutIcon} onClick={logOutUser} text={t('AuthText.LOG_OUT')} />
+    <HeaderButton Icon={LogoutIcon} onClick={() => dispatch(logOut())} text={t('AuthText.LOG_OUT')} />
   ) : (
     <Grid container spacing={2}>
       <Grid item>

@@ -18,8 +18,18 @@ import {
   boardPageRu,
   modalTextEn,
   modalTextRu,
+  infoAcitonsRu,
+  infoAcitonsEn,
 } from '../constants/text';
 import { AuthTextEn, AuthTextRu } from '../constants/authorization';
+import {
+  BoardModalTextEn,
+  BoardModalTextRu,
+  ListModalTextEn,
+  ListModalTextRu,
+  TaskModalTextEn,
+  TaskModalTextRu,
+} from '../constants/boards';
 
 i18n
   .use(LanguageDetector)
@@ -35,13 +45,18 @@ i18n
         translation: {
           navText: navTextEn,
           AuthText: AuthTextEn,
+          BoardModalText: BoardModalTextEn,
+          ListModalText: ListModalTextEn,
+          TaskModalText: TaskModalTextEn,
           loginPage: loginPageEn,
           registrationPageText: registrationPageTextEn,
           registrationText: registrationTextEn,
           loginAuthInput: 'login',
           nameErrors: {
-            minLength: 'Value must be no less than 2 symbols',
+            minLength: 'Value must be no less than 1 symbols',
+            min2symbolsLength: 'Value must be no less than 2 symbols',
             maxLength: 'Value must be no more than 20 symbols',
+            maxLength100symbols: 'Value must be no more than 100 symbols',
             pattern: 'name must starts with capital letter',
           },
           loginErrors: {
@@ -56,19 +71,25 @@ i18n
           profilePage: editProfilePageTextEn,
           boardPage: boardPageEn,
           modal: modalTextEn,
+          info: infoAcitonsEn,
         },
       },
       ru: {
         translation: {
           navText: navTextRu,
           AuthText: AuthTextRu,
+          BoardModalText: BoardModalTextRu,
+          ListModalText: ListModalTextRu,
+          TaskModalText: TaskModalTextRu,
           loginPage: loginPageRu,
           registrationPageText: registrationPageTextRu,
           registrationText: registrationTextRu,
           loginAuthInput: 'Логин',
           nameErrors: {
-            minLength: 'Значение должно быть не меньше 2 символов',
+            minLength: 'Значение должно быть не меньше 1 символа',
+            min2symbolsLength: 'Значение должно быть не меньше 2 символов',
             maxLength: 'Значение должно быть не больше 20 символов',
+            maxLength100symbols: 'Значение должно быть не больше 100 символов',
             pattern: 'Имя должно начинаться с заглавной буквы',
           },
           loginErrors: {
@@ -83,6 +104,7 @@ i18n
           profilePage: editProfilePageTextRu,
           boardPage: boardPageRu,
           modal: modalTextRu,
+          info: infoAcitonsRu,
         },
       },
     },
