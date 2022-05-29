@@ -109,6 +109,7 @@ export const editProfilePageTextEn = {
   yourTasks: 'Your tasks',
   toBoard: 'To board',
   list: 'List: ',
+  noTasks: 'You have no any tasks',
 };
 
 export const editProfilePageTextRu = {
@@ -122,6 +123,7 @@ export const editProfilePageTextRu = {
   yourTasks: 'Ваши задачи',
   toBoard: 'К доске',
   list: 'Список: ',
+  noTasks: 'У вас нет задач',
 };
 
 export const infoAcitonsEn = {
