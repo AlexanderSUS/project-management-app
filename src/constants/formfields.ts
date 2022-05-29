@@ -237,3 +237,13 @@ export const REMOVE_TASK: Content = {
   modalTitle: 'Do you really want to delete task?',
   action: 'removeTask',
 };
+
+export const SHOW_TASK: Content = {
+  modalTitle: 'info.task',
+  action: 'noAction',
+};
+
+export const SHOW_BOARD: Content = {
+  modalTitle: 'info.board',
+  action: 'noAction',
+};

@@ -9,7 +9,7 @@ import BoardForm from './ModalForm';
 import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
 import { FormData } from '../types/formTypes';
-import isConfirmAction from '../helpers/modalFunctions';
+import { isConfirmAction, isFormAction, isShowAction } from '../helpers/modalFunctions';
 import { AppDispatch } from '../store/store';
 
 const style = {
@@ -24,10 +24,9 @@ const style = {
   p: 4,
 };
 
-// TODO ADD TRANSLATION to this page
 const BasicModal: React.FC = () => {
   const {
-    isOpen, title, action,
+    isOpen, title, action, defaultValues,
   } = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -45,15 +44,30 @@ const BasicModal: React.FC = () => {
 
   // TODO try to chage type FormData to Partial<FormData>
   const createOrUpdate = (data: FormData) => {
-    if (!isConfirmAction(action)) {
+    if (isFormAction(action)) {
       dispatch(modalFormAction[action](data) as Parameters<AppDispatch>[0]);
     }
     dispatch(closeModal());
   };
 
-  const content = isConfirmAction(action) ? (
-    <ModalConfirmButtons close={closeWindow} confirm={confirm} />
-  ) : <BoardForm createOrUpdate={createOrUpdate} />;
+  const content = (function getContent() {
+    if (isConfirmAction(action)) {
+      return <ModalConfirmButtons close={closeWindow} confirm={confirm} />;
+    }
+
+    if (isFormAction(action)) {
+      return <BoardForm createOrUpdate={createOrUpdate} />;
+    }
+
+    if (isShowAction(action) && defaultValues?.length) {
+      return defaultValues.map((value, index) => (
+        <Typography variant={!index ? 'h5' : 'body2'}>{value}</Typography>
+      ));
+    }
+
+    return null;
+  }());
+
   return (
     <Modal
       open={isOpen}

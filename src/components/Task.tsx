@@ -1,5 +1,8 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import {
+  Box, Grid, IconButton, Typography,
+} from '@mui/material';
+import PageviewIcon from '@mui/icons-material/Pageview';
 import { Task } from '../types/tasks';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -8,7 +11,7 @@ import {
   reasignTask, setTask, setTaskUserId, taskSelector,
   changeTaskPosition, setTaskColumnId, setTaskOrder,
 } from '../store/taskSlice';
-import { EDIT_TASK, REMOVE_TASK } from '../constants/formfields';
+import { EDIT_TASK, REMOVE_TASK, SHOW_TASK } from '../constants/formfields';
 import { setColumn } from '../store/columnSlice';
 import { DEFAULT_COLUMN } from '../constants/columns';
 import { DEFAULT_TASK } from '../constants/task';
@@ -53,6 +56,12 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
     dispatch(reasignTask());
   };
 
+  const showTask = () => {
+    // dispatch(setTask(task));
+    dispatch(setDefaultValues([task.title, task.description]));
+    dispatch(openModal(SHOW_TASK));
+  };
+
   // DRAG & DROP
   const dragStartHandler = () => {
     dispatch(setTask(task));
@@ -93,6 +102,9 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
     >
       <Typography variant="h6">{task.title}</Typography>
       <Typography variant="body2" sx={{ m: '0.5rem 0' }}>{task.description}</Typography>
+      <IconButton onClick={showTask}>
+        <PageviewIcon />
+      </IconButton>
       <Grid container alignItems="flex-end">
         <Grid item flexGrow="1" sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography>{`${taskUser?.name} (${taskUser?.login})`}</Typography>
