@@ -130,6 +130,7 @@ export const reasignTask = createAsyncThunk<Task, void, TypedThunkAPI>(
       if (login) {
         return { ...data, userId: login };
       }
+
       return data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;

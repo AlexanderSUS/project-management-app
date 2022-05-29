@@ -150,21 +150,26 @@ const notificationSlice = createSlice({
 
           if (error.statusCode === ERROR_401) {
             state.log.push({ message: 'info.unauthorized', severity });
+
             return;
           }
           if (error.statusCode === ERROR_403) {
             state.log.push({ message: 'info.userNotFounded', severity });
+
             return;
           }
           if (error.statusCode === ERROR_404) {
             state.log.push({ message: 'info.notFound', severity });
+
             return;
           }
           if (error.statusCode === ERROR_409) {
             state.log.push({ message: 'info.alreadyExist', severity });
+
             return;
           }
           state.log.push({ message: error.message || 'info.unknown', severity });
+
           return;
         }
         state.log.push({ message: action.error.message || 'info.unknown', severity });
