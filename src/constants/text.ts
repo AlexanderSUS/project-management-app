@@ -74,6 +74,7 @@ export const boardPageEn = {
   addColunm: 'Add list',
   editBtn: 'Edit',
   deleteBtn: 'Delete',
+  showDescription: 'Show detaitls',
 };
 
 export const boardPageRu = {
@@ -82,6 +83,7 @@ export const boardPageRu = {
   addColunm: 'Добавить список',
   editBtn: 'Изменить',
   deleteBtn: 'Удалить',
+  showDescription: 'Просмотреть описание',
 };
 
 export const modalTextEn = {
