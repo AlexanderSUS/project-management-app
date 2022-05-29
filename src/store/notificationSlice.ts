@@ -10,7 +10,7 @@ import {
   isAddAction, isEditAction, isDeleteAction, isRegistrationAction,
   isLogInAction, isBoardAction, isColumnAction, isTaskAction,
   isEditNameAction, isUserRemoveAcition, isUserEditAction,
-  isEditLoginAction, isMoveAcion, isTaskMoveAction, isColumnMoveAction,
+  isEditLoginAction, isMoveAcion, isTaskMoveAction, isColumnMoveAction, isReasignAction,
 } from './utils';
 import { FulfilledAction, PendingAction, RejectedAction } from '../types/slice';
 import { IBoard } from '../types/boards';
@@ -113,13 +113,26 @@ const notificationSlice = createSlice({
         }
         if (isMoveAcion(action)) {
           const severity = Severity.info;
+          const data = action.payload as Column | Task;
 
           if (isTaskMoveAction(action)) {
-            state.log.push({ message: 'info.moveTask', severity });
+            state.log.push({
+              head: 'info.task', dataText: data.title, message: 'info.moveTask', severity,
+            });
           }
           if (isColumnMoveAction(action)) {
-            state.log.push({ message: 'info.moveList', severity });
+            state.log.push({
+              head: 'info.list', dataText: data.title, message: 'info.moveList', severity,
+            });
           }
+        }
+        if (isReasignAction(action)) {
+          const data = action.payload as Task;
+          const severity = Severity.info;
+
+          state.log.push({
+            head: 'info.task', dataText: data.title, message: 'info.reassign', severity,
+          });
         }
       },
     );

@@ -130,10 +130,10 @@ export const infoAcitonsEn = {
   userNotFounded: 'User was not founded! Check your input.',
   alreadyExist: 'User login already exists!',
   unknown: 'Unknown server error',
-  moveList: 'List has been moved successfuly',
-  moveTask: 'Task has been moved successfuly',
+  moveList: ' has been moved successfuly',
+  moveTask: ' has been moved successfuly',
   notFound: "Can't perform action, data not found",
-  reassign: 'Taks was reasign successfuly',
+  reassign: ' has been reasign',
 };
 
 export const infoAcitonsRu = {
@@ -152,10 +152,10 @@ export const infoAcitonsRu = {
   userNotFounded: 'Такого пользователя не существует! Проверьте вводимые данные.',
   alreadyExist: 'Пользователь с таким логином уже существует',
   unknown: 'Неизвестная ошибка сервера',
-  moveList: 'Список был перемещен успешно',
-  moveTask: 'Задача быа перемещена успешно',
+  moveList: ' был перемещен успешно',
+  moveTask: ' быа перемещена успешно',
   notFound: 'Невозможно выполнить действие. Данные не найдены',
-  reassign: 'Задача',
+  reassign: ' была переназначена',
 };
 
 export const welcomePageEn = {
