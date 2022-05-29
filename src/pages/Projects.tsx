@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Container, Typography } from '@mui/material';
-import { Outlet, useMatch } from 'react-router-dom';
+import { Outlet, useLocation, useMatch } from 'react-router-dom';
 import BoardPreviewsWrapper from '../components/BoardPreviewsWrapper';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { boardSelector, getBoards } from '../store/boardSlice';
@@ -22,11 +22,13 @@ const Projects: React.FC = () => {
   const { isLoading } = useAppSelector(notificationSelector);
   const { t } = useTranslation();
   const width = useWindowWidth();
+  const location = useLocation();
 
   useEffect(() => {
-    // TODO add rerender when user return from board page
-    dispatch(getBoards());
-  }, [dispatch]);
+    if (location.pathname === AppRoutes.PROJECTS) {
+      dispatch(getBoards());
+    }
+  }, [dispatch, location.pathname]);
 
   return useMatch(AppRoutes.PROJECTS) ? (
     <Box sx={projectPageStyle}>

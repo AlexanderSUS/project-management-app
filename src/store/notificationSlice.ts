@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
-import initialState, { Severity } from '../constants/notification';
+import initialState, {
+  ERROR_401, ERROR_403, ERROR_404, ERROR_409, Severity,
+} from '../constants/notification';
 import { NotificationState } from '../types/notification';
 import { ErrorResponseData, SignInResponse } from '../types/response';
-import ThunkError, { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
+import { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
 import {
   isAddAction, isEditAction, isDeleteAction, isRegistrationAction,
   isLogInAction, isBoardAction, isColumnAction, isTaskAction,
-  isEditNameAction, isUserRemoveAcition, isUserEditAction, isEditLoginAction,
+  isEditNameAction, isUserRemoveAcition, isUserEditAction,
+  isEditLoginAction, isMoveAcion, isTaskMoveAction, isColumnMoveAction, isReasignAction,
 } from './utils';
 import { FulfilledAction, PendingAction, RejectedAction } from '../types/slice';
 import { IBoard } from '../types/boards';
@@ -30,69 +33,110 @@ const notificationSlice = createSlice({
     builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
-        const severity = Severity.success;
-
         state.isLoading = false;
 
-        // TODO refactor all this
         if (isAddAction(action)) {
           const data = action.payload as IBoard | Column | Task;
+          const log = { severity: Severity.success, message: 'info.successCreate', dataText: data.title };
 
           if (isBoardAction(action)) {
-            state.log.push({ message: `Board "${data.title}" was succesfuly created`, severity });
+            state.log.push({ ...log, head: 'info.board' });
           }
           if (isColumnAction(action)) {
-            state.log.push({ message: `List "${data.title}" was succesfuly created`, severity });
+            state.log.push({ ...log, head: 'info.list' });
           }
           if (isTaskAction(action)) {
-            state.log.push({ message: `Task "${data.title}" was succesfuly created`, severity });
+            state.log.push({ ...log, head: 'info.task' });
           }
         }
         if (isEditAction(action)) {
           const data = action.payload as IBoard | Column | Task;
+          const log = { severity: Severity.success, message: 'info.successEdit', dataText: data.title };
 
           if (isBoardAction(action)) {
-            state.log.push({ message: `Board "${data.title}" was succesfuly edited`, severity });
+            state.log.push({ ...log, head: 'info.board' });
           }
           if (isColumnAction(action)) {
-            state.log.push({ message: `List "${data.title}" was succesfuly edited`, severity });
+            state.log.push({ ...log, head: 'info.list' });
           }
           if (isTaskAction(action)) {
-            state.log.push({ message: `Task "${data.title}" was succesfuly edited`, severity });
+            state.log.push({ ...log, head: 'info.task' });
           }
         }
         if (isDeleteAction(action)) {
+          const log = { severity: Severity.success, message: 'info.successDelete' };
+
           if (isBoardAction(action)) {
-            state.log.push({ message: 'Board was removed', severity });
+            state.log.push({ ...log, head: 'info.board' });
           }
           if (isColumnAction(action)) {
-            state.log.push({ message: 'Column was removed', severity });
+            state.log.push({ ...log, head: 'info.list' });
           }
           if (isTaskAction(action)) {
-            state.log.push({ message: 'Task was removed', severity });
+            state.log.push({ ...log, head: 'info.task' });
           }
           if (isUserRemoveAcition(action)) {
-            state.log.push({ message: 'Your account was removed', severity });
+            state.log.push({ ...log, head: 'info.account' });
           }
         }
         if (isUserEditAction(action)) {
+          const severity = Severity.success;
           const user = action.payload as UserData;
+
           if (isEditLoginAction(action)) {
-            state.log.push({ message: `Your login was succesfuly edited. New login: "${user.login}" `, severity });
+            state.log.push({
+              severity, head: 'info.editLogin', message: '', dataText: user.login,
+            });
           }
           if (isEditNameAction(action)) {
-            state.log.push({ message: `Your name was succesfuly edited. New name: "${user.name}"`, severity });
+            state.log.push({
+              severity, head: 'info.editName', message: '', dataText: user.name,
+            });
           }
         }
         if (isRegistrationAction(action)) {
+          const severity = Severity.success;
           const user = action.payload as NewUser;
 
-          state.log.push({ message: `New user ${user.login} was succesfuly created`, severity });
+          state.log.push({
+            severity, head: 'info.newUser', dataText: user.login, message: 'info.successCreate',
+          });
         }
         if (isLogInAction(action)) {
+          const severity = Severity.success;
           const { token } = action.payload as SignInResponse;
           const { login } = jwtDecode<JwtData>(token);
-          state.log.push({ message: `Hello ${login}!`, severity });
+
+          state.log.push({
+            head: 'info.greeting', dataText: `${login}!`, message: '', severity,
+          });
+        }
+        if (isMoveAcion(action)) {
+          const severity = Severity.info;
+          const data = action.payload as Column | Task;
+
+          if (isTaskMoveAction(action)) {
+            state.log.push({
+              head: 'info.task', dataText: data.title, message: 'info.moveTask', severity,
+            });
+          }
+          if (isColumnMoveAction(action)) {
+            state.log.push({
+              head: 'info.list', dataText: data.title, message: 'info.moveList', severity,
+            });
+          }
+        }
+        if (isReasignAction(action)) {
+          const data = action.payload as Task;
+          const severity = Severity.info;
+
+          state.log.push({
+            head: 'info.task',
+            dataText: data.title,
+            message: 'info.reassign',
+            tail: data.userId,
+            severity,
+          });
         }
       },
     );
@@ -103,29 +147,32 @@ const notificationSlice = createSlice({
         state.isLoading = false;
         if ((action.payload)) {
           const error = action.payload as ErrorResponseData;
-          // TODO move out status codes
-          if (error.statusCode === 401) {
-            // TODO add translation to THunkError
-            state.log.push({ message: ThunkError.notAuthorized, severity });
+
+          if (error.statusCode === ERROR_401) {
+            state.log.push({ message: 'info.unauthorized', severity });
+
             return;
           }
-          if (error.statusCode === 403) {
-            // TODO serverer reply 'User was not founded!'
-            // but it occuours also when password invalid
-            // add translation
-            state.log.push({ message: error.message, severity });
+          if (error.statusCode === ERROR_403) {
+            state.log.push({ message: 'info.userNotFounded', severity });
+
             return;
           }
-          if (error.statusCode === 409) {
-            // TODO add translation
-            // "message":"User login already exists!"
-            state.log.push({ message: error.message, severity });
+          if (error.statusCode === ERROR_404) {
+            state.log.push({ message: 'info.notFound', severity });
+
             return;
           }
-          state.log.push({ message: error.message || ThunkError.unknownError, severity });
+          if (error.statusCode === ERROR_409) {
+            state.log.push({ message: 'info.alreadyExist', severity });
+
+            return;
+          }
+          state.log.push({ message: error.message || 'info.unknown', severity });
+
           return;
         }
-        state.log.push({ message: action.error.message || ThunkError.unknownError, severity });
+        state.log.push({ message: action.error.message || 'info.unknown', severity });
       },
     );
   },

@@ -9,12 +9,14 @@ import {
   reasignTask, setTask, setTaskUserId, taskSelector,
   changeTaskPosition, setTaskColumnId, setTaskOrder,
 } from '../store/taskSlice';
-import { EDIT_TASK, REMOVE_TASK } from '../constants/formfields';
+import { EDIT_TASK, REMOVE_TASK, SHOW_TASK } from '../constants/formfields';
 import { setColumn } from '../store/columnSlice';
 import { DEFAULT_COLUMN } from '../constants/columns';
 import { DEFAULT_TASK } from '../constants/task';
 import muiTheme from '../constants/muiTheme';
 import UserSelect from './UserSelect';
+import ShowCaseButton from './ShowCaseButton';
+import restrictText from '../helpers/restrictText';
 
 type TaskProps = {
   task: Task;
@@ -55,6 +57,12 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
     dispatch(reasignTask());
   };
 
+  const showTask = () => {
+    // dispatch(setTask(task));
+    dispatch(setDefaultValues([task.title, task.description]));
+    dispatch(openModal(SHOW_TASK));
+  };
+
   // DRAG & DROP
   const dragStartHandler = () => {
     dispatch(setTask(task));
@@ -93,8 +101,11 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
       onDrop={dropHandler}
       sx={taskStyles}
     >
-      <Typography variant="h6">{task.title}</Typography>
-      <Typography variant="body2" sx={{ m: '0.5rem 0' }}>{task.description}</Typography>
+      <Typography variant="h6" sx={{ display: 'inline', overflowWrap: 'break-word', lineSize: '280px' }}>{task.title}</Typography>
+      <ShowCaseButton onClick={showTask} />
+      <Typography variant="body2" sx={{ m: '0.5rem 0', overflowWrap: 'break-word', lineSize: '280px' }}>
+        {restrictText(task.description)}
+      </Typography>
       <Grid container alignItems="flex-end">
         <Grid item flexGrow="1" sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography>{taskUser?.id ? `${taskUser?.name} (${taskUser?.login})` : t('boardPage.noUser')}</Typography>

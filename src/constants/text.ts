@@ -2,6 +2,12 @@ export const LANG_EN = 'en';
 
 export const LANG_RU = 'ru';
 
+export const SLICE_START = 0;
+
+export const SLICE_END = 60;
+
+export const ELIPSIS = '...';
+
 export const navTextEn = {
   home: 'Home',
   projects: 'Boards',
@@ -69,6 +75,8 @@ export const boardPageEn = {
   editBtn: 'Edit',
   deleteBtn: 'Delete',
   noUser: 'User deleted',
+  showDescription: 'Show detaitls',
+  description: 'Description',
 };
 
 export const boardPageRu = {
@@ -78,6 +86,8 @@ export const boardPageRu = {
   editBtn: 'Изменить',
   deleteBtn: 'Удалить',
   noUser: 'Пользователь удален',
+  showDescription: 'Просмотреть описание',
+  description: 'Описание',
 };
 
 export const modalTextEn = {
@@ -101,6 +111,7 @@ export const editProfilePageTextEn = {
   yourTasks: 'Your tasks',
   toBoard: 'To board',
   list: 'List: ',
+  noTasks: 'You have no any tasks',
 };
 
 export const editProfilePageTextRu = {
@@ -114,6 +125,51 @@ export const editProfilePageTextRu = {
   yourTasks: 'Ваши задачи',
   toBoard: 'К доске',
   list: 'Список: ',
+  noTasks: 'У вас нет задач',
+};
+
+export const infoAcitonsEn = {
+  board: 'Board ',
+  list: 'List ',
+  task: 'Task ',
+  account: 'Acount ',
+  successCreate: ' was successfully created',
+  successEdit: ' was successfully edited',
+  successDelete: ' was successfully deleted',
+  editLogin: 'Your login was successfully edited. New login: ',
+  editName: 'Your name was successfully edited. New name: ',
+  newUser: 'New user ',
+  greeting: 'Hello ',
+  unauthorized: 'Your session has expired. Please log in',
+  userNotFounded: 'User was not founded! Check your input.',
+  alreadyExist: 'User login already exists!',
+  unknown: 'Unknown server error',
+  moveList: ' has been moved successfuly',
+  moveTask: ' has been moved successfuly',
+  notFound: "Can't perform action, data not found",
+  reassign: ' has been reasign to ',
+};
+
+export const infoAcitonsRu = {
+  board: 'Доска ',
+  list: 'Спиcок ',
+  task: 'Задача ',
+  account: 'Учетная запись ',
+  successCreate: ' создан(a) успешно',
+  successEdit: ' успешно отредактирован(а)',
+  successDelete: ' успешно удален(a)',
+  editLogin: 'Ваш логин успешно отредактирован. Новый логин: ',
+  editName: 'Ваше имя успешно отредактировано. Новое имя: ',
+  newUser: 'Новый пользователь ',
+  greeting: 'Привет ',
+  unauthorized: 'Ваша сессия устарела. Пожалуйста, войдтите в учетную запись',
+  userNotFounded: 'Такого пользователя не существует! Проверьте вводимые данные.',
+  alreadyExist: 'Пользователь с таким логином уже существует',
+  unknown: 'Неизвестная ошибка сервера',
+  moveList: ' был перемещен успешно',
+  moveTask: ' быа перемещена успешно',
+  notFound: 'Невозможно выполнить действие. Данные не найдены',
+  reassign: ' была переназначена на ',
 };
 
 export const welcomePageEn = {
@@ -203,10 +259,4 @@ export const technology = [
     link: 'https://react-hook-form.com/',
     name: 'React Hook Form',
   },
-  // {
-  //   id: 'id-1652984108573',
-  //   icon: '',
-  //   link: '',
-  //   name: 'Drag-and-Drop',
-  // },
 ];

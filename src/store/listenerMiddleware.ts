@@ -11,6 +11,6 @@ export const startBoardListening = listenerMiddleware.startListening as AppStart
 
 export const startColumsAndTasksListening = listenerMiddleware.startListening as AppStartListening;
 
-export const stopAppListening = listenerMiddleware.stopListening;
+export const startAnyLogOutListening = listenerMiddleware.startListening as AppStartListening;
 
 export const addAppListener = addListener as TypedAddListener< RootState, AppDispatch >;

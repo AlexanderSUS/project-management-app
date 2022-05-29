@@ -152,7 +152,6 @@ const authSlice = createSlice({
       state.login = action.payload.login;
       state.userId = action.payload.id;
     });
-    // TODO Inmplement message from response
     builder.addCase(removeUser.fulfilled, (state) => {
       state.userId = '';
       state.login = '';
