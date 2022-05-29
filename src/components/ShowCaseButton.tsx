@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material';
 import PageviewIcon from '@mui/icons-material/Pageview';
 
 type Props = {
-  onClick: VoidFunction;
+  onClick: VoidFunction | ((e: React.MouseEvent<HTMLButtonElement>) => void) ;
 };
 
 const ShowCaseButton: React.FC<Props> = ({ onClick }) => (
