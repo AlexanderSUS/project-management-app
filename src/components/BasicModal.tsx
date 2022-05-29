@@ -3,15 +3,16 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
-import { closeModal, modalSelector } from '../store/modalSlice';
+import { clearDefaultValues, closeModal, modalSelector } from '../store/modalSlice';
 import BoardForm from './ModalForm';
 import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
 import { FormData } from '../types/formTypes';
 import { isConfirmAction, isFormAction, isShowAction } from '../helpers/modalFunctions';
 import { AppDispatch } from '../store/store';
+import ItemModalDescription from './ItemModalDescription';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -25,20 +26,6 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
-const overflowWrap = 'break-word';
-const overflowY = 'scroll';
-const maxHeight = '200px';
-
-const showCaseTitleStyle = {
-  overflowWrap,
-};
-
-const showCaseDescripitonStyle = {
-  overflowWrap, overflowY, maxHeight,
-};
-
-const modalKeys = ['title', 'description', 'additional'];
 
 const BasicModal: React.FC = () => {
   const {
@@ -76,13 +63,18 @@ const BasicModal: React.FC = () => {
     }
 
     if (isShowAction(action) && defaultValues?.length) {
-      return defaultValues.map((value, index) => (
-        <Typography key={value + modalKeys[index]} variant={!index ? 'h5' : 'body2'} sx={!index ? showCaseTitleStyle : showCaseDescripitonStyle}>{value}</Typography>
-      ));
+      return <ItemModalDescription fields={defaultValues} dispatch={dispatch} />;
     }
 
     return null;
   }, [action, defaultValues, dispatch, closeWindow]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearDefaultValues());
+    },
+    [dispatch],
+  );
 
   return (
     <Modal
