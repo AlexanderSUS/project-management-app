@@ -12,22 +12,31 @@ import ModalConfirmButtons from './ModalConfirmButtons';
 import { FormData } from '../types/formTypes';
 import { isConfirmAction, isFormAction, isShowAction } from '../helpers/modalFunctions';
 import { AppDispatch } from '../store/store';
+import muiTheme from '../constants/muiTheme';
 
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  maxHeight: 400,
+  maxWidth: 400,
+  width: 'calc(100% - 1rem)',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
+  overflow: 'auto',
+  maxHeight: '100%',
   p: 4,
+  [muiTheme.breakpoints.down('md')]: {
+    p: 2,
+  },
+  [muiTheme.breakpoints.down('sm')]: {
+    p: 1,
+  },
 };
 
 const overflowWrap = 'break-word';
-const overflowY = 'scroll';
+const overflowY = 'auto';
 const maxHeight = '200px';
 
 const showCaseTitleStyle = {
