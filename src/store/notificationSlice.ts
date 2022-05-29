@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
 import initialState, {
-  ERROR_401, ERROR_403, ERROR_409, Severity,
+  ERROR_401, ERROR_403, ERROR_404, ERROR_409, Severity,
 } from '../constants/notification';
 import { NotificationState } from '../types/notification';
 import { ErrorResponseData, SignInResponse } from '../types/response';
@@ -9,7 +9,8 @@ import { FULFILED, PENDING, REJECTED } from '../constants/asyncThunk';
 import {
   isAddAction, isEditAction, isDeleteAction, isRegistrationAction,
   isLogInAction, isBoardAction, isColumnAction, isTaskAction,
-  isEditNameAction, isUserRemoveAcition, isUserEditAction, isEditLoginAction,
+  isEditNameAction, isUserRemoveAcition, isUserEditAction,
+  isEditLoginAction, isMoveAcion, isTaskMoveAction, isColumnMoveAction,
 } from './utils';
 import { FulfilledAction, PendingAction, RejectedAction } from '../types/slice';
 import { IBoard } from '../types/boards';
@@ -32,14 +33,11 @@ const notificationSlice = createSlice({
     builder.addMatcher(
       (action): action is FulfilledAction => action.type.endsWith(FULFILED),
       (state, action) => {
-        const severity = Severity.success;
-
         state.isLoading = false;
 
-        // TODO refactor all this
         if (isAddAction(action)) {
           const data = action.payload as IBoard | Column | Task;
-          const log = { severity, message: 'info.successCreate', dataText: data.title };
+          const log = { severity: Severity.success, message: 'info.successCreate', dataText: data.title };
 
           if (isBoardAction(action)) {
             state.log.push({ ...log, head: 'info.board' });
@@ -53,7 +51,7 @@ const notificationSlice = createSlice({
         }
         if (isEditAction(action)) {
           const data = action.payload as IBoard | Column | Task;
-          const log = { severity, message: 'info.successEdit', dataText: data.title };
+          const log = { severity: Severity.success, message: 'info.successEdit', dataText: data.title };
 
           if (isBoardAction(action)) {
             state.log.push({ ...log, head: 'info.board' });
@@ -66,7 +64,7 @@ const notificationSlice = createSlice({
           }
         }
         if (isDeleteAction(action)) {
-          const log = { severity, message: 'info.successDelete' };
+          const log = { severity: Severity.success, message: 'info.successDelete' };
 
           if (isBoardAction(action)) {
             state.log.push({ ...log, head: 'info.board' });
@@ -82,6 +80,7 @@ const notificationSlice = createSlice({
           }
         }
         if (isUserEditAction(action)) {
+          const severity = Severity.success;
           const user = action.payload as UserData;
 
           if (isEditLoginAction(action)) {
@@ -96,6 +95,7 @@ const notificationSlice = createSlice({
           }
         }
         if (isRegistrationAction(action)) {
+          const severity = Severity.success;
           const user = action.payload as NewUser;
 
           state.log.push({
@@ -103,12 +103,23 @@ const notificationSlice = createSlice({
           });
         }
         if (isLogInAction(action)) {
+          const severity = Severity.success;
           const { token } = action.payload as SignInResponse;
           const { login } = jwtDecode<JwtData>(token);
 
           state.log.push({
             head: 'info.greeting', dataText: `${login}!`, message: '', severity,
           });
+        }
+        if (isMoveAcion(action)) {
+          const severity = Severity.info;
+
+          if (isTaskMoveAction(action)) {
+            state.log.push({ message: 'info.moveTask', severity });
+          }
+          if (isColumnMoveAction(action)) {
+            state.log.push({ message: 'info.moveList', severity });
+          }
         }
       },
     );
@@ -126,6 +137,10 @@ const notificationSlice = createSlice({
           }
           if (error.statusCode === ERROR_403) {
             state.log.push({ message: 'info.userNotFounded', severity });
+            return;
+          }
+          if (error.statusCode === ERROR_404) {
+            state.log.push({ message: 'info.notFound', severity });
             return;
           }
           if (error.statusCode === ERROR_409) {

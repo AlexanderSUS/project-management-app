@@ -15,6 +15,7 @@ import UserService from '../api/userServise';
 import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
 import extractTasks from '../helpers/dataExtractors';
 
+// TODO unused? remove?
 export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   'task/getTasks',
   async (_, { getState, rejectWithValue }) => {
@@ -111,7 +112,6 @@ export const changeTaskPosition = createAsyncThunk<Task, void, TypedThunkAPI>(
   },
 );
 
-// TODO ADD CASE FOR NOTIFICATION
 export const reasignTask = createAsyncThunk<Task, void, TypedThunkAPI>(
   'task/reasignTask',
   async (_, { getState, rejectWithValue }) => {

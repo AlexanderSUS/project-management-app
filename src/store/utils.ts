@@ -52,3 +52,11 @@ export const isEditNameAction = isAsyncThunkAction(editName);
 export const isEditLoginAction = isAsyncThunkAction(editLogin);
 
 export const isUserEditAction = isAnyOf(isEditNameAction, isEditLoginAction);
+
+export const isReasignAction = isAsyncThunkAction(reasignTask);
+
+export const isTaskMoveAction = isAsyncThunkAction(changeTaskPosition);
+
+export const isColumnMoveAction = isAsyncThunkAction(changeColumnOrder);
+
+export const isMoveAcion = isAnyOf(isTaskMoveAction, isColumnMoveAction);
