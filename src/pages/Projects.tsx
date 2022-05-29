@@ -13,7 +13,15 @@ import useWindowWidth from '../hooks/useWindowWidth';
 import { break700 } from '../constants/styles';
 
 const projectPageStyle = {
-  bgcolor: muiTheme.palette.primary.light, flex: '1', pb: '1rem',
+  bgcolor: muiTheme.palette.primary.light,
+  flex: '1',
+  pb: '1rem',
+};
+
+const projectsTitleStyle = {
+  margin: '1rem 0',
+  fontWeight: '500',
+  overflowWrap: 'break-word',
 };
 
 const Projects: React.FC = () => {
@@ -34,13 +42,21 @@ const Projects: React.FC = () => {
     <Box sx={projectPageStyle}>
       <Container component="main">
         <Loader isOpen={isLoading} />
-        <Typography component="h1" variant={width > break700 ? 'h1' : 'h4'} color="white" align="center" sx={{ m: '1rem 0', fontWeight: '500' }}>
+        <Typography
+          component="h1"
+          variant={width > break700 ? 'h1' : 'h4'}
+          color="white"
+          align="center"
+          sx={projectsTitleStyle}
+        >
           {t('boardPage.title')}
         </Typography>
         <BoardPreviewsWrapper boardsPreview={boardsPreview} />
       </Container>
     </Box>
-  ) : <Outlet />;
+  ) : (
+    <Outlet />
+  );
 };
 
 export default Projects;
