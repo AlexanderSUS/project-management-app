@@ -69,7 +69,7 @@ const Header: React.FC = () => {
       <AppBar position="sticky" sx={{ padding: '15px 0' }}>
         <Container>
           <Grid container spacing={1}>
-            <Grid item>
+            <Grid item sx={{ mr: 'auto' }}>
               <HeaderButton
                 text={t('navText.home')}
                 Icon={HomeIcon}
@@ -97,7 +97,7 @@ const Header: React.FC = () => {
                 />
               </Grid>
             )}
-            <Grid item>
+            <Grid item sx={{ ml: 'auto' }}>
               <LangSwitcher />
             </Grid>
             <Grid item>
