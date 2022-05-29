@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Task } from '../types/tasks';
 import EditAndDeleteButtons from './EditAndDeleteButtons';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
@@ -37,6 +38,7 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
   const { task: setedTask } = useAppSelector(taskSelector);
   const dispatch = useAppDispatch();
   const taskUser = users.find((user) => user.id === task.userId);
+  const { t } = useTranslation();
 
   const deleteTaks = () => {
     dispatch(setTask(task));
@@ -106,7 +108,7 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
       </Typography>
       <Grid container alignItems="flex-end">
         <Grid item flexGrow="1" sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography>{`${taskUser?.name} (${taskUser?.login})`}</Typography>
+          <Typography>{taskUser?.id ? `${taskUser?.name} (${taskUser?.login})` : t('boardPage.noUser')}</Typography>
           <UserSelect userId={taskUser?.id as string} users={users} reasignUser={reasignUser} />
         </Grid>
         <Grid item display="flex" justifyContent="flex-end">
