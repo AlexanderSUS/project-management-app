@@ -133,7 +133,7 @@ export const infoAcitonsEn = {
   moveList: ' has been moved successfuly',
   moveTask: ' has been moved successfuly',
   notFound: "Can't perform action, data not found",
-  reassign: ' has been reasign',
+  reassign: ' has been reasign to ',
 };
 
 export const infoAcitonsRu = {
@@ -155,7 +155,7 @@ export const infoAcitonsRu = {
   moveList: ' был перемещен успешно',
   moveTask: ' быа перемещена успешно',
   notFound: 'Невозможно выполнить действие. Данные не найдены',
-  reassign: ' была переназначена',
+  reassign: ' была переназначена на ',
 };
 
 export const welcomePageEn = {

@@ -131,7 +131,11 @@ const notificationSlice = createSlice({
           const severity = Severity.info;
 
           state.log.push({
-            head: 'info.task', dataText: data.title, message: 'info.reassign', severity,
+            head: 'info.task',
+            dataText: data.title,
+            message: 'info.reassign',
+            tail: data.userId,
+            severity,
           });
         }
       },

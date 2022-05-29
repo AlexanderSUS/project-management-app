@@ -15,7 +15,7 @@ export default function CustomizedSnackbar() {
   const { log } = useAppSelector(notificationSelector);
   const [open, setOpen] = React.useState(false);
   const {
-    message, severity, head, dataText,
+    message, severity, head, dataText, tail,
   } = log[log.length - 1];
   const { t } = useTranslation();
 
@@ -42,6 +42,7 @@ export default function CustomizedSnackbar() {
         {t(head || '')}
         {dataText ? `"${dataText}"` : ''}
         {t(message)}
+        {tail || ''}
       </Alert>
     </Snackbar>
   );

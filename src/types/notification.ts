@@ -5,6 +5,7 @@ export type Log = {
   severity: SeverityType
   dataText?: string,
   head?: string,
+  tail?: string,
 };
 
 export type NotificationState = {
