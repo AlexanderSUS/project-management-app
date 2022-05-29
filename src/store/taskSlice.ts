@@ -15,6 +15,7 @@ import UserService from '../api/userServise';
 import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
 import extractTasks from '../helpers/dataExtractors';
 
+// TODO unused? remove?
 export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
   'task/getTasks',
   async (_, { getState, rejectWithValue }) => {
@@ -111,11 +112,10 @@ export const changeTaskPosition = createAsyncThunk<Task, void, TypedThunkAPI>(
   },
 );
 
-// TODO ADD CASE FOR NOTIFICATION
 export const reasignTask = createAsyncThunk<Task, void, TypedThunkAPI>(
   'task/reasignTask',
   async (_, { getState, rejectWithValue }) => {
-    const { task } = getState().taskStore;
+    const { task, users } = getState().taskStore;
     const { id: boardId } = getState().boardStore.board;
     const coppyTask: Partial<Task> = { ...task, boardId };
 
@@ -124,7 +124,14 @@ export const reasignTask = createAsyncThunk<Task, void, TypedThunkAPI>(
 
     try {
       const response = await TaskService.editTask(task.id, coppyTask as EditTaskData);
-      return response.data;
+      const data = response.data as Task;
+      const login = users.find((user) => user.id === data.userId)?.login;
+
+      if (login) {
+        return { ...data, userId: login };
+      }
+
+      return data;
     } catch (err) {
       const error = err as AxiosError<ValidationErrors>;
       if (!error.response) {

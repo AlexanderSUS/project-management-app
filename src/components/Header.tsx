@@ -18,8 +18,8 @@ import LangSwitcher from './LangSwitcher';
 import BasicModal from './BasicModal';
 import { NEW_BOARD } from '../constants/formfields';
 import { TOKEN } from '../constants/authorization';
-import { addBoardListener, addModalBoardPageActionListener } from '../store/middlewareListeners';
-import { startBoardListening, startColumsAndTasksListening } from '../store/listenerMiddleware';
+import { addBoardListener, addModalBoardPageActionListener, addRemoveUserdListener } from '../store/middlewareListeners';
+import { startAnyLogOutListening, startBoardListening, startColumsAndTasksListening } from '../store/listenerMiddleware';
 
 type HideOnScrollProps = {
   children: React.ReactElement;
@@ -61,6 +61,7 @@ const Header: React.FC = () => {
   useEffect(() => {
     addBoardListener(startBoardListening);
     addModalBoardPageActionListener(startColumsAndTasksListening);
+    addRemoveUserdListener(startAnyLogOutListening);
   }, []);
 
   return (

@@ -1,8 +1,11 @@
 import { AppStartListening } from './listenerMiddleware';
 import { RootState } from './store';
-import { isBoardAction, isModalBoardPageAction } from './utils';
+import {
+  isBoardAction, isLogOutAction, isModalBoardPageAction, isUserRemoveAcition,
+} from './utils';
 import { getBoard, getBoards } from './boardSlice';
 import { getUsers } from './taskSlice';
+import { TOKEN } from '../constants/authorization';
 
 export const addBoardListener = (startAppListening: AppStartListening) => {
   startAppListening({
@@ -27,6 +30,20 @@ export const addModalBoardPageActionListener = (startAppListening: AppStartListe
         .then(() => {
           listenerApi.dispatch(getBoard());
         });
+    },
+  });
+};
+
+export const addRemoveUserdListener = (startAppListening: AppStartListening) => {
+  startAppListening({
+    predicate: (
+      action,
+      state: RootState,
+    ) => ((isUserRemoveAcition(action) && !state.notificationStore.isLoading)
+      || isLogOutAction(action)
+    ),
+    effect: () => {
+      localStorage.removeItem(TOKEN);
     },
   });
 };
