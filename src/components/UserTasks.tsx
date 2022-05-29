@@ -53,6 +53,7 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
       <Typography component="h2" variant="h2" color="white" align="center" sx={{ m: '1rem 0', fontWeight: '500' }}>
         {t('profilePage.yourTasks')}
       </Typography>
+      {!usersTasks.length && <Typography variant="h5" color="white" align="center">{t('profilePage.noTasks')}</Typography>}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         {dataArray.map((data) => (data.tasks.length ? (
           <Box
