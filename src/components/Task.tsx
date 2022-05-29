@@ -14,8 +14,8 @@ import { DEFAULT_COLUMN } from '../constants/columns';
 import { DEFAULT_TASK } from '../constants/task';
 import muiTheme from '../constants/muiTheme';
 import UserSelect from './UserSelect';
-import { ELIPSIS, SLICE_END, SLICE_START } from '../constants/text';
 import ShowCaseButton from './ShowCaseButton';
+import restrictText from '../helpers/restrictText';
 
 type TaskProps = {
   task: Task;
@@ -102,9 +102,7 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
       <Typography variant="h6" sx={{ display: 'inline', overflowWrap: 'break-word', lineSize: '280px' }}>{task.title}</Typography>
       <ShowCaseButton onClick={showTask} />
       <Typography variant="body2" sx={{ m: '0.5rem 0', overflowWrap: 'break-word', lineSize: '280px' }}>
-        {task.description.length > SLICE_END
-          ? task.description.slice(SLICE_START, SLICE_END).concat(ELIPSIS)
-          : task.description}
+        {restrictText(task.description)}
       </Typography>
       <Grid container alignItems="flex-end">
         <Grid item flexGrow="1" sx={{ display: 'flex', alignItems: 'center' }}>

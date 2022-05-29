@@ -20,7 +20,7 @@ import { getBoard, setBoardId } from '../store/boardSlice';
 import muiTheme from '../constants/muiTheme';
 import cardWidth from '../constants/styles';
 import ShowCaseButton from './ShowCaseButton';
-import { SLICE_END, SLICE_START, ELIPSIS } from '../constants/text';
+import restrictText from '../helpers/restrictText';
 
 const cardStyle = {
   width: cardWidth,
@@ -95,9 +95,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             lineSize: '280px',
           }}
         >
-          {description.length > SLICE_END
-            ? description.slice(SLICE_START, SLICE_END).concat(ELIPSIS)
-            : description}
+          {restrictText(description)}
         </Typography>
         <Divider variant="middle" sx={{ m: '1rem' }} />
         <CardActions>
