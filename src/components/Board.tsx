@@ -94,7 +94,7 @@ const Board: React.FC = () => {
             )}
           </Box>
           <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{description}</Typography>
-          <Box sx={{ position: 'relative', flexGrow: 1 }}>
+          <Box sx={{ position: 'relative', flexGrow: 1, mb: 1 }}>
             <ListsWrapper />
           </Box>
         </BoardContainer>
