@@ -38,6 +38,13 @@ const BoardContainer = styled(Container)`
   flex-grow: 1;
 `;
 
+const listContainerStyles = {
+  position: 'relative',
+  display: 'flex',
+  flexGrow: 1,
+  marginBottom: '1rem',
+};
+
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -106,7 +113,7 @@ const Board: React.FC = () => {
             )}
           </Box>
           <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{restrictText(description)}</Typography>
-          <Box sx={{ position: 'relative', flexGrow: 1 }}>
+          <Box sx={listContainerStyles}>
             <ListsWrapper />
           </Box>
         </BoardContainer>
