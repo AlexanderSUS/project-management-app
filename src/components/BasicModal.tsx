@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { closeModal, modalSelector } from '../store/modalSlice';
 import BoardForm from './ModalForm';
@@ -44,26 +45,26 @@ const BasicModal: React.FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const closeWindow = () => {
+  const closeWindow = useCallback(() => {
     dispatch(closeModal());
-  };
+  }, [dispatch]);
 
-  const confirm = () => {
-    if (isConfirmAction(action)) {
-      dispatch(modalConfirmAction[action]() as Parameters<AppDispatch>[0]);
-    }
-    dispatch(closeModal());
-  };
+  const getContent = useCallback(() => {
+    const confirm = () => {
+      if (isConfirmAction(action)) {
+        dispatch(modalConfirmAction[action]() as Parameters<AppDispatch>[0]);
+      }
+      dispatch(closeModal());
+    };
 
-  // TODO try to chage type FormData to Partial<FormData>
-  const createOrUpdate = (data: FormData) => {
-    if (isFormAction(action)) {
-      dispatch(modalFormAction[action](data) as Parameters<AppDispatch>[0]);
-    }
-    dispatch(closeModal());
-  };
+    // TODO try to chage type FormData to Partial<FormData>
+    const createOrUpdate = (data: FormData) => {
+      if (isFormAction(action)) {
+        dispatch(modalFormAction[action](data) as Parameters<AppDispatch>[0]);
+      }
+      dispatch(closeModal());
+    };
 
-  const content = (function getContent() {
     if (isConfirmAction(action)) {
       return <ModalConfirmButtons close={closeWindow} confirm={confirm} />;
     }
@@ -79,7 +80,7 @@ const BasicModal: React.FC = () => {
     }
 
     return null;
-  }());
+  }, [action, defaultValues, dispatch, closeWindow]);
 
   return (
     <Modal
@@ -90,7 +91,7 @@ const BasicModal: React.FC = () => {
     >
       <Box sx={style}>
         <Typography variant={isConfirmAction(action) ? 'h6' : 'h4'} align="center">{t(title)}</Typography>
-        {content}
+        {getContent()}
       </Box>
     </Modal>
   );
