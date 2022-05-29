@@ -38,6 +38,8 @@ const showCaseDescripitonStyle = {
   overflowWrap, overflowY, maxHeight,
 };
 
+const modalKeys = ['title', 'description', 'additional'];
+
 const BasicModal: React.FC = () => {
   const {
     isOpen, title, action, defaultValues,
@@ -75,7 +77,7 @@ const BasicModal: React.FC = () => {
 
     if (isShowAction(action) && defaultValues?.length) {
       return defaultValues.map((value, index) => (
-        <Typography variant={!index ? 'h5' : 'body2'} sx={!index ? showCaseTitleStyle : showCaseDescripitonStyle}>{value}</Typography>
+        <Typography key={value + modalKeys[index]} variant={!index ? 'h5' : 'body2'} sx={!index ? showCaseTitleStyle : showCaseDescripitonStyle}>{value}</Typography>
       ));
     }
 
