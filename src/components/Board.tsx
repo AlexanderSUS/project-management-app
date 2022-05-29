@@ -45,6 +45,13 @@ const listContainerStyles = {
   marginBottom: '1rem',
 };
 
+const boardTitleStyle = {
+  maxWidth: '100%',
+  fontWeight: '500',
+  lineHeight: '1',
+  overflowWrap: 'break-word',
+};
+
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -90,12 +97,12 @@ const Board: React.FC = () => {
     <>
       <Loader isOpen={isLoading} />
       <BoardWrapper sx={{ bgcolor: muiTheme.palette.primary.light }}>
-        <BoardContainer sx={{ p: width > break360 ? '0 1rem' : '0 0.1rem' }}>
+        <BoardContainer sx={{ p: width > break360 ? '0 1rem' : '0 0.5rem' }}>
           <Box sx={{
-            display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.2rem', alignItems: 'center', mt: '1rem',
+            display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.5rem', alignItems: 'center', mt: '1rem',
           }}
           >
-            <Typography component="h1" variant={width > break700 ? 'h2' : 'h4'} color="white" sx={{ fontWeight: '500', lineHeight: '1' }}>
+            <Typography component="h1" variant={width > break700 ? 'h2' : 'h4'} color="white" sx={boardTitleStyle}>
               {title}
             </Typography>
             <Button variant="contained" onClick={showBoardDescription} startIcon={<PageviewIcon />} color="warning">

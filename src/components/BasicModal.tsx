@@ -13,18 +13,30 @@ import { FormData } from '../types/formTypes';
 import { isConfirmAction, isFormAction, isShowAction } from '../helpers/modalFunctions';
 import { AppDispatch } from '../store/store';
 import ItemModalDescription from './ItemModalDescription';
+import muiTheme from '../constants/muiTheme';
+import scrollStyles from '../constants/scrollStyles';
 
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  maxHeight: 400,
+  maxWidth: 400,
+  width: 'calc(100% - 1rem)',
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: `2px solid ${muiTheme.palette.divider}`,
+  borderRadius: '5px',
   boxShadow: 24,
+  overflow: 'auto',
+  maxHeight: '100%',
   p: 4,
+  [muiTheme.breakpoints.down('md')]: {
+    p: 2,
+  },
+  [muiTheme.breakpoints.down('sm')]: {
+    p: 1,
+  },
+  ...scrollStyles,
 };
 
 const BasicModal: React.FC = () => {
