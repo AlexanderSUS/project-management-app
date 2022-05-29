@@ -5,6 +5,7 @@ export const inputRegExps: RegExpPatterns = {
   user: '[A-Za-z][a-zA-Z ]+$',
   login: '^[A-Za-z][A-Za-z0-9_]{2,20}$',
   password: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$',
+  boardsFields: '^[^\\s]+(\\s+[^\\s]+)*$',
 };
 
 export const DESCRIPTION = 'description';
@@ -86,6 +87,10 @@ export const NEW_BOARD: Content = {
           value: 1,
           message: 'nameErrors.minLength',
         },
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
       name: 'title',
       type: 'text',
@@ -95,6 +100,10 @@ export const NEW_BOARD: Content = {
     {
       registerOptions: {
         required: 'BoardModalText.REQUIRED',
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
       name: 'description',
       type: 'input',
@@ -133,6 +142,10 @@ export const ADD_COLUMN: Content = {
         minLength: {
           value: 1,
           message: 'nameErrors.minLength',
+        },
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
         },
       },
       name: 'title',
@@ -203,6 +216,10 @@ export const ADD_TASK: Content = {
           value: 1,
           message: 'nameErrors.minLength',
         },
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
       name: 'title',
       type: 'text',
@@ -212,6 +229,10 @@ export const ADD_TASK: Content = {
     {
       registerOptions: {
         required: 'TaskModalText.REQUIRED',
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
       name: 'description',
       type: 'input',

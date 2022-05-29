@@ -1,6 +1,4 @@
-import {
-  AppBar, Container, Grid, Slide, useScrollTrigger,
-} from '@mui/material';
+import { AppBar, Container, Grid } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
@@ -20,21 +18,7 @@ import { NEW_BOARD } from '../constants/formfields';
 import { TOKEN } from '../constants/authorization';
 import { addBoardListener, addModalBoardPageActionListener, addRemoveUserdListener } from '../store/middlewareListeners';
 import { startAnyLogOutListening, startBoardListening, startColumsAndTasksListening } from '../store/listenerMiddleware';
-
-type HideOnScrollProps = {
-  children: React.ReactElement;
-};
-
-const HideOnScroll = (props: HideOnScrollProps) => {
-  const { children } = props;
-  const trigger = useScrollTrigger();
-
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
-};
+import HeaderSlide from './HeaderSlide';
 
 const Header: React.FC = () => {
   const { userId } = useAppSelector(authSelector);
@@ -65,11 +49,11 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <HideOnScroll>
+    <HeaderSlide>
       <AppBar position="sticky" sx={{ padding: '15px 0' }}>
         <Container>
           <Grid container spacing={1}>
-            <Grid item>
+            <Grid item sx={{ mr: 'auto' }}>
               <HeaderButton
                 text={t('navText.home')}
                 Icon={HomeIcon}
@@ -97,7 +81,7 @@ const Header: React.FC = () => {
                 />
               </Grid>
             )}
-            <Grid item>
+            <Grid item sx={{ ml: 'auto' }}>
               <LangSwitcher />
             </Grid>
             <Grid item>
@@ -107,7 +91,7 @@ const Header: React.FC = () => {
           <BasicModal />
         </Container>
       </AppBar>
-    </HideOnScroll>
+    </HeaderSlide>
   );
 };
 

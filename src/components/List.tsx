@@ -40,6 +40,7 @@ export const ColumnStyled = styled(Box)`
   flex-flow: column nowrap;
   min-width: 320px;
   max-width: 320px;
+  max-height: 100%;
   margin-bottom: 1rem;
   border-radius: 5px;
   background: ${transparentLayer};
@@ -71,6 +72,10 @@ const List: React.FC<ListProps> = ({ column }) => {
     overflow: 'hidden auto',
     margin: '1rem -0.5rem 1rem 0',
     paddingRight: '0.5rem',
+    [muiTheme.breakpoints.down('sm')]: {
+      marginRight: '0.15rem',
+      paddingRight: '0.45rem',
+    },
     ...scrollStyles,
   };
 
