@@ -61,7 +61,7 @@ const BasicModal: React.FC = () => {
 
     if (isShowAction(action) && defaultValues?.length) {
       return defaultValues.map((value, index) => (
-        <Typography variant={!index ? 'h5' : 'body2'}>{value}</Typography>
+        <Typography variant={!index ? 'h5' : 'body2'} sx={{ overflowWrap: 'break-word' }}>{value}</Typography>
       ));
     }
 

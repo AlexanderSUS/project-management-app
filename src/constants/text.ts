@@ -2,6 +2,12 @@ export const LANG_EN = 'en';
 
 export const LANG_RU = 'ru';
 
+export const SLICE_START = 0;
+
+export const SLICE_END = 60;
+
+export const ELIPSIS = '...';
+
 export const navTextEn = {
   home: 'Home',
   projects: 'Boards',

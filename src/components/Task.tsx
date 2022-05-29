@@ -17,6 +17,7 @@ import { DEFAULT_COLUMN } from '../constants/columns';
 import { DEFAULT_TASK } from '../constants/task';
 import muiTheme from '../constants/muiTheme';
 import UserSelect from './UserSelect';
+import { ELIPSIS, SLICE_END, SLICE_START } from '../constants/text';
 
 type TaskProps = {
   task: Task;
@@ -100,11 +101,15 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
       onDrop={dropHandler}
       sx={taskStyles}
     >
-      <Typography variant="h6">{task.title}</Typography>
-      <Typography variant="body2" sx={{ m: '0.5rem 0' }}>{task.description}</Typography>
+      <Typography variant="h6" sx={{ display: 'inline', overflowWrap: 'break-word', lineSize: '280px' }}>{task.title}</Typography>
       <IconButton onClick={showTask}>
-        <PageviewIcon />
+        <PageviewIcon fontSize="inherit" color="warning" />
       </IconButton>
+      <Typography variant="body2" sx={{ m: '0.5rem 0', overflowWrap: 'break-word', lineSize: '280px' }}>
+        {task.description.length > SLICE_END
+          ? task.description.slice(SLICE_START, SLICE_END).concat(ELIPSIS)
+          : task.description}
+      </Typography>
       <Grid container alignItems="flex-end">
         <Grid item flexGrow="1" sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography>{`${taskUser?.name} (${taskUser?.login})`}</Typography>
