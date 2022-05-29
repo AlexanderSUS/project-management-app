@@ -13,6 +13,7 @@ import { FormData } from '../types/formTypes';
 import { isConfirmAction, isFormAction, isShowAction } from '../helpers/modalFunctions';
 import { AppDispatch } from '../store/store';
 import muiTheme from '../constants/muiTheme';
+import scrollStyles from '../constants/scrollStyles';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -34,6 +35,7 @@ const style = {
   [muiTheme.breakpoints.down('sm')]: {
     p: 1,
   },
+  ...scrollStyles,
 };
 
 const overflowWrap = 'break-word';
