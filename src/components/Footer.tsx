@@ -5,7 +5,6 @@ import team from '../constants/teammate';
 import RSSchoolLogo from './RSSchoolLogo';
 import TeammateLink from './TeammateLink';
 import COPYRIGHT from '../constants/copyright';
-import GridFlexGrow from './GridFlexGrow';
 import muiTheme from '../constants/muiTheme';
 
 const { sm } = muiTheme.breakpoints.values;
@@ -17,7 +16,8 @@ const Logo = styled(Grid)`
   }
 `;
 
-const Links = styled(GridFlexGrow)`
+const Links = styled(Grid)`
+  flex-grow: 1;
   @media screen and (max-width: ${sm}px) {
     order: 3;
 
