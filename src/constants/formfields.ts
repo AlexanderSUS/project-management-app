@@ -21,7 +21,7 @@ export const nameAuthInput: FormField = {
     required: 'AuthText.REQUIRED',
     minLength: {
       value: 2,
-      message: 'nameErrors.minLength',
+      message: 'nameErrors.min2symbolsLength',
     },
     maxLength: {
       value: 20,
@@ -84,7 +84,6 @@ export const NEW_BOARD: Content = {
         },
         minLength: {
           value: 1,
-          // TODO ADD translation for '1' value
           message: 'nameErrors.minLength',
         },
       },
@@ -92,7 +91,6 @@ export const NEW_BOARD: Content = {
       type: 'text',
       label: 'BoardModalText.TITLE_LABEL',
       placeholder: 'BoardModalText.TITLE_PLACEHOLDER',
-      // TODO add translation
     },
     {
       registerOptions: {
@@ -134,7 +132,6 @@ export const ADD_COLUMN: Content = {
         },
         minLength: {
           value: 1,
-          // TODO ADD translation for '1' value
           message: 'nameErrors.minLength',
         },
       },
@@ -142,7 +139,6 @@ export const ADD_COLUMN: Content = {
       type: 'text',
       label: 'ListModalText.TITLE_LABEL',
       placeholder: 'ListModalText.TITLE_PLACEHOLDER',
-      // TODO add translation
     },
   ],
 };
@@ -167,7 +163,6 @@ export const EDIT_NAME: Content = {
     },
     {
       ...passwordAuthInput,
-      // TODO add translation
       placeholder: 'AuthText.PASSWORD_PLACEHOLDER_EDIT',
     },
   ],
@@ -183,7 +178,6 @@ export const EDIT_LOGIN: Content = {
     },
     {
       ...passwordAuthInput,
-      // TODO add translation
       placeholder: 'AuthText.PASSWORD_PLACEHOLDER_EDIT',
     },
   ],
@@ -203,7 +197,7 @@ export const ADD_TASK: Content = {
         required: 'TaskModalText.REQUIRED',
         maxLength: {
           value: 100,
-          message: 'nameErrors.customLength',
+          message: 'nameErrors.maxLength100symbols',
         },
         minLength: {
           value: 1,

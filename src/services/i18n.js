@@ -52,8 +52,9 @@ i18n
           loginAuthInput: 'login',
           nameErrors: {
             minLength: 'Value must be no less than 1 symbols',
+            min2symbolsLength: 'Value must be no less than 2 symbols',
             maxLength: 'Value must be no more than 20 symbols',
-            customLength: 'Value must be no more than 100 symbols',
+            maxLength100symbols: 'Value must be no more than 100 symbols',
             pattern: 'name must starts with capital letter',
           },
           loginErrors: {
@@ -83,8 +84,9 @@ i18n
           loginAuthInput: 'Логин',
           nameErrors: {
             minLength: 'Значение должно быть не меньше 1 символа',
+            min2symbolsLength: 'Значение должно быть не меньше 2 символов',
             maxLength: 'Значение должно быть не больше 20 символов',
-            customLength: 'Значение должно быть не больше 100 символов',
+            maxLength100symbols: 'Значение должно быть не больше 100 символов',
             pattern: 'Имя должно начинаться с заглавной буквы',
           },
           loginErrors: {
