@@ -68,6 +68,7 @@ export const boardPageEn = {
   addColunm: 'Add list',
   editBtn: 'Edit',
   deleteBtn: 'Delete',
+  noUser: 'User deleted',
 };
 
 export const boardPageRu = {
@@ -76,6 +77,7 @@ export const boardPageRu = {
   addColunm: 'Добавить список',
   editBtn: 'Изменить',
   deleteBtn: 'Удалить',
+  noUser: 'Пользователь удален',
 };
 
 export const modalTextEn = {
