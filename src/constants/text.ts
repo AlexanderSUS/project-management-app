@@ -4,7 +4,7 @@ export const LANG_RU = 'ru';
 
 export const SLICE_START = 0;
 
-export const SLICE_END = 60;
+export const SLICE_END_60 = 60;
 
 export const SLICE_END_20 = 20;
 

@@ -1,9 +1,9 @@
 import {
-  SLICE_END, SLICE_START, ELIPSIS, SLICE_END_20,
+  SLICE_END_60, SLICE_START, ELIPSIS, SLICE_END_20,
 } from '../constants/text';
 
 const restrictText = (string: string) => (
-  string.length > SLICE_END ? string.slice(SLICE_START, SLICE_END).concat(ELIPSIS) : string
+  string.length > SLICE_END_60 ? string.slice(SLICE_START, SLICE_END_60).concat(ELIPSIS) : string
 );
 
 export default restrictText;
