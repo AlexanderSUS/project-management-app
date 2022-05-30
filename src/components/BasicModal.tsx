@@ -3,15 +3,16 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
-import { closeModal, modalSelector } from '../store/modalSlice';
+import { clearDefaultValues, closeModal, modalSelector } from '../store/modalSlice';
 import BoardForm from './ModalForm';
 import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
-import { FormData } from '../types/formTypes';
+import { AppFormData } from '../types/formTypes';
 import { isConfirmAction, isFormAction, isShowAction } from '../helpers/modalFunctions';
 import { AppDispatch } from '../store/store';
+import ItemModalDescription from './ItemModalDescription';
 import muiTheme from '../constants/muiTheme';
 import scrollStyles from '../constants/scrollStyles';
 
@@ -38,18 +39,6 @@ const style = {
   ...scrollStyles,
 };
 
-const overflowWrap = 'break-word';
-const overflowY = 'auto';
-const maxHeight = '200px';
-
-const showCaseTitleStyle = {
-  overflowWrap,
-};
-
-const showCaseDescripitonStyle = {
-  overflowWrap, overflowY, maxHeight,
-};
-
 const BasicModal: React.FC = () => {
   const {
     isOpen, title, action, defaultValues,
@@ -69,8 +58,7 @@ const BasicModal: React.FC = () => {
       dispatch(closeModal());
     };
 
-    // TODO try to chage type FormData to Partial<FormData>
-    const createOrUpdate = (data: FormData) => {
+    const createOrUpdate = (data: AppFormData) => {
       if (isFormAction(action)) {
         dispatch(modalFormAction[action](data) as Parameters<AppDispatch>[0]);
       }
@@ -86,13 +74,18 @@ const BasicModal: React.FC = () => {
     }
 
     if (isShowAction(action) && defaultValues?.length) {
-      return defaultValues.map((value, index) => (
-        <Typography variant={!index ? 'h5' : 'body2'} sx={!index ? showCaseTitleStyle : showCaseDescripitonStyle}>{value}</Typography>
-      ));
+      return <ItemModalDescription fields={defaultValues} dispatch={dispatch} />;
     }
 
     return null;
   }, [action, defaultValues, dispatch, closeWindow]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearDefaultValues());
+    },
+    [dispatch],
+  );
 
   return (
     <Modal

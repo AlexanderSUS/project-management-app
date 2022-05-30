@@ -60,7 +60,7 @@ i18n
             pattern: 'Name must starts with capital letter',
           },
           loginErrors: {
-            pattern: 'Invalid username',
+            pattern: 'Invalid login',
           },
           passwordError: {
             minLength: 'Password must be no less than 8 symbols',
@@ -94,7 +94,7 @@ i18n
             pattern: 'Имя должно начинаться с заглавной буквы',
           },
           loginErrors: {
-            pattern: 'Неверное имя пользователя',
+            pattern: 'Невалидный логин',
           },
           passwordError: {
             minLength: 'Пароль должен быть не меньше 8 символов',

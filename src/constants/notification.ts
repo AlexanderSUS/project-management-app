@@ -7,7 +7,7 @@ export enum Severity {
   error = 'error',
 }
 
-const greeteng = { message: 'Hello user!', severity: Severity.info };
+const greeteng = { message: 'info.helloUser', severity: Severity.info };
 
 const initialState: NotificationState = {
   isLoading: false,

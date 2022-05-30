@@ -3,7 +3,7 @@ import { RootState } from '../store/store';
 import {
   ValidationErrors, RemoveUserResponse, SignInResponse, SignUpResponse,
 } from './response';
-import { FormData } from './formTypes';
+import { AppFormData } from './formTypes';
 import { NewUser, User, UserData } from './user';
 import { IBoard } from './boards';
 
@@ -14,7 +14,7 @@ export type TypedThunkAPI = {
 
 export type GenericAsyncThunk = AsyncThunk<
 SignInResponse | SignUpResponse | UserData | RemoveUserResponse | IBoard[],
-string | User | FormData | void | NewUser,
+string | User | AppFormData | void | NewUser,
 TypedThunkAPI>;
 
 export type PendingAction = ReturnType<GenericAsyncThunk['pending']>;

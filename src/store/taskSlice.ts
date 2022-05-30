@@ -7,7 +7,7 @@ import {
   EditTaskData, NewTaskData, Task, TaskState,
 } from '../types/tasks';
 import initialState from '../constants/task';
-import { FormData } from '../types/formTypes';
+import { AppFormData } from '../types/formTypes';
 import { FULFILED } from '../constants/asyncThunk';
 import { IBoard } from '../types/boards';
 import { UserData } from '../types/user';
@@ -15,30 +15,9 @@ import UserService from '../api/userServise';
 import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
 import extractTasks from '../helpers/dataExtractors';
 
-// TODO unused? remove?
-export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
-  'task/getTasks',
-  async (_, { getState, rejectWithValue }) => {
-    const boardId = getState().boardStore.board.id;
-    const columnsIds = getState().columnStore.columns.map((column) => column.id);
-    const requests = columnsIds.map((columnId) => TaskService.fetchTasks(boardId, columnId));
-
-    try {
-      const responseArray = await Promise.all(requests);
-      return responseArray.map((response) => response.data).flat();
-    } catch (err) {
-      const error = err as AxiosError<ValidationErrors>;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response?.data);
-    }
-  },
-);
-
-export const addTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
+export const addTask = createAsyncThunk<Task, AppFormData, TypedThunkAPI>(
   'task/addTask',
-  async (data: FormData, { getState, rejectWithValue }) => {
+  async (data: AppFormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.board.id;
     const columnId = getState().columnStore.column.id;
     const { userId } = getState().authStore;
@@ -60,9 +39,9 @@ export const addTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
   },
 );
 
-export const editTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
+export const editTask = createAsyncThunk<Task, AppFormData, TypedThunkAPI>(
   'task/editTask',
-  async (data: FormData, { getState, rejectWithValue }) => {
+  async (data: AppFormData, { getState, rejectWithValue }) => {
     const { task } = getState().taskStore;
     const copyTask: Partial<Task> = { ...task };
 
@@ -195,9 +174,6 @@ const taskSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getTasks.fulfilled, (state, action) => {
-      state.tasks = action.payload;
-    });
     builder.addCase(getUsers.fulfilled, (state, action) => {
       state.users = action.payload;
     });

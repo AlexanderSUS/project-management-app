@@ -12,22 +12,47 @@ export const DESCRIPTION = 'description';
 export const MULTILINE_ROWS = 4;
 export const DEFAULT_ROWS = 1;
 
-// TODO refactor all these fields
+const MAX_LENGTH_20 = {
+  value: 20,
+  message: 'nameErrors.maxLength',
+};
+
+const MAX_LENGTH_100 = {
+  value: 100,
+  message: 'nameErrors.maxLength100symbols',
+};
+
+const MIN_LENGTH_2 = {
+  value: 2,
+  message: 'nameErrors.min2symbolsLength',
+};
+
+const MIN_LENGTH_8 = {
+  value: 8,
+  message: 'passwordError.minLength',
+};
+
+const MIN_LENGTH_1 = {
+  value: 1,
+  message: 'nameErrors.minLength',
+};
+
+const AUTH_TEXT_REQUIRED = 'AuthText.REQUIRED';
+
+const BOARD_MODAL_TEXT_REQUIRED = 'BoardModalText.REQUIRED';
+
+const LIST_MODAL_TEXT_REQUIRED = 'ListModalText.REQUIRED';
+
+const TASK_MODAL_TEXT_REQUIRED = 'TaskModalText.REQUIRED';
 
 export const nameAuthInput: FormField = {
   name: 'name',
   type: 'text',
   placeholder: 'AuthText.NAME_PLACEHOLDER',
   registerOptions: {
-    required: 'AuthText.REQUIRED',
-    minLength: {
-      value: 2,
-      message: 'nameErrors.min2symbolsLength',
-    },
-    maxLength: {
-      value: 20,
-      message: 'nameErrors.maxLength',
-    },
+    required: AUTH_TEXT_REQUIRED,
+    minLength: MIN_LENGTH_2,
+    maxLength: MAX_LENGTH_20,
     pattern: {
       value: inputRegExps.user,
       message: 'nameErrors.pattern',
@@ -41,7 +66,7 @@ export const loginAuthInput: FormField = {
   type: 'text',
   placeholder: 'AuthText.LOGIN_PLACEHOLDER',
   registerOptions: {
-    required: 'AuthText.REQUIRED',
+    required: AUTH_TEXT_REQUIRED,
     pattern: {
       value: inputRegExps.login,
       message: 'loginErrors.pattern',
@@ -55,15 +80,9 @@ export const passwordAuthInput: FormField = {
   type: 'password',
   placeholder: 'AuthText.PASSWORD_PLACEHOLDER',
   registerOptions: {
-    required: 'AuthText.REQUIRED',
-    minLength: {
-      value: 8,
-      message: 'passwordError.minLength',
-    },
-    maxLength: {
-      value: 20,
-      message: 'passwordError.maxLength',
-    },
+    required: AUTH_TEXT_REQUIRED,
+    minLength: MIN_LENGTH_8,
+    maxLength: MAX_LENGTH_20,
     pattern: {
       value: inputRegExps.password,
       message: 'passwordError.pattern',
@@ -78,15 +97,9 @@ export const NEW_BOARD: Content = {
   fields: [
     {
       registerOptions: {
-        required: 'BoardModalText.REQUIRED',
-        maxLength: {
-          value: 20,
-          message: 'nameErrors.maxLength',
-        },
-        minLength: {
-          value: 1,
-          message: 'nameErrors.minLength',
-        },
+        required: BOARD_MODAL_TEXT_REQUIRED,
+        maxLength: MAX_LENGTH_20,
+        minLength: MIN_LENGTH_1,
         pattern: {
           value: inputRegExps.boardsFields,
           message: 'boardsFieldsPatternError',
@@ -99,7 +112,7 @@ export const NEW_BOARD: Content = {
     },
     {
       registerOptions: {
-        required: 'BoardModalText.REQUIRED',
+        required: BOARD_MODAL_TEXT_REQUIRED,
         pattern: {
           value: inputRegExps.boardsFields,
           message: 'boardsFieldsPatternError',
@@ -113,7 +126,6 @@ export const NEW_BOARD: Content = {
   ],
 };
 
-// Such way must look your 'content' for modal window with yes/no buttons
 export const REMOVE_BOARD: Content = {
   modalTitle: 'BoardModalText.BOARD_TITLE_DELITE',
   action: 'removeBoard',
@@ -134,15 +146,9 @@ export const ADD_COLUMN: Content = {
   fields: [
     {
       registerOptions: {
-        required: 'ListModalText.REQUIRED',
-        maxLength: {
-          value: 20,
-          message: 'nameErrors.maxLength',
-        },
-        minLength: {
-          value: 1,
-          message: 'nameErrors.minLength',
-        },
+        required: LIST_MODAL_TEXT_REQUIRED,
+        maxLength: MAX_LENGTH_20,
+        minLength: MIN_LENGTH_1,
         pattern: {
           value: inputRegExps.boardsFields,
           message: 'boardsFieldsPatternError',
@@ -207,15 +213,9 @@ export const ADD_TASK: Content = {
   fields: [
     {
       registerOptions: {
-        required: 'TaskModalText.REQUIRED',
-        maxLength: {
-          value: 100,
-          message: 'nameErrors.maxLength100symbols',
-        },
-        minLength: {
-          value: 1,
-          message: 'nameErrors.minLength',
-        },
+        required: TASK_MODAL_TEXT_REQUIRED,
+        maxLength: MAX_LENGTH_100,
+        minLength: MIN_LENGTH_1,
         pattern: {
           value: inputRegExps.boardsFields,
           message: 'boardsFieldsPatternError',
@@ -228,7 +228,7 @@ export const ADD_TASK: Content = {
     },
     {
       registerOptions: {
-        required: 'TaskModalText.REQUIRED',
+        required: TASK_MODAL_TEXT_REQUIRED,
         pattern: {
           value: inputRegExps.boardsFields,
           message: 'boardsFieldsPatternError',

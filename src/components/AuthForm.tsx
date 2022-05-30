@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../hooks/reduxTypedHooks';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
-import { FormData, FormField } from '../types/formTypes';
+import { AppFormData, FormField } from '../types/formTypes';
 import { AppDispatch } from '../store/store';
 import { logIn, registration } from '../store/authSlice';
 
@@ -20,10 +20,10 @@ const AuthForm: React.FC<AppFormProps> = ({ fields, action, buttonText }) => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<FormData>({ mode: 'onChange' });
+  } = useForm<AppFormData>({ mode: 'onChange' });
   const { t } = useTranslation();
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: AppFormData) => {
     dispatch(action(data) as Parameters<AppDispatch>[0]);
   };
 
@@ -33,7 +33,7 @@ const AuthForm: React.FC<AppFormProps> = ({ fields, action, buttonText }) => {
         && fields.map((input) => (
           <Controller
             key={input.name}
-            name={input.name as keyof FormData}
+            name={input.name as keyof AppFormData}
             control={control}
             rules={convertRulesRegExp(input.registerOptions)}
             defaultValue=""

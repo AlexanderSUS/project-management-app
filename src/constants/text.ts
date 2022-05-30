@@ -4,7 +4,9 @@ export const LANG_RU = 'ru';
 
 export const SLICE_START = 0;
 
-export const SLICE_END = 60;
+export const SLICE_END_60 = 60;
+
+export const SLICE_END_20 = 20;
 
 export const ELIPSIS = '...';
 
@@ -140,6 +142,7 @@ export const infoAcitonsEn = {
   editName: 'Your name was successfully edited. New name: ',
   newUser: 'New user ',
   greeting: 'Hello ',
+  helloUser: 'Hello! Our application will help you control your tasks! Create an account to start using.',
   unauthorized: 'Your session has expired. Please log in',
   userNotFounded: 'User was not founded! Check your input.',
   alreadyExist: 'User login already exists!',
@@ -162,6 +165,7 @@ export const infoAcitonsRu = {
   editName: 'Ваше имя успешно отредактировано. Новое имя: ',
   newUser: 'Новый пользователь ',
   greeting: 'Привет ',
+  helloUser: 'Приветствуем! Наше приложение поможет контролировать ваши задачи! Создайте учетную запись чтобы начать пользоваться.',
   unauthorized: 'Ваша сессия устарела. Пожалуйста, войдтите в учетную запись',
   userNotFounded: 'Такого пользователя не существует! Проверьте вводимые данные.',
   alreadyExist: 'Пользователь с таким логином уже существует',

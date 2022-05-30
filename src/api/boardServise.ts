@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import api from '.';
 import Endpoint from '../constants/endpoints';
 import { IBoardPreview, IBoard } from '../types/boards';
-import { FormData } from '../types/formTypes';
+import { AppFormData } from '../types/formTypes';
 
 export default class BoardService {
   static fetchBoards(): Promise<AxiosResponse<IBoardPreview[]>> {
@@ -13,7 +13,7 @@ export default class BoardService {
     return api.get(`${Endpoint.BOARDS}/${boardId}`);
   }
 
-  static createBoard(data: FormData): Promise<AxiosResponse<IBoardPreview>> {
+  static createBoard(data: AppFormData): Promise<AxiosResponse<IBoardPreview>> {
     return api.post(Endpoint.BOARDS, data);
   }
 
@@ -21,7 +21,7 @@ export default class BoardService {
     return api.delete(`${Endpoint.BOARDS}/${id}`);
   }
 
-  static editBoard(boardId: string, data: FormData): Promise<AxiosResponse<IBoard>> {
+  static editBoard(boardId: string, data: AppFormData): Promise<AxiosResponse<IBoard>> {
     return api.put(`${Endpoint.BOARDS}/${boardId}`, data);
   }
 }
