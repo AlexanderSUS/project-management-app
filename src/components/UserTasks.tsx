@@ -10,6 +10,10 @@ import { boardSelector, getBoard, setBoardId } from '../store/boardSlice';
 import { columnSelector } from '../store/columnSlice';
 import AppRoutes from '../constants/routes';
 import { cardPreviewWidth, transparentLayer } from '../constants/styles';
+import ShowCaseButton from './ShowCaseButton';
+import { openModal, setDefaultValues } from '../store/modalSlice';
+import { SHOW_TASK } from '../constants/formfields';
+import restrictText, { restrictBoardDescription } from '../helpers/restrictText';
 
 const taskWrapperStyles = {
   display: 'flex',
@@ -47,19 +51,28 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
     });
   };
 
+  const showTask = (title: string, description: string) => {
+    dispatch(setDefaultValues([title, description]));
+    dispatch(openModal(SHOW_TASK));
+  };
+
   return (
     <>
       <Typography component="h2" variant="h2" color="white" align="center" sx={{ m: '1rem 0', fontWeight: '500' }}>
         {t('profilePage.yourTasks')}
       </Typography>
-      {!usersTasks.length && <Typography variant="h5" color="white" align="center">{t('profilePage.noTasks')}</Typography>}
+      {!usersTasks.length && (
+      <Typography variant="h5" color="white" align="center">
+        {t('profilePage.noTasks')}
+      </Typography>
+      )}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         {dataArray.map((data) => (data.tasks.length ? (
           <Box
             key={data.boardId}
             sx={{ backgroundColor: transparentLayer, p: '1rem', boxShadow: 5 }}
           >
-            <Tooltip title={t('profilePage.toBoard')} placement="right">
+            <Tooltip title={t('profilePage.toBoard')} placement="bottom">
               <Button
                 size="large"
                 variant="contained"
@@ -74,11 +87,10 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
               {data.tasks.map(((task) => (
                 <Card key={task.id} sx={{ width: cardPreviewWidth }}>
                   <CardContent>
-                    <Typography variant="h6">
-                      {task.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {task.description}
+                    <Typography variant="h6" sx={{ display: 'inline', overflowWrap: 'break-word', lineSize: '280px' }}>{restrictBoardDescription(task.title)}</Typography>
+                    <ShowCaseButton onClick={() => (showTask(task.title, task.description))} />
+                    <Typography variant="body2" sx={{ m: '0.5rem 0', overflowWrap: 'break-word', lineSize: '280px' }}>
+                      {restrictText(task.description)}
                     </Typography>
                     <Divider variant="middle" sx={{ m: '0.5rem 0' }} />
                     <Typography variant="subtitle2">
