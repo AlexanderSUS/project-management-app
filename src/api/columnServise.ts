@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import api from '.';
 import Endpoint from '../constants/endpoints';
 import { Column, ColumnPreview, EditColumnData } from '../types/columns';
-import { FormData } from '../types/formTypes';
+import { AppFormData } from '../types/formTypes';
 
 export default class ColumnService {
   static fetchColumns(boardId: string): Promise<AxiosResponse<ColumnPreview[]>> {
@@ -13,7 +13,7 @@ export default class ColumnService {
     return api.get(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}/${columnId}`);
   }
 
-  static createColumn(boardId: string, data: FormData): Promise<AxiosResponse<Column>> {
+  static createColumn(boardId: string, data: AppFormData): Promise<AxiosResponse<Column>> {
     return api.post(`${Endpoint.BOARDS}/${boardId}${Endpoint.COLUMNS}`, data);
   }
 

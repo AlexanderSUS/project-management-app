@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
 import ColumnService from '../api/columnServise';
 import { ColumnState, Column, EditColumnData } from '../types/columns';
-import type { FormData } from '../types/formTypes';
+import type { AppFormData } from '../types/formTypes';
 import { ValidationErrors } from '../types/response';
 import initialState from '../constants/columns';
 import { FulfilledAction, TypedThunkAPI } from '../types/slice';
@@ -10,9 +10,9 @@ import { FULFILED } from '../constants/asyncThunk';
 import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
 import { IBoard } from '../types/boards';
 
-export const addColumn = createAsyncThunk<Column, FormData, TypedThunkAPI>(
+export const addColumn = createAsyncThunk<Column, AppFormData, TypedThunkAPI>(
   'column/addColumn',
-  async (data: FormData, { getState, rejectWithValue }) => {
+  async (data: AppFormData, { getState, rejectWithValue }) => {
     const boardId = getState().boardStore.board.id;
 
     try {

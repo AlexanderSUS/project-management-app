@@ -9,7 +9,7 @@ import { clearDefaultValues, closeModal, modalSelector } from '../store/modalSli
 import BoardForm from './ModalForm';
 import { modalFormAction, modalConfirmAction } from '../constants/modal';
 import ModalConfirmButtons from './ModalConfirmButtons';
-import { FormData } from '../types/formTypes';
+import { AppFormData } from '../types/formTypes';
 import { isConfirmAction, isFormAction, isShowAction } from '../helpers/modalFunctions';
 import { AppDispatch } from '../store/store';
 import ItemModalDescription from './ItemModalDescription';
@@ -58,8 +58,8 @@ const BasicModal: React.FC = () => {
       dispatch(closeModal());
     };
 
-    // TODO try to chage type FormData to Partial<FormData>
-    const createOrUpdate = (data: FormData) => {
+    // TODO try to chage type AppFormData to Partial<AppFormData>
+    const createOrUpdate = (data: AppFormData) => {
       if (isFormAction(action)) {
         dispatch(modalFormAction[action](data) as Parameters<AppDispatch>[0]);
       }

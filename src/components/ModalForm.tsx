@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks';
 import { clearDefaultValues, closeModal, modalSelector } from '../store/modalSlice';
-import { FormData } from '../types/formTypes';
+import { AppFormData } from '../types/formTypes';
 import convertRulesRegExp from '../helpers/convertRulesRegExp';
 import { DEFAULT_ROWS, DESCRIPTION, MULTILINE_ROWS } from '../constants/formfields';
 
 type BoardFormProps = {
-  createOrUpdate: (data: FormData) => void;
+  createOrUpdate: (data: AppFormData) => void;
 };
 
 const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
@@ -23,7 +23,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
   } = useForm<Parameters<typeof createOrUpdate>[0]>({ mode: 'onChange' });
   const { t } = useTranslation();
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: AppFormData) => {
     createOrUpdate(data);
     dispatch(closeModal());
   };
@@ -41,7 +41,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ createOrUpdate }) => {
         && fields.map((input, index) => (
           <Controller
             key={input.name}
-            name={input.name as keyof FormData}
+            name={input.name as keyof AppFormData}
             control={control}
             rules={convertRulesRegExp(input.registerOptions)}
             defaultValue={defaultValues[index] || ''}

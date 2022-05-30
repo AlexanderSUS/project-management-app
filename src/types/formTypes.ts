@@ -26,7 +26,7 @@ export type FormField = {
   placeholder: string;
 };
 
-export type FormData = {
+export type AppFormData = {
   title: string;
   order: number;
   name: string;
