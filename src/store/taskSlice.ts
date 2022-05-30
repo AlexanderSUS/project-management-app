@@ -15,27 +15,6 @@ import UserService from '../api/userServise';
 import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
 import extractTasks from '../helpers/dataExtractors';
 
-// TODO unused? remove?
-export const getTasks = createAsyncThunk<Task[], void, TypedThunkAPI >(
-  'task/getTasks',
-  async (_, { getState, rejectWithValue }) => {
-    const boardId = getState().boardStore.board.id;
-    const columnsIds = getState().columnStore.columns.map((column) => column.id);
-    const requests = columnsIds.map((columnId) => TaskService.fetchTasks(boardId, columnId));
-
-    try {
-      const responseArray = await Promise.all(requests);
-      return responseArray.map((response) => response.data).flat();
-    } catch (err) {
-      const error = err as AxiosError<ValidationErrors>;
-      if (!error.response) {
-        throw err;
-      }
-      return rejectWithValue(error.response?.data);
-    }
-  },
-);
-
 export const addTask = createAsyncThunk<Task, FormData, TypedThunkAPI>(
   'task/addTask',
   async (data: FormData, { getState, rejectWithValue }) => {
@@ -195,9 +174,6 @@ const taskSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getTasks.fulfilled, (state, action) => {
-      state.tasks = action.payload;
-    });
     builder.addCase(getUsers.fulfilled, (state, action) => {
       state.users = action.payload;
     });
