@@ -6,6 +6,8 @@ export const SLICE_START = 0;
 
 export const SLICE_END = 60;
 
+export const SLICE_END_20 = 20;
+
 export const ELIPSIS = '...';
 
 export const navTextEn = {

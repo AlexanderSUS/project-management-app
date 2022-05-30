@@ -24,7 +24,7 @@ import { getUsers } from '../store/taskSlice';
 import muiTheme from '../constants/muiTheme';
 import useWindowWidth from '../hooks/useWindowWidth';
 import { break360, break700 } from '../constants/styles';
-import restrictText from '../helpers/restrictText';
+import { restrictBoardDescription } from '../helpers/restrictText';
 
 const BoardWrapper = styled(Box)`
   display: flex;
@@ -119,7 +119,7 @@ const Board: React.FC = () => {
             </Button>
             )}
           </Box>
-          <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{restrictText(description)}</Typography>
+          <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{restrictBoardDescription(description)}</Typography>
           <Box sx={listContainerStyles}>
             <ListsWrapper />
           </Box>
