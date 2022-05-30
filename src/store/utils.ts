@@ -12,8 +12,7 @@ import {
 
 export const isBoardAction = isAsyncThunkAction(addBoard, editBoard, removeBoard);
 
-// TODO FIX NAME
-export const isBoardEditOrAddAction = isAsyncThunkAction(editBoard);
+export const isEditBoardAction = isAsyncThunkAction(editBoard);
 
 export const isColumnAction = isAsyncThunkAction(
   addColumn,
@@ -30,8 +29,7 @@ export const isTaskAction = isAsyncThunkAction(
   changeTaskPosition,
 );
 
-// TODO add better name
-export const isModalBoardPageAction = isAnyOf(isColumnAction, isTaskAction, isBoardEditOrAddAction);
+export const isOnBoardAction = isAnyOf(isColumnAction, isTaskAction, isEditBoardAction);
 
 export const isAddAction = isAsyncThunkAction(addBoard, addColumn, addTask);
 

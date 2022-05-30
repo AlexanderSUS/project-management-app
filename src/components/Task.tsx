@@ -58,7 +58,6 @@ const TaskCard: React.FC<TaskProps> = ({ task }) => {
   };
 
   const showTask = () => {
-    // dispatch(setTask(task));
     dispatch(setDefaultValues([task.title, task.description]));
     dispatch(openModal(SHOW_TASK));
   };

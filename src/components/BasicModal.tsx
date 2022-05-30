@@ -58,7 +58,6 @@ const BasicModal: React.FC = () => {
       dispatch(closeModal());
     };
 
-    // TODO try to chage type AppFormData to Partial<AppFormData>
     const createOrUpdate = (data: AppFormData) => {
       if (isFormAction(action)) {
         dispatch(modalFormAction[action](data) as Parameters<AppDispatch>[0]);

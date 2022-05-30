@@ -1,7 +1,7 @@
 import { AppStartListening } from './listenerMiddleware';
 import { RootState } from './store';
 import {
-  isBoardAction, isLogOutAction, isModalBoardPageAction, isUserRemoveAcition,
+  isBoardAction, isLogOutAction, isOnBoardAction, isUserRemoveAcition,
 } from './utils';
 import { getBoard, getBoards } from './boardSlice';
 import { getUsers } from './taskSlice';
@@ -24,7 +24,7 @@ export const addModalBoardPageActionListener = (startAppListening: AppStartListe
     predicate: (
       action,
       state: RootState,
-    ) => (isModalBoardPageAction(action) && !state.notificationStore.isLoading),
+    ) => (isOnBoardAction(action) && !state.notificationStore.isLoading),
     effect: (_, listenerApi) => {
       listenerApi.dispatch(getUsers())
         .then(() => {

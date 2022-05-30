@@ -42,7 +42,6 @@ const UserTasks: React.FC<Props> = ({ userId }) => {
 
   const goToBoard = (boardId: string) => {
     dispatch(setBoardId(boardId));
-    // TODO FIX BLINKING!
     dispatch(getBoard()).then(() => {
       navigate(`${AppRoutes.PROJECTS}/${boardId}`);
     });
