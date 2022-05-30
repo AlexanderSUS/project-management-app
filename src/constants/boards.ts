@@ -31,7 +31,7 @@ export enum BoardModalTextEn {
 export enum BoardModalTextRu {
   BOARD_TITLE = 'Добавить доску',
   BOARD_TITLE_EDIT = 'Редактировать доску',
-  BOARD_TITLE_DELITE = 'Вы действительно хотите удалить доску',
+  BOARD_TITLE_DELITE = 'Вы действительно хотите удалить доску?',
   REQUIRED = 'Это поле обязательное',
   TITLE_LABEL = 'Название доски',
   TITLE_PLACEHOLDER = 'Введите название доски',
