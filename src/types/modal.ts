@@ -23,9 +23,13 @@ export type ModalFormAction = {
   editTask: typeof editTask;
 };
 
+export type NoAction = {
+  noAction: 'noAction',
+};
+
 export type ModalActions = ModalConfirmAction & ModalFormAction;
 
-export type ModalActionKey = keyof ModalActions;
+export type ModalActionKey = keyof ModalActions | keyof NoAction;
 
 export type Content = {
   modalTitle: string;

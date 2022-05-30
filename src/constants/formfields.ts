@@ -5,64 +5,84 @@ export const inputRegExps: RegExpPatterns = {
   user: '[A-Za-z][a-zA-Z ]+$',
   login: '^[A-Za-z][A-Za-z0-9_]{2,20}$',
   password: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$',
+  boardsFields: '^[^\\s]+(\\s+[^\\s]+)*$',
 };
 
 export const DESCRIPTION = 'description';
 export const MULTILINE_ROWS = 4;
 export const DEFAULT_ROWS = 1;
 
-// TODO refactor all these fields
+const MAX_LENGTH_20 = {
+  value: 20,
+  message: 'nameErrors.maxLength',
+};
+
+const MAX_LENGTH_100 = {
+  value: 100,
+  message: 'nameErrors.maxLength100symbols',
+};
+
+const MIN_LENGTH_2 = {
+  value: 2,
+  message: 'nameErrors.min2symbolsLength',
+};
+
+const MIN_LENGTH_8 = {
+  value: 8,
+  message: 'passwordError.minLength',
+};
+
+const MIN_LENGTH_1 = {
+  value: 1,
+  message: 'nameErrors.minLength',
+};
+
+const AUTH_TEXT_REQUIRED = 'AuthText.REQUIRED';
+
+const BOARD_MODAL_TEXT_REQUIRED = 'BoardModalText.REQUIRED';
+
+const LIST_MODAL_TEXT_REQUIRED = 'ListModalText.REQUIRED';
+
+const TASK_MODAL_TEXT_REQUIRED = 'TaskModalText.REQUIRED';
 
 export const nameAuthInput: FormField = {
   name: 'name',
   type: 'text',
-  placeholder: 'Input your name',
+  placeholder: 'AuthText.NAME_PLACEHOLDER',
   registerOptions: {
-    required: 'This field is required',
-    minLength: {
-      value: 2,
-      message: 'nameErrors.minLength',
-    },
-    maxLength: {
-      value: 20,
-      message: 'nameErrors.maxLength',
-    },
+    required: AUTH_TEXT_REQUIRED,
+    minLength: MIN_LENGTH_2,
+    maxLength: MAX_LENGTH_20,
     pattern: {
       value: inputRegExps.user,
       message: 'nameErrors.pattern',
     },
   },
-  label: 'AuthText.name',
+  label: 'AuthText.NAME',
 };
 
 export const loginAuthInput: FormField = {
   name: 'login',
   type: 'text',
-  placeholder: 'Input your username',
+  placeholder: 'AuthText.LOGIN_PLACEHOLDER',
   registerOptions: {
-    required: 'This field is required',
+    required: AUTH_TEXT_REQUIRED,
     pattern: {
       value: inputRegExps.login,
       message: 'loginErrors.pattern',
     },
   },
-  label: 'AuthText.login',
+  label: 'AuthText.LOGIN',
 };
 
 export const passwordAuthInput: FormField = {
   name: 'password',
   type: 'password',
-  placeholder: 'Enter your password',
+  placeholder: 'AuthText.PASSWORD_PLACEHOLDER',
   registerOptions: {
-    required: 'This field is required',
-    minLength: {
-      value: 8,
-      message: 'passwordError.minLength',
-    },
-    maxLength: {
-      value: 20,
-      message: 'passwordError.maxLength',
-    },
+    required: AUTH_TEXT_REQUIRED,
+    minLength: MIN_LENGTH_8,
+    maxLength: MAX_LENGTH_20,
     pattern: {
       value: inputRegExps.password,
       message: 'passwordError.pattern',
@@ -72,168 +92,176 @@ export const passwordAuthInput: FormField = {
 };
 
 export const NEW_BOARD: Content = {
-  modalTitle: 'New board',
+  modalTitle: 'BoardModalText.BOARD_TITLE',
   action: 'addBoard',
-  fields: [{
-    registerOptions: {
-      required: 'This field is required',
-      maxLength: {
-        value: 20,
-        message: 'nameErrors.maxLength',
+  fields: [
+    {
+      registerOptions: {
+        required: BOARD_MODAL_TEXT_REQUIRED,
+        maxLength: MAX_LENGTH_20,
+        minLength: MIN_LENGTH_1,
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
-      minLength: {
-        value: 1,
-        // TODO ADD translation for '1' value
-        message: 'nameErrors.minLength',
+      name: 'title',
+      type: 'text',
+      label: 'BoardModalText.TITLE_LABEL',
+      placeholder: 'BoardModalText.TITLE_PLACEHOLDER',
+    },
+    {
+      registerOptions: {
+        required: BOARD_MODAL_TEXT_REQUIRED,
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
+      name: 'description',
+      type: 'input',
+      label: 'BoardModalText.DESCRIPTION_LABEL',
+      placeholder: 'BoardModalText.DESCRIPTION_PLACEHOLDER',
     },
-    name: 'title',
-    type: 'text',
-    label: 'Board title',
-    placeholder: 'Input board title',
-    // TODO add translation
-  },
-  {
-    registerOptions: {
-      required: 'This field is required',
-    },
-    name: 'description',
-    type: 'input',
-    label: 'description',
-    placeholder: 'Input board description',
-  },
   ],
 };
 
-// Such way must look your 'content' for modal window with yes/no buttons
 export const REMOVE_BOARD: Content = {
-  modalTitle: 'Do you really want to delete board?',
+  modalTitle: 'BoardModalText.BOARD_TITLE_DELITE',
   action: 'removeBoard',
 };
 
 export const EDIT_BOARD: Content = {
-  modalTitle: 'Edit board',
+  modalTitle: 'BoardModalText.BOARD_TITLE_EDIT',
   action: 'editBoard',
   fields: [
-    { ...NEW_BOARD.fields![0], placeholder: 'Input new board title' },
-    { ...NEW_BOARD.fields![1], placeholder: 'Input new board description' },
+    { ...NEW_BOARD.fields![0], placeholder: 'BoardModalText.TITLE_PLACEHOLDER_EDIT' },
+    { ...NEW_BOARD.fields![1], placeholder: 'BoardModalText.DESCRIPTION_PLACEHOLDER_EDIT' },
   ],
 };
 
 export const ADD_COLUMN: Content = {
-  modalTitle: 'New list',
+  modalTitle: 'ListModalText.LIST_TITLE',
   action: 'addColumn',
-  fields: [{
-    registerOptions: {
-      required: 'This field is required',
-      maxLength: {
-        value: 20,
-        message: 'nameErrors.maxLength',
+  fields: [
+    {
+      registerOptions: {
+        required: LIST_MODAL_TEXT_REQUIRED,
+        maxLength: MAX_LENGTH_20,
+        minLength: MIN_LENGTH_1,
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
-      minLength: {
-        value: 1,
-        // TODO ADD translation for '1' value
-        message: 'nameErrors.minLength',
-      },
+      name: 'title',
+      type: 'text',
+      label: 'ListModalText.TITLE_LABEL',
+      placeholder: 'ListModalText.TITLE_PLACEHOLDER',
     },
-    name: 'title',
-    type: 'text',
-    label: 'Column title',
-    placeholder: 'Input column title',
-    // TODO add translation
-  },
   ],
 };
 
 export const REMOVE_COLUMN: Content = {
-  modalTitle: 'Do you really want to delete list?',
+  modalTitle: 'ListModalText.LIST_TITLE_DELITE',
   action: 'removeColumn',
 };
 
 export const EDIT_COLUMN_TITLE: Partial<Content> = {
-  modalTitle: 'Edit list title',
-  fields: [{ ...ADD_COLUMN.fields![0], placeholder: 'Input new list title' },
-  ],
+  modalTitle: 'ListModalText.LIST_TITLE_EDITE',
+  fields: [{ ...ADD_COLUMN.fields![0], placeholder: 'ListModalText.TITLE_PLACEHOLDER_EDIT' }],
 };
 
 export const EDIT_NAME: Content = {
-  modalTitle: 'Edit user name',
+  modalTitle: 'AuthText.EDIT_NAME',
   action: 'editName',
-  fields: [{
-    ...nameAuthInput,
-    placeholder: 'Input new name',
-  },
-  {
-    ...passwordAuthInput,
-    // TODO add translation
-    placeholder: 'Input your password for confirmation',
-  },
+  fields: [
+    {
+      ...nameAuthInput,
+      placeholder: 'AuthText.NAME_PLACEHOLDER_EDIT',
+    },
+    {
+      ...passwordAuthInput,
+      placeholder: 'AuthText.PASSWORD_PLACEHOLDER_EDIT',
+    },
   ],
 };
 
 export const EDIT_LOGIN: Content = {
-  modalTitle: 'Edit login',
+  modalTitle: 'AuthText.EDIT_LOGIN',
   action: 'editLogin',
-  fields: [{
-    ...loginAuthInput,
-    placeholder: 'Input new login',
-  },
-  {
-    ...passwordAuthInput,
-    // TODO add translation
-    placeholder: 'Input your password for confirmation',
-  },
+  fields: [
+    {
+      ...loginAuthInput,
+      placeholder: 'AuthText.LOGIN_PLACEHOLDER_EDIT',
+    },
+    {
+      ...passwordAuthInput,
+      placeholder: 'AuthText.PASSWORD_PLACEHOLDER_EDIT',
+    },
   ],
 };
 
-export const REMOVE_USER : Content = {
-  modalTitle: 'Do you really want to delete your accoutn?',
+export const REMOVE_USER: Content = {
+  modalTitle: 'AuthText.DELITE_USER',
   action: 'removeUser',
 };
 
 export const ADD_TASK: Content = {
-  modalTitle: 'Add task',
+  modalTitle: 'TaskModalText.TASK_TITLE',
   action: 'addTask',
-  fields: [{
-    registerOptions: {
-      required: 'This field is required',
-      maxLength: {
-        value: 100,
-        message: 'No more than 100 symbols',
+  fields: [
+    {
+      registerOptions: {
+        required: TASK_MODAL_TEXT_REQUIRED,
+        maxLength: MAX_LENGTH_100,
+        minLength: MIN_LENGTH_1,
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
-      minLength: {
-        value: 1,
-        // TODO ADD translation for '1' value
-        message: 'nameErrors.minLength',
+      name: 'title',
+      type: 'text',
+      label: 'TaskModalText.TITLE_LABEL',
+      placeholder: 'TaskModalText.TITLE_PLACEHOLDER',
+    },
+    {
+      registerOptions: {
+        required: TASK_MODAL_TEXT_REQUIRED,
+        pattern: {
+          value: inputRegExps.boardsFields,
+          message: 'boardsFieldsPatternError',
+        },
       },
+      name: 'description',
+      type: 'input',
+      label: 'TaskModalText.DESCRIPTION_LABEL',
+      placeholder: 'TaskModalText.DESCRIPTION_PLACEHOLDER',
     },
-    name: 'title',
-    type: 'text',
-    label: 'Task title',
-    placeholder: 'Input task title',
-  },
-  {
-    registerOptions: {
-      required: 'This field is required',
-    },
-    name: 'description',
-    type: 'input',
-    label: 'description',
-    placeholder: 'Input task description',
-  },
   ],
 };
 
 export const EDIT_TASK: Content = {
-  modalTitle: 'Edit task',
+  modalTitle: 'TaskModalText.TASK_TITLE_EDITE',
   action: 'editTask',
   fields: [
-    { ...ADD_TASK.fields![0], placeholder: 'Input new task title' },
-    { ...ADD_TASK.fields![1], placeholder: 'Input new description' },
+    { ...ADD_TASK.fields![0], placeholder: 'TaskModalText.TITLE_PLACEHOLDER_EDIT' },
+    { ...ADD_TASK.fields![1], placeholder: 'TaskModalText.DESCRIPTION_PLACEHOLDER_EDIT' },
   ],
 };
 
 export const REMOVE_TASK: Content = {
-  modalTitle: 'Do you really want to delete task?',
+  modalTitle: 'TaskModalText.TASK_TITLE_DELITE',
   action: 'removeTask',
+};
+
+export const SHOW_TASK: Content = {
+  modalTitle: 'info.task',
+  action: 'noAction',
+};
+
+export const SHOW_BOARD: Content = {
+  modalTitle: 'info.board',
+  action: 'noAction',
 };

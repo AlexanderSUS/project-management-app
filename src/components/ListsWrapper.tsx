@@ -23,9 +23,11 @@ const StyledListWrapper = styled(Box)`
   height: 100%;
   display: flex;
   flex-flow: row nowrap;
+  align-items: flex-start;
   margin-right: -1rem;
   gap: 1rem;
-  overflow-x: auto;
+  padding-bottom: 1rem;
+  overflow: auto hidden;
   ${scrollStyles}
 `;
 

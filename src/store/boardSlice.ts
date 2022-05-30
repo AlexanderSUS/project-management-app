@@ -6,7 +6,7 @@ import BoardService from '../api/boardServise';
 import { IBoardPreview, BoardState, IBoard } from '../types/boards';
 import { ValidationErrors } from '../types/response';
 import initialState, { DEFAULT_BOARD } from '../constants/boards';
-import type { FormData } from '../types/formTypes';
+import type { AppFormData } from '../types/formTypes';
 import { FulfilledAction, TypedThunkAPI } from '../types/slice';
 import { FULFILED } from '../constants/asyncThunk';
 
@@ -66,9 +66,9 @@ export const getBoard = createAsyncThunk<IBoard, void, TypedThunkAPI>(
   },
 );
 
-export const addBoard = createAsyncThunk<IBoardPreview, FormData, TypedThunkAPI>(
+export const addBoard = createAsyncThunk<IBoardPreview, AppFormData, TypedThunkAPI>(
   'board/addBoard',
-  async (data: FormData, { rejectWithValue }) => {
+  async (data: AppFormData, { rejectWithValue }) => {
     try {
       const response = await BoardService.createBoard(data);
       return response.data;
@@ -100,9 +100,9 @@ export const removeBoard = createAsyncThunk<AxiosResponse, void, TypedThunkAPI>(
   },
 );
 
-export const editBoard = createAsyncThunk<IBoard, FormData, TypedThunkAPI>(
+export const editBoard = createAsyncThunk<IBoard, AppFormData, TypedThunkAPI>(
   'board/editBoard',
-  async (data: FormData, { getState, rejectWithValue }) => {
+  async (data: AppFormData, { getState, rejectWithValue }) => {
     const { id } = getState().boardStore.board;
 
     try {

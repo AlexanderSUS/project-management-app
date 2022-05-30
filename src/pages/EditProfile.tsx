@@ -56,7 +56,7 @@ const EditProfile: React.FC = () => {
         <Card sx={{ m: '2rem 0', pl: '2rem', boxShadow: 5 }}>
           <CardContent>
             <Box sx={lineStyle}>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" fontWeight="bold" gutterBottom>
                 {t('profilePage.name')}
                 {userName}
               </Typography>
@@ -67,7 +67,7 @@ const EditProfile: React.FC = () => {
               </Tooltip>
             </Box>
             <Box sx={lineStyle}>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" fontWeight="bold" gutterBottom>
                 {t('profilePage.login')}
                 {login}
               </Typography>

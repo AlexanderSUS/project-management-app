@@ -8,7 +8,10 @@ import { useTranslation } from 'react-i18next';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD } from '../constants/formfields';
+import PageviewIcon from '@mui/icons-material/Pageview';
+import {
+  ADD_COLUMN, EDIT_BOARD, REMOVE_BOARD, SHOW_BOARD,
+} from '../constants/formfields';
 import { useAppSelector, useAppDispatch } from '../hooks/reduxTypedHooks';
 import { openModal, setDefaultValues } from '../store/modalSlice';
 import Loader from './Loader';
@@ -21,6 +24,7 @@ import { getUsers } from '../store/taskSlice';
 import muiTheme from '../constants/muiTheme';
 import useWindowWidth from '../hooks/useWindowWidth';
 import { break360, break700 } from '../constants/styles';
+import { restrictBoardDescription } from '../helpers/restrictText';
 
 const BoardWrapper = styled(Box)`
   display: flex;
@@ -33,6 +37,20 @@ const BoardContainer = styled(Container)`
   flex-direction: column;
   flex-grow: 1;
 `;
+
+const listContainerStyles = {
+  position: 'relative',
+  display: 'flex',
+  flexGrow: 1,
+  marginBottom: '1rem',
+};
+
+const boardTitleStyle = {
+  maxWidth: '100%',
+  fontWeight: '500',
+  lineHeight: '1',
+  overflowWrap: 'break-word',
+};
 
 const Board: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -60,6 +78,11 @@ const Board: React.FC = () => {
     dispatch(openModal(ADD_COLUMN));
   };
 
+  const showBoardDescription = () => {
+    dispatch(setDefaultValues([title, description]));
+    dispatch(openModal(SHOW_BOARD));
+  };
+
   useEffect(() => {
     if (id === DEFAULT_BOARD_ID) {
       navigate(AppRoutes.PROJECTS);
@@ -74,14 +97,17 @@ const Board: React.FC = () => {
     <>
       <Loader isOpen={isLoading} />
       <BoardWrapper sx={{ bgcolor: muiTheme.palette.primary.light }}>
-        <BoardContainer sx={{ p: width > break360 ? '0 1rem' : '0 0.1rem' }}>
+        <BoardContainer sx={{ p: width > break360 ? '0 1rem' : '0 0.5rem' }}>
           <Box sx={{
-            display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.2rem', alignItems: 'center', mt: '1rem',
+            display: 'flex', flexFlow: 'row wrap', gap: width > break700 ? '1rem' : '0.5rem', alignItems: 'center', mt: '1rem',
           }}
           >
-            <Typography component="h1" variant={width > break700 ? 'h2' : 'h4'} color="white" sx={{ fontWeight: '500', lineHeight: '1' }}>
+            <Typography component="h1" variant={width > break700 ? 'h2' : 'h4'} color="white" sx={boardTitleStyle}>
               {title}
             </Typography>
+            <Button variant="contained" onClick={showBoardDescription} startIcon={<PageviewIcon />} color="warning">
+              {t('boardPage.description')}
+            </Button>
             <ButtonGroup>
               <Button variant="contained" startIcon={<EditIcon />} color="warning" onClick={editBoard}>{t('boardPage.editBtn')}</Button>
               <Button variant="contained" startIcon={<DeleteIcon />} color="warning" onClick={deleteBoard}>{t('boardPage.deleteBtn')}</Button>
@@ -93,8 +119,8 @@ const Board: React.FC = () => {
             </Button>
             )}
           </Box>
-          <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{description}</Typography>
-          <Box sx={{ position: 'relative', flexGrow: 1 }}>
+          <Typography variant={width > break700 ? 'h5' : 'h6'} component="p" gutterBottom color="white">{restrictBoardDescription(description)}</Typography>
+          <Box sx={listContainerStyles}>
             <ListsWrapper />
           </Box>
         </BoardContainer>

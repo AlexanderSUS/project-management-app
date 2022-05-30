@@ -12,12 +12,12 @@ import { AuthState, JwtData, SignUpFormInput } from '../types/authTypes';
 import UserService from '../api/userServise';
 import { TypedThunkAPI } from '../types/slice';
 import { REJECTED } from '../constants/asyncThunk';
-import type { FormData } from '../types/formTypes';
+import type { AppFormData } from '../types/formTypes';
 import { NewUser, User, UserData } from '../types/user';
 
 type GenericAsyncThunk = AsyncThunk<
 SignInResponse | SignUpResponse | UserData | RemoveUserResponse,
-string | User | FormData | void | NewUser,
+string | User | AppFormData | void | NewUser,
 TypedThunkAPI>;
 
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
@@ -72,9 +72,9 @@ export const getUserData = createAsyncThunk<UserData, string, TypedThunkAPI>(
   },
 );
 
-export const editName = createAsyncThunk<UserData, FormData, TypedThunkAPI>(
+export const editName = createAsyncThunk<UserData, AppFormData, TypedThunkAPI>(
   'auth/editName',
-  async (data: FormData, { getState, rejectWithValue }) => {
+  async (data: AppFormData, { getState, rejectWithValue }) => {
     const { userId, login } = getState().authStore;
     const { name, password } = data;
     const userData: SignUpFormInput = { login, name, password };
@@ -92,9 +92,9 @@ export const editName = createAsyncThunk<UserData, FormData, TypedThunkAPI>(
   },
 );
 
-export const editLogin = createAsyncThunk<UserData, FormData, TypedThunkAPI>(
+export const editLogin = createAsyncThunk<UserData, AppFormData, TypedThunkAPI>(
   'auth/editLogin',
-  async (data: FormData, { getState, rejectWithValue }) => {
+  async (data: AppFormData, { getState, rejectWithValue }) => {
     const { userId, userName } = getState().authStore;
     const { login, password } = data;
     const userData: SignUpFormInput = { login, name: userName, password };
@@ -152,7 +152,6 @@ const authSlice = createSlice({
       state.login = action.payload.login;
       state.userId = action.payload.id;
     });
-    // TODO Inmplement message from response
     builder.addCase(removeUser.fulfilled, (state) => {
       state.userId = '';
       state.login = '';
