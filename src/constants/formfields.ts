@@ -127,7 +127,7 @@ export const NEW_BOARD: Content = {
 };
 
 export const REMOVE_BOARD: Content = {
-  modalTitle: 'BoardModalText.BOARD_TITLE_DELITE',
+  modalTitle: 'BoardModalText.BOARD_TITLE_DELETE',
   action: 'removeBoard',
 };
 
@@ -163,12 +163,12 @@ export const ADD_COLUMN: Content = {
 };
 
 export const REMOVE_COLUMN: Content = {
-  modalTitle: 'ListModalText.LIST_TITLE_DELITE',
+  modalTitle: 'ListModalText.LIST_TITLE_DELETE',
   action: 'removeColumn',
 };
 
 export const EDIT_COLUMN_TITLE: Partial<Content> = {
-  modalTitle: 'ListModalText.LIST_TITLE_EDITE',
+  modalTitle: 'ListModalText.LIST_TITLE_EDIT',
   fields: [{ ...ADD_COLUMN.fields![0], placeholder: 'ListModalText.TITLE_PLACEHOLDER_EDIT' }],
 };
 
@@ -203,7 +203,7 @@ export const EDIT_LOGIN: Content = {
 };
 
 export const REMOVE_USER: Content = {
-  modalTitle: 'AuthText.DELITE_USER',
+  modalTitle: 'AuthText.DELETE_USER',
   action: 'removeUser',
 };
 
@@ -243,7 +243,7 @@ export const ADD_TASK: Content = {
 };
 
 export const EDIT_TASK: Content = {
-  modalTitle: 'TaskModalText.TASK_TITLE_EDITE',
+  modalTitle: 'TaskModalText.TASK_TITLE_EDIT',
   action: 'editTask',
   fields: [
     { ...ADD_TASK.fields![0], placeholder: 'TaskModalText.TITLE_PLACEHOLDER_EDIT' },
@@ -252,7 +252,7 @@ export const EDIT_TASK: Content = {
 };
 
 export const REMOVE_TASK: Content = {
-  modalTitle: 'TaskModalText.TASK_TITLE_DELITE',
+  modalTitle: 'TaskModalText.TASK_TITLE_DELETE',
   action: 'removeTask',
 };
 
