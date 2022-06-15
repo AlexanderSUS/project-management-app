@@ -97,7 +97,7 @@ const ListTitle: React.FC<ListTitleProps> = ({ column, dispatch }) => {
               <TextField
                 variant="standard"
                 type={field.type}
-                placeholder={field.placeholder}
+                placeholder={t(field.placeholder)}
                 fullWidth
                 onChange={onChange}
                 value={value}
