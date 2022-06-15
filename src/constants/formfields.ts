@@ -2,7 +2,7 @@ import { FormField, RegExpPatterns } from '../types/formTypes';
 import { Content } from '../types/modal';
 
 export const inputRegExps: RegExpPatterns = {
-  user: '[A-Za-z][a-zA-Z ]+$',
+  user: '[A-Za-zа-яА-Я][a-zA-Zа-яА-Я ]+$',
   login: '^[A-Za-z][A-Za-z0-9_]{2,20}$',
   password: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$',
   boardsFields: '^[^\\s]+(\\s+[^\\s]+)*$',
