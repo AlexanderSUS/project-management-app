@@ -47,7 +47,6 @@ export enum ListModalTextEn {
   LIST_TITLE_DELETE = 'Do you really want to delete list?',
   TITLE_LABEL = 'List title',
   TITLE_PLACEHOLDER = 'Input list title',
-  TITLE_PLACEHOLDER_EDIT = 'Input new list title',
   REQUIRED = 'This field is required',
 }
 
@@ -57,7 +56,6 @@ export enum ListModalTextRu {
   LIST_TITLE_DELETE = 'Вы действительно хотите удалить список?',
   TITLE_LABEL = 'Название списка',
   TITLE_PLACEHOLDER = 'Введите название списка',
-  TITLE_PLACEHOLDER_EDIT = 'Введите новое название списка',
   REQUIRED = 'Это поле обязательное',
 }
 

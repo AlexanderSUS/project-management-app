@@ -169,7 +169,7 @@ export const REMOVE_COLUMN: Content = {
 
 export const EDIT_COLUMN_TITLE: Partial<Content> = {
   modalTitle: 'ListModalText.LIST_TITLE_EDIT',
-  fields: [{ ...ADD_COLUMN.fields![0], placeholder: 'ListModalText.TITLE_PLACEHOLDER_EDIT' }],
+  fields: [{ ...ADD_COLUMN.fields![0] }],
 };
 
 export const EDIT_NAME: Content = {
