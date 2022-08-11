@@ -57,10 +57,10 @@ i18n
             min2symbolsLength: 'Value must be no less than 2 symbols',
             maxLength: 'Value must be no more than 20 symbols',
             maxLength100symbols: 'Value must be no more than 100 symbols',
-            pattern: 'Name must starts with capital letter',
+            pattern: 'Name must starts with capital letter and should not contain digits',
           },
           loginErrors: {
-            pattern: 'Invalid login',
+            pattern: 'Invalid login. Must contain latin letters or/and digits',
           },
           passwordError: {
             minLength: 'Password must be no less than 8 symbols',
@@ -91,10 +91,10 @@ i18n
             min2symbolsLength: 'Значение должно быть не меньше 2 символов',
             maxLength: 'Значение должно быть не больше 20 символов',
             maxLength100symbols: 'Значение должно быть не больше 100 символов',
-            pattern: 'Имя должно начинаться с заглавной буквы',
+            pattern: 'Имя должно начинаться с заглавной буквы и не должно содержать цифр',
           },
           loginErrors: {
-            pattern: 'Невалидный логин',
+            pattern: 'Невалидный логин. Должен содержать латинские буквы и/или цифры',
           },
           passwordError: {
             minLength: 'Пароль должен быть не меньше 8 символов',
