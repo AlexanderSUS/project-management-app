@@ -31,7 +31,7 @@ export enum AuthTextEn {
   SIGN_UP = 'Sign Up',
   EDIT_NAME = 'Edit your name',
   EDIT_LOGIN = 'Edit your login',
-  DELITE_USER = 'Do you really want to delete your accoutn?',
+  DELETE_USER = 'Do you really want to delete your accoutn?',
   SUBMIT = 'Submit',
   REQUIRED = 'This field is required',
 }
@@ -51,7 +51,7 @@ export enum AuthTextRu {
   SIGN_UP = 'Регистрация',
   EDIT_NAME = 'Изменить ваше имя',
   EDIT_LOGIN = 'Изменить ваш логин',
-  DELITE_USER = 'Вы действительно хотите удалить Ваш аккаунт?',
+  DELETE_USER = 'Вы действительно хотите удалить Ваш аккаунт?',
   SUBMIT = 'Подтвердить',
   REQUIRED = 'Это поле обязательное',
 }
