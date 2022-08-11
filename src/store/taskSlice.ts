@@ -1,0 +1,208 @@
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+import TaskService from '../api/taskService';
+import { ValidationErrors } from '../types/response';
+import { FulfilledAction, TypedThunkAPI } from '../types/slice';
+import {
+  EditTaskData, NewTaskData, Task, TaskState,
+} from '../types/tasks';
+import initialState from '../constants/task';
+import { AppFormData } from '../types/formTypes';
+import { FULFILED } from '../constants/asyncThunk';
+import { IBoard } from '../types/boards';
+import { UserData } from '../types/user';
+import UserService from '../api/userServise';
+import { isGetBoardAction, isGetBoardsByIdAction } from './boardSlice';
+import extractTasks from '../helpers/dataExtractors';
+
+export const addTask = createAsyncThunk<Task, AppFormData, TypedThunkAPI>(
+  'task/addTask',
+  async (data: AppFormData, { getState, rejectWithValue }) => {
+    const boardId = getState().boardStore.board.id;
+    const columnId = getState().columnStore.column.id;
+    const { userId } = getState().authStore;
+
+    try {
+      const response = await TaskService.createTask(
+        boardId,
+        columnId,
+        { ...data, userId } as unknown as NewTaskData,
+      );
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const editTask = createAsyncThunk<Task, AppFormData, TypedThunkAPI>(
+  'task/editTask',
+  async (data: AppFormData, { getState, rejectWithValue }) => {
+    const { task } = getState().taskStore;
+    const copyTask: Partial<Task> = { ...task };
+
+    delete copyTask.id;
+    delete copyTask.files;
+
+    try {
+      const response = await TaskService.editTask(
+        task.id,
+        { ...copyTask, ...data } as EditTaskData,
+      );
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const changeTaskPosition = createAsyncThunk<Task, void, TypedThunkAPI>(
+  'task/changeOrder',
+  async (_, { getState, rejectWithValue }) => {
+    const { task } = getState().taskStore;
+    const { id: columnId } = getState().columnStore.column;
+    const copyTask: Partial<Task> = { ...task };
+
+    delete copyTask.id;
+    delete copyTask.files;
+
+    try {
+      const response = await TaskService.changeTaskPosition(
+        columnId,
+        task.id,
+        copyTask as EditTaskData,
+      );
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const reasignTask = createAsyncThunk<Task, void, TypedThunkAPI>(
+  'task/reasignTask',
+  async (_, { getState, rejectWithValue }) => {
+    const { task, users } = getState().taskStore;
+    const { id: boardId } = getState().boardStore.board;
+    const coppyTask: Partial<Task> = { ...task, boardId };
+
+    delete coppyTask.id;
+    delete coppyTask.files;
+
+    try {
+      const response = await TaskService.editTask(task.id, coppyTask as EditTaskData);
+      const data = response.data as Task;
+      const login = users.find((user) => user.id === data.userId)?.login;
+
+      if (login) {
+        return { ...data, userId: login };
+      }
+
+      return data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const removeTask = createAsyncThunk<Task, void, TypedThunkAPI>(
+  'task/removeTask',
+  async (_, { getState, rejectWithValue }) => {
+    const { id: boardId } = getState().boardStore.board;
+    const { task } = getState().taskStore;
+
+    try {
+      const response = await TaskService.deleteTask({ ...task, boardId });
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const getUsers = createAsyncThunk<UserData[], void, TypedThunkAPI >(
+  'task/getUsers',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await UserService.fetchUsers();
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<ValidationErrors>;
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+const taskSlice = createSlice({
+  name: 'task',
+  initialState,
+  reducers: {
+    setTask: (state, { payload }: PayloadAction<Task>) => {
+      state.task = payload;
+    },
+    setTaskOrder: (state, { payload }: PayloadAction<number>) => {
+      state.task.order = payload;
+    },
+    setTaskUserId: (state, { payload } : PayloadAction<string>) => {
+      state.task.userId = payload;
+    },
+    setTaskColumnId: (state, { payload }: PayloadAction<string>) => {
+      state.task.columnId = payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getUsers.fulfilled, (state, action) => {
+      state.users = action.payload;
+    });
+    builder.addMatcher(
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
+      (state, action) => {
+        if (isGetBoardAction(action)) {
+          const board = action.payload as IBoard;
+          const tasksPreview = board.columns.map((column) => column.tasks).flat();
+          state.tasksPreview = tasksPreview;
+        }
+      },
+    );
+    builder.addMatcher(
+      (action): action is FulfilledAction => action.type.endsWith(FULFILED),
+      (state, action) => {
+        if (isGetBoardsByIdAction(action)) {
+          const boards = action.payload as IBoard[];
+          state.tasks = extractTasks(boards);
+        }
+      },
+    );
+  },
+});
+
+export const {
+  setTaskOrder, setTask, setTaskUserId, setTaskColumnId,
+} = taskSlice.actions;
+
+export default taskSlice.reducer;
+
+export const taskSelector = (state: { taskStore: TaskState }) => state.taskStore;
