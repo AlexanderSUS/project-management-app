@@ -1,0 +1,28 @@
+import React from 'react';
+import { styled } from '@mui/material/styles';
+import { Link } from '@mui/material';
+import { ReactComponent as RSSchoolSVG } from '../assets/rs-school-js.svg';
+
+const CustomizedLink = styled(Link)`
+  display: block;
+  max-width: 100px;
+  transition: opacity 0.3s;
+
+  svg {
+    width: 100%;
+  }
+
+  :hover {
+    opacity: 0.75;
+  }
+`;
+
+function RSSchoolLogo(): JSX.Element {
+  return (
+    <CustomizedLink href="https://rs.school/react/" target="_blank" rel="noreferrer">
+      <RSSchoolSVG />
+    </CustomizedLink>
+  );
+}
+
+export default RSSchoolLogo;
